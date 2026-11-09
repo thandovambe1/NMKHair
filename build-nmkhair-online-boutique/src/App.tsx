@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ShoppingBag, Heart, X, Plus, Minus, Trash2, ArrowRight,
   Menu, Star, Check, Search, Sparkles, ShieldCheck, Truck, RefreshCcw,
@@ -27,24 +27,39 @@ const IMAGES = {
 
 /* ---------------- data ---------------- */
 type Origin = "Brazilian" | "Remy" | "Vietnamese";
-type Product = {
-  id: number; name: string; origin: Origin; type: string; price: number; compare: number;
-  rating: number; reviews: number; badge: string; img: string; desc: string; lengths: number[];
+type Kind = "Wig" | "Bob" | "Closure";
+type PriceRow = { length: number; price: number };
+type Family = {
+  id: string; name: string; kind: Kind; badge?: string; img: string;
+  desc: string; rating: number; reviews: number; rows: PriceRow[];
+  curlsUpcharge?: number;
 };
 
-const PRODUCTS: Product[] = [
-  { id: 2, name: "Vietnamese Bone Straight", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3799, compare: 4899, rating: 5, reviews: 631, badge: "Bestseller", img: IMAGES.straight, desc: "Glass-smooth, silky, holds press for weeks", lengths: [14, 16, 18, 20, 22, 24, 28, 30] },
-  { id: 5, name: "Vietnamese Natural Wave", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3599, compare: 4599, rating: 5, reviews: 274, badge: "Staff pick", img: IMAGES.naturalWave, desc: "Effortless wave, thick from root to tip", lengths: [14, 16, 18, 20, 22, 24] },
-  { id: 8, name: "Vietnamese Curly Closure", origin: "Vietnamese", type: "Closure · 4×4", price: 2799, compare: 3599, rating: 5, reviews: 198, badge: "New", img: IMAGES.curly, desc: "Free-part, natural hairline, bleached knots", lengths: [14, 16, 18, 20] },
-  { id: 1, name: "Brazilian Body Wave Bundle", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3299, compare: 4199, rating: 5, reviews: 842, badge: "Popular", img: IMAGES.bodyWave, desc: "Soft S-wave, natural luster, zero shedding", lengths: [12, 14, 16, 18, 20, 22, 24, 26] },
-  { id: 3, name: "Remy Deep Wave Wig", origin: "Remy", type: "Lace Front Wig", price: 4499, compare: 5799, rating: 5, reviews: 519, badge: "Top rated", img: IMAGES.deepWave, desc: "13×4 HD lace, pre-plucked, glueless ready", lengths: [16, 18, 20, 22, 24, 26] },
-  { id: 4, name: "Brazilian Kinky Curly", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3499, compare: 4499, rating: 4, reviews: 388, badge: "Back in stock", img: IMAGES.curly, desc: "Defined coils, voluminous, tangle-free", lengths: [12, 14, 16, 18, 20, 22] },
-  { id: 6, name: "Remy Silky Straight", origin: "Remy", type: "Bundles · 3 pcs", price: 2999, compare: 3899, rating: 4, reviews: 463, badge: "Value", img: IMAGES.straight, desc: "True Remy cuticle-aligned, dye-friendly", lengths: [12, 14, 16, 18, 20, 24, 28] },
-  { id: 7, name: "Brazilian Glam Lace Wig", origin: "Brazilian", type: "Lace Front Wig", price: 5199, compare: 6499, rating: 5, reviews: 312, badge: "Limited", img: IMAGES.glamLace, desc: "Full density 200%, baby hairs, HD lace", lengths: [18, 20, 22, 24, 26, 28] },
-  { id: 9, name: "Remy Body Wave Bundle", origin: "Remy", type: "Bundles · 3 pcs", price: 3199, compare: 4099, rating: 4, reviews: 356, badge: "Everyday favorite", img: IMAGES.naturalWave, desc: "Bouncy waves, lasts 12+ months with care", lengths: [12, 14, 16, 18, 20, 22, 24] },
+const rows = (...pairs: [number, number][]): PriceRow[] => pairs.map(([length, price]) => ({ length, price }));
+
+const FAMILIES: Family[] = [
+  { id: "sdd-curls", name: "13×4 SDD Curls", kind: "Wig", badge: "Bestseller", img: IMAGES.curly, desc: "Defined, bouncy curls on a soft 13×4 lace frontal.", rating: 5, reviews: 631,
+    rows: rows([18, 2750], [20, 3000], [22, 3300], [24, 3800], [26, 4400]) },
+  { id: "sdd-straight", name: "13×4 SDD Straight", kind: "Wig", badge: "Bestseller", img: IMAGES.straight, desc: "Silky bone-straight hair with a 13×4 lace frontal.", rating: 5, reviews: 842,
+    rows: rows([12, 1900], [14, 2100], [16, 2250], [18, 2550], [20, 2900], [22, 3050]) },
+  { id: "sdd-straight-5x5", name: "5×5 SDD Straight", kind: "Wig", badge: "Popular", img: IMAGES.bodyWave, desc: "Neat 5×5 closure in glossy bone-straight hair.", rating: 5, reviews: 519,
+    rows: rows([12, 1800], [14, 2000], [16, 2450], [18, 2600], [20, 2800], [22, 3100], [24, 3200]) },
+  { id: "single-drawn-13x6", name: "13×6 Straight — Single Drawn", kind: "Wig", img: IMAGES.naturalWave, desc: "Single-drawn 13×6 frontal in a sleek straight finish.", rating: 4, reviews: 356,
+    rows: rows([22, 2500], [24, 2800], [26, 3000], [28, 3200], [30, 3600]) },
+  { id: "bob-13x4", name: "13×4 Chinese Bone Straight Bob", kind: "Bob", img: IMAGES.deepWave, desc: "Blunt Chinese bone-straight bob with a 13×4 lace frontal.", rating: 5, reviews: 274,
+    rows: rows([8, 2000], [10, 2100], [12, 2200], [14, 2500], [16, 2900], [18, 3200]) },
+  { id: "bob-5x5", name: "5×5 Chinese Bone Straight Bob", kind: "Bob", img: IMAGES.glamLace, desc: "Sharp 5×5 closure bob in Chinese bone-straight hair.", rating: 5, reviews: 198,
+    rows: rows([8, 2100], [10, 2300], [12, 2600], [14, 2800], [16, 3100], [18, 3300]) },
+  { id: "hd-dd-wigs", name: "13×4 HD DD Straight Wigs", kind: "Wig", badge: "Top rated", img: IMAGES.straight, curlsUpcharge: 500, desc: "HD double-drawn straight wigs. Add R500 for HD lace curls.", rating: 5, reviews: 631,
+    rows: rows([18, 2900], [20, 3200], [22, 3500], [24, 3800], [26, 4100], [28, 4750], [30, 5200]) },
+  { id: "lagos-closure", name: "13×4 HD Lagos Hairline Closure", kind: "Closure", img: IMAGES.curly, desc: "HD Lagos hairline closure with a natural, meltable hairline.", rating: 5, reviews: 388,
+    rows: rows([12, 1800], [14, 2000], [16, 2300], [18, 2500], [20, 2650]) },
 ];
 
-const FEATURED_VIETNAMESE = PRODUCTS[0];
+const priceFor = (f: Family, length: number, curls = false) =>
+  (f.rows.find(r => r.length === length)?.price ?? f.rows[0].price) + (curls ? f.curlsUpcharge ?? 0 : 0);
+
+const FEATURED = FAMILIES[0];
 
 const ORIGINS: { name: Origin; tag: string; img: string; desc: string; feats: string[]; from: number }[] = [
   { name: "Vietnamese", tag: "NMKHair's #1 bestseller", img: IMAGES.straight, desc: "Our most-loved hair: naturally silky, strong and glossy. From bone-straight lengths to soft waves, find the style that's yours.", feats: ["Glass finish", "Strongest strands", "Heat resistant"], from: 2799 },
@@ -88,16 +103,14 @@ const FAQS = [
 const money = (n: number) => "R" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
 export default function App() {
-  const [filter, setFilter] = useState<"All" | Origin>("All");
+  const [filter, setFilter] = useState<"All" | Kind>("All");
   const [query, setQuery] = useState("");
   const [cart, setCart] = useState<{ id: number; name: string; price: number; img: string; meta: string; qty: number }[]>([]);
   const [wish, setWish] = useState<number[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState("");
-  const [quick, setQuick] = useState<Product | null>(null);
-  const [quickLen, setQuickLen] = useState(18);
-  const [quickQty, setQuickQty] = useState(1);
+  const [quick, setQuick] = useState<{ f: Family; length: number; curls: boolean; qty: number } | null>(null);
   const [reviewIdx, setReviewIdx] = useState(0);
   const [openFaq, setOpenFaq] = useState(0);
   const [email, setEmail] = useState("");
@@ -105,16 +118,6 @@ export default function App() {
   const [checkoutDone, setCheckoutDone] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
-
-  /* length guide */
-  const [gLen, setGLen] = useState(20);
-  const [gTex, setGTex] = useState("Body Wave");
-  const guidePrice = useMemo(() => {
-    const base = gLen <= 14 ? 999 : gLen <= 18 ? 1199 : gLen <= 22 ? 1399 : gLen <= 26 ? 1699 : 1999;
-    const texAdd = gTex === "Bone Straight" ? 150 : gTex === "Deep Wave" ? 75 : 0;
-    const bundles = gLen <= 16 ? 2 : 3;
-    return { base: base + texAdd, bundles, total: (base + texAdd) * bundles };
-  }, [gLen, gTex]);
 
   /* booking */
   const [bk, setBk] = useState({ name: "", phone: "", service: "Sew-In Install", date: "", time: "10:00 AM", notes: "" });
@@ -132,16 +135,16 @@ export default function App() {
     });
     showToast(`${name} added to bag`);
   };
-  const addProduct = (p: Product, len?: number, qty = 1) => {
-    const L = len ?? p.lengths[0];
-    const extra = L > 20 ? 500 : L > 16 ? 250 : 0;
-    addCart(p.id, p.name, p.price + extra, p.img, `${p.origin} · ${L}"`, qty);
+  const addFamily = (f: Family, length: number, curls: boolean, qty = 1) => {
+    const id = 1000 + FAMILIES.indexOf(f) * 100 + length + (curls ? 50 : 0);
+    const meta = `${f.name} · ${length}"${curls ? " · Curls" : ""}`;
+    addCart(id, f.name, priceFor(f, length, curls), f.img, meta, qty);
   };
   const toggleWish = (id: number) => setWish(w => w.includes(id) ? w.filter(x => x !== id) : [...w, id]);
 
-  const filtered = PRODUCTS.filter(p =>
-    (filter === "All" || p.origin === filter) &&
-    (p.name.toLowerCase().includes(query.toLowerCase()) || p.type.toLowerCase().includes(query.toLowerCase()))
+  const filtered = FAMILIES.filter(f =>
+    (filter === "All" || f.kind === filter) &&
+    (f.name.toLowerCase().includes(query.toLowerCase()) || f.desc.toLowerCase().includes(query.toLowerCase()))
   );
 
   const bookService = (name: string) => {
@@ -285,7 +288,7 @@ export default function App() {
               Meet NMKHair's bestselling Vietnamese hair: silky, strong and made to shine. Explore Brazilian and Remy textures too, plus expert installs, styling and maintenance in Gqeberha.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#shop" onClick={() => { setQuery(""); setFilter("Vietnamese"); }} className="group inline-flex items-center gap-2 bg-[#0A0A0A] text-white px-7 py-4 rounded-full text-sm font-semibold hover:bg-black transition">
+              <a href="#shop" onClick={() => { setQuery(""); setFilter("Wig"); }} className="group inline-flex items-center gap-2 bg-[#0A0A0A] text-white px-7 py-4 rounded-full text-sm font-semibold hover:bg-black transition">
                 Shop Vietnamese Hair <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
               </a>
               <a href="#services" className="inline-flex items-center gap-2 border-2 border-[#0A0A0A] px-7 py-4 rounded-full text-sm font-semibold hover:bg-[#E10600] hover:border-[#E10600] hover:text-white transition">
@@ -310,19 +313,19 @@ export default function App() {
             <div className="absolute -inset-3 rounded-[2rem] border-2 border-[#D4AF37]/70 rotate-1 pointer-events-none" />
             <div className="absolute -inset-3 rounded-[2rem] border border-[#E10600]/30 -rotate-1 pointer-events-none" />
             <div className="img-zoom relative rounded-[2rem] overflow-hidden shadow-2xl shadow-black/20">
-              <img src={FEATURED_VIETNAMESE.img} alt="Black woman wearing long, glossy Vietnamese bone straight hair" fetchPriority="high" className="w-full h-[540px] object-cover object-[center_25%]" />
+              <img src={FEATURED.img} alt="Model with long, glossy curls" fetchPriority="high" className="w-full h-[540px] object-cover object-[center_25%]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
                 <div className="text-white">
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">Vietnamese · #1 Bestseller</p>
-                  <p className="font-display text-2xl mt-1">{FEATURED_VIETNAMESE.name}</p>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">#1 Bestseller · {FEATURED.rows[0].length}"</p>
+                  <p className="font-display text-2xl mt-1">{FEATURED.name}</p>
                 </div>
-                <button onClick={() => addProduct(FEATURED_VIETNAMESE)} className="shrink-0 bg-white text-black text-sm font-bold px-5 py-3 rounded-full hover:bg-[#D4AF37] transition">Add — {money(FEATURED_VIETNAMESE.price)}</button>
+                <button onClick={() => addFamily(FEATURED, FEATURED.rows[0].length, false)} className="shrink-0 bg-white text-black text-sm font-bold px-5 py-3 rounded-full hover:bg-[#D4AF37] transition">Add — {money(FEATURED.rows[0].price)}</button>
               </div>
             </div>
             <div className="absolute -left-4 md:-left-10 top-8 bg-white rounded-2xl shadow-xl shadow-black/15 border border-black/10 p-3 flex items-center gap-3 animate-floaty">
-              <img src={IMAGES.naturalWave} alt="Black woman wearing Vietnamese natural wave hair" className="h-14 w-14 rounded-xl object-cover object-top" />
-              <div><p className="text-xs font-bold">Vietnamese Natural Wave</p><p className="text-xs text-black/50">From {money(PRODUCTS[1].price)}</p></div>
+              <img src={IMAGES.straight} alt="Model with long, bone straight hair" className="h-14 w-14 rounded-xl object-cover object-top" />
+              <div><p className="text-xs font-bold">13×4 SDD Straight</p><p className="text-xs text-black/50">From {money(FAMILIES[1].rows[0].price)}</p></div>
               <span className="h-2 w-2 rounded-full bg-[#E10600]" />
             </div>
             <div className="absolute -right-3 md:-right-6 bottom-24 bg-[#0A0A0A] text-white rounded-2xl shadow-xl p-4 animate-floaty" style={{ animationDelay: "1.2s" }}>
@@ -371,7 +374,7 @@ export default function App() {
                   <ul className="mt-4 space-y-2">
                     {o.feats.map(f => <li key={f} className="flex items-center gap-2 text-sm font-medium"><Check className="h-4 w-4 text-[#E10600]" /> {f}</li>)}
                   </ul>
-                  <a href="#shop" onClick={() => { setQuery(""); setFilter(o.name); }} className="mt-5 inline-flex items-center gap-2 font-bold text-sm border-b-2 border-[#D4AF37] pb-1 hover:text-[#E10600] hover:border-[#E10600] transition">Shop {o.name} <ArrowRight className="h-4 w-4" /></a>
+                  <a href="#shop" onClick={() => setQuery("")} className="mt-5 inline-flex items-center gap-2 font-bold text-sm border-b-2 border-[#D4AF37] pb-1 hover:text-[#E10600] hover:border-[#E10600] transition">Shop {o.name} <ArrowRight className="h-4 w-4" /></a>
                 </div>
               </article>
             ))}
@@ -384,105 +387,130 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Our #1 bestseller: Vietnamese Hair</p>
-              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Shop the <em className="gold-text not-italic">collection</em></h2>
+              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Real per-length pricing</p>
+              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Shop the <em className="gold-text not-italic">price list</em></h2>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
-                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search waves, wigs, closures…" className="w-full sm:w-72 rounded-full border border-black/15 pl-11 pr-4 py-3 text-sm outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30" />
+                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search wigs, bobs, closures…" className="w-full sm:w-72 rounded-full border border-black/15 pl-11 pr-4 py-3 text-sm outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30" />
               </div>
               <div className="flex flex-wrap gap-2">
-                {(["All", "Vietnamese", "Brazilian", "Remy"] as const).map(f => (
-                  <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wide border transition ${filter === f ? f === "Vietnamese" ? "bg-[#D4AF37] text-black border-[#D4AF37]" : "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 text-black/60 hover:border-black hover:text-black"}`}>{f}</button>
+                {(["All", "Wig", "Bob", "Closure"] as const).map(f => (
+                  <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wide border transition ${filter === f ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 text-black/60 hover:border-black hover:text-black"}`}>{f}{f === "All" ? " hair" : "s"}</button>
                 ))}
               </div>
             </div>
           </div>
 
           {filtered.length === 0 ? (
-            <div className="text-center py-20 text-black/50"><p className="font-display text-3xl">No matches</p><p className="text-sm mt-2">Try another texture or origin.</p></div>
+            <div className="text-center py-20 text-black/50"><p className="font-display text-3xl">No matches</p><p className="text-sm mt-2">Try another style or search term.</p></div>
           ) : (
             <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {filtered.map((p, i) => (
-                <article key={p.id} className={`reveal group bg-white rounded-[1.5rem] overflow-hidden border ${p.id === FEATURED_VIETNAMESE.id ? "border-[#D4AF37]" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500`} style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
-                  <div className="img-zoom relative h-72 overflow-hidden cursor-pointer" onClick={() => { setQuick(p); setQuickLen(p.lengths[2] ?? p.lengths[0]); setQuickQty(1); }}>
-                    <img src={p.img} alt={`Black woman modelling ${p.name}`} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                    <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${p.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : p.badge === "Limited" ? "bg-[#E10600] text-white" : p.badge === "New" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white text-black"}`}>{p.badge}</span>
-                    <button onClick={e => { e.stopPropagation(); toggleWish(p.id); }} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/90 shadow hover:scale-110 transition" aria-label="wishlist">
-                      <Heart className={`h-4 w-4 ${wish.includes(p.id) ? "fill-[#E10600] text-[#E10600]" : "text-black"}`} />
+              {filtered.map((f, i) => {
+                const selected = quick?.f.id === f.id ? quick.length : f.rows[0].length;
+                const selectedCurls = quick?.f.id === f.id ? quick.curls : false;
+                return (
+                <article key={f.id} className={`reveal group bg-white rounded-[1.5rem] overflow-hidden border ${f.id === FEATURED.id ? "border-[#D4AF37]" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500`} style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
+                  <div className="img-zoom relative h-64 overflow-hidden">
+                    <img src={f.img} alt="Model with long, glossy hair" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
+                    <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : f.badge === "Top rated" ? "bg-[#E10600] text-white" : f.badge === "Popular" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white text-black"}`}>{f.badge ?? f.kind}</span>
+                    <button onClick={() => toggleWish(i)} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/90 shadow hover:scale-110 transition" aria-label="wishlist">
+                      <Heart className={`h-4 w-4 ${wish.includes(i) ? "fill-[#E10600] text-[#E10600]" : "text-black"}`} />
                     </button>
-                    <span className="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">{p.origin} · {p.type}</span>
+                    <span className="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">{f.kind} · from {money(f.rows[0].price)}</span>
                   </div>
                   <div className="p-5">
                     <div className="flex items-center justify-between">
-                      <span className="flex gap-0.5">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-3.5 w-3.5 ${s < p.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
-                      <span className="text-xs text-black/45">{p.reviews} reviews</span>
+                      <span className="flex gap-0.5">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-3.5 w-3.5 ${s < f.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
+                      <span className="text-xs text-black/45">{f.reviews} reviews</span>
                     </div>
-                    <h3 className="font-display text-[22px] font-semibold leading-tight mt-2">{p.name}</h3>
-                    <p className="text-[13px] text-black/50 mt-1">{p.desc}</p>
-                    <div className="flex items-end justify-between mt-4">
-                      <div>
-                        <span className="font-display text-2xl font-bold">{money(p.price)}</span>
-                        <span className="text-sm text-black/40 line-through ml-2">{money(p.compare)}</span>
-                        <span className="block text-[11px] font-bold text-[#E10600] uppercase tracking-wide mt-0.5">Save {money(p.compare - p.price)}</span>
+                    <h3 className="font-display text-[22px] font-semibold leading-tight mt-2">{f.name}</h3>
+                    <p className="text-[13px] text-black/50 mt-1">{f.desc}</p>
+
+                    <p className="text-[10px] tracking-[0.25em] uppercase font-bold text-black/45 mt-4">Choose your length</p>
+                    <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {f.rows.map(r => (
+                        <button key={r.length} onClick={() => setQuick(q => q ? { ...q, length: r.length } : { f, length: r.length, curls: false, qty: 1 })} className={`rounded-xl border px-2 py-2 text-center transition ${selected === r.length ? "border-[#D4AF37] bg-[#FAF8F4]" : "border-black/10 hover:border-black/40"}`}>
+                          <span className="block text-sm font-bold leading-none">{r.length}"</span>
+                          <span className={`block text-[11px] mt-1 leading-none ${selected === r.length ? "text-[#E10600] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {f.curlsUpcharge && (
+                      <div className="mt-3 flex items-center justify-between rounded-xl border border-black/10 px-3 py-2.5">
+                        <span className="text-[13px] font-semibold">HD lace curls</span>
+                        <button onClick={() => setQuick(q => q ? { ...q, curls: !q.curls } : { f, length: selected, curls: true, qty: 1 })} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${selectedCurls ? "bg-[#E10600] text-white" : "bg-black/5 hover:bg-black/10"}`}>
+                          {selectedCurls ? `Added +${money(f.curlsUpcharge)}` : `Add +${money(f.curlsUpcharge)}`}
+                        </button>
                       </div>
-                    </div>
-                    <div className="mt-4 flex gap-2">
-                      <button onClick={() => addProduct(p)} className="flex-1 bg-[#0A0A0A] text-white text-sm font-semibold py-3 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
-                        <ShoppingBag className="h-4 w-4" /> Add to Bag
-                      </button>
-                      <button onClick={() => { setQuick(p); setQuickLen(p.lengths[2] ?? p.lengths[0]); setQuickQty(1); }} className="px-4 py-3 rounded-full border border-black/15 text-sm font-semibold hover:border-[#D4AF37] transition">View</button>
+                    )}
+
+                    <div className="mt-4 flex items-center justify-between gap-2">
+                      <span className="font-display text-2xl font-bold">{money(priceFor(f, selected, selectedCurls))}</span>
+                      <div className="flex gap-2">
+                        <button onClick={() => { setQuick({ f, length: selected, curls: selectedCurls, qty: 1 }); }} className="px-4 py-3 rounded-full border border-black/15 text-sm font-semibold hover:border-[#D4AF37] transition">View</button>
+                        <button onClick={() => addFamily(f, selected, selectedCurls)} className="bg-[#0A0A0A] text-white text-sm font-semibold py-3 px-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
+                          <ShoppingBag className="h-4 w-4" /> Add
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
       </section>
 
-      {/* LENGTH GUIDE */}
-      <section className="bg-[#0A0A0A] text-white relative overflow-hidden">
+      {/* FULL PRICE LIST */}
+      <section id="pricelist" className="bg-[#0A0A0A] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-40" style={{ background: "linear-gradient(115deg, transparent 60%, rgba(225,6,0,0.25) 60%, rgba(225,6,0,0.25) 61%, transparent 61%), linear-gradient(115deg, transparent 72%, rgba(212,175,55,0.3) 72%, rgba(212,175,55,0.3) 73.5%, transparent 73.5%)" }} />
-        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="reveal">
-            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Length & texture guide</p>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3 leading-tight">Find your <em className="gold-text not-italic">perfect length</em></h2>
-            <p className="text-white/60 mt-4 max-w-md">Select a length and texture — we will calculate bundles and price instantly. Not sure? Book a free consultation and our stylists will match you.</p>
-            <div className="mt-8">
-              <p className="text-xs tracking-[0.25em] uppercase text-white/50 font-bold">Length — <span className="text-[#F1D27A]">{gLen} inches</span></p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {[12, 14, 16, 18, 20, 22, 24, 26, 28, 30].map(l => (
-                  <button key={l} onClick={() => setGLen(l)} className={`px-4 py-2.5 rounded-full text-sm font-semibold border transition ${gLen === l ? "bg-[#E10600] border-[#E10600] text-white" : "border-white/25 text-white/70 hover:border-[#D4AF37] hover:text-[#D4AF37]"}`}>{l}"</button>
-                ))}
-              </div>
-            </div>
-            <div className="mt-6">
-              <p className="text-xs tracking-[0.25em] uppercase text-white/50 font-bold">Texture</p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {["Body Wave", "Bone Straight", "Deep Wave", "Kinky Curly", "Natural Wave"].map(t => (
-                  <button key={t} onClick={() => setGTex(t)} className={`px-4 py-2.5 rounded-full text-sm font-semibold border transition ${gTex === t ? "bg-[#D4AF37] border-[#D4AF37] text-black" : "border-white/25 text-white/70 hover:border-white hover:text-white"}`}>{t}</button>
-                ))}
-              </div>
-            </div>
+        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
+          <div className="reveal text-center max-w-2xl mx-auto">
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Full price list</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Every style, every <em className="gold-text not-italic">length</em></h2>
+            <p className="text-white/60 mt-4">Tap any length to add it straight to your bag. All prices in ZAR. HD lace curls are +R500 on 13×4 HD DD straight wigs.</p>
           </div>
-          <div className="reveal bg-white text-black rounded-[2rem] p-8 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-black/45">Your custom bundle</p>
-              <span className="bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">Recommended</span>
-            </div>
-            <p className="font-display text-4xl font-semibold mt-4">{gLen}" {gTex}</p>
-            <div className="mt-6 space-y-3 text-sm">
-              <div className="flex justify-between border-b border-black/10 pb-3"><span className="text-black/55">Bundles needed</span><span className="font-bold">{guidePrice.bundles} bundles · full coverage</span></div>
-              <div className="flex justify-between border-b border-black/10 pb-3"><span className="text-black/55">Per bundle</span><span className="font-bold">{money(guidePrice.base)}</span></div>
-              <div className="flex justify-between border-b border-black/10 pb-3"><span className="text-black/55">Closure add-on</span><span className="font-bold">+R599 (optional)</span></div>
-              <div className="flex justify-between items-center pt-2"><span className="font-semibold">Total estimate</span><span className="font-display text-4xl font-bold">{money(guidePrice.total)}</span></div>
-            </div>
-            <button onClick={() => { addCart(900 + gLen, `${gLen}" ${gTex} Bundle Set`, guidePrice.total, PRODUCTS[0].img, `Custom · ${guidePrice.bundles} bundles`); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
-              <ShoppingBag className="h-5 w-5" /> Add Custom Set — {money(guidePrice.total)}
-            </button>
-            <p className="text-center text-xs text-black/45 mt-3">Free shipping · 30-day exchange · Install available in-salon</p>
+
+          <div className="mt-12 grid md:grid-cols-2 gap-5">
+            {FAMILIES.map(f => (
+              <div key={f.id} className={`reveal rounded-[1.75rem] p-6 md:p-7 border ${f.id === FEATURED.id ? "border-[#D4AF37] bg-white/[0.06]" : "border-white/15 bg-white/[0.03]"}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-display text-2xl font-semibold leading-tight">{f.name}</h3>
+                    <p className="text-[11px] tracking-[0.25em] uppercase text-white/45 mt-1">{f.kind}</p>
+                  </div>
+                  {f.badge && <span className={`shrink-0 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : "bg-[#E10600] text-white"}`}>{f.badge}</span>}
+                </div>
+                <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {f.rows.map(r => {
+                    const active = quick?.f.id === f.id && quick.length === r.length;
+                    return (
+                      <button
+                        key={r.length}
+                        onClick={() => setQuick(q => (q && q.f.id === f.id ? { ...q, length: r.length } : { f, length: r.length, curls: false, qty: 1 }))}
+                        className={`flex items-center justify-between rounded-xl border px-3 py-2.5 transition ${active ? "border-[#D4AF37] bg-white/10" : "border-white/15 hover:border-white/50"}`}
+                      >
+                        <span className="text-sm font-bold">{r.length}"</span>
+                        <span className={`text-sm font-semibold ${active ? "text-[#F1D27A]" : "text-white/70"}`}>{money(r.price)}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {f.curlsUpcharge && (
+                  <p className="mt-3 text-xs text-white/55">HD lace curls available on request — +{money(f.curlsUpcharge)}</p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="reveal mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-white/60">
+            <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-[#D4AF37]" /> Free shipping over R1 500</span>
+            <span className="flex items-center gap-2"><RefreshCcw className="h-4 w-4 text-[#D4AF37]" /> 30-day exchange</span>
+            <span className="flex items-center gap-2"><Scissors className="h-4 w-4 text-[#D4AF37]" /> Install available in-salon</span>
           </div>
         </div>
       </section>
@@ -738,12 +766,12 @@ export default function App() {
           <div>
             <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] font-bold">Shop</p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/60">
-              {(["Vietnamese", "Brazilian", "Remy"] as const).map(origin => (
-                <li key={origin}>
-                  <a href="#shop" onClick={() => { setQuery(""); setFilter(origin); }} className="hover:text-[#D4AF37] transition">{origin} Hair</a>
+              {(["Wig", "Bob", "Closure"] as const).map(kind => (
+                <li key={kind}>
+                  <a href="#shop" onClick={() => { setQuery(""); setFilter(kind); }} className="hover:text-[#D4AF37] transition">{kind}s</a>
                 </li>
               ))}
-              <li><a href="#shop" onClick={() => { setFilter("All"); setQuery(""); }} className="hover:text-[#D4AF37] transition">All Hair</a></li>
+              <li><a href="#pricelist" className="hover:text-[#D4AF37] transition">Full price list</a></li>
               <li><a href="#care" className="hover:text-[#D4AF37] transition">Care & Maintenance</a></li>
             </ul>
           </div>
@@ -779,34 +807,47 @@ export default function App() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setQuick(null)} />
           <div className="relative bg-white rounded-[2rem] w-full max-w-3xl overflow-hidden shadow-2xl grid md:grid-cols-2 max-h-[90vh]">
             <div className="relative h-64 md:h-auto">
-              <img src={quick.img} alt={`Black woman modelling ${quick.name}`} className="absolute inset-0 w-full h-full object-cover object-top" />
-              <span className="absolute top-4 left-4 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.badge}</span>
+              <img src={quick.f.img} alt="Model with long, glossy hair" className="absolute inset-0 w-full h-full object-cover object-top" />
+              <span className="absolute top-4 left-4 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.f.badge ?? quick.f.kind}</span>
             </div>
             <div className="p-7 overflow-y-auto">
               <button onClick={() => setQuick(null)} className="absolute top-4 right-4 h-10 w-10 grid place-items-center rounded-full bg-white shadow hover:rotate-90 transition"><X className="h-5 w-5" /></button>
-              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-[#E10600]">{quick.origin} · {quick.type}</p>
-              <h3 className="font-display text-3xl font-semibold mt-2 leading-tight">{quick.name}</h3>
+              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-[#E10600]">{quick.f.kind} · 100% human hair</p>
+              <h3 className="font-display text-3xl font-semibold mt-2 leading-tight">{quick.f.name}</h3>
               <div className="flex items-center gap-2 mt-2">
-                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < quick.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
-                <span className="text-sm text-black/50">{quick.reviews} verified reviews</span>
+                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < quick.f.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
+                <span className="text-sm text-black/50">{quick.f.reviews} verified reviews</span>
               </div>
-              <p className="text-sm text-black/55 leading-relaxed mt-3">{quick.desc}. 100% human hair, double-drawn, tangle-free and dye-friendly. Ships in 48 hours with a free satin pouch.</p>
-              <p className="text-xs tracking-[0.25em] uppercase font-bold text-black/45 mt-6">Length — <span className="text-[#E10600]">{quickLen}"</span></p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {quick.lengths.map(l => (
-                  <button key={l} onClick={() => setQuickLen(l)} className={`px-4 py-2 rounded-full text-sm font-semibold border transition ${quickLen === l ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 hover:border-black"}`}>{l}"</button>
+              <p className="text-sm text-black/55 leading-relaxed mt-3">{quick.f.desc}. Ships in 48 hours with a free satin pouch.</p>
+
+              <p className="text-xs tracking-[0.25em] uppercase font-bold text-black/45 mt-6">Length — <span className="text-[#E10600]">{quick.length}"</span></p>
+              <div className="mt-2 grid grid-cols-3 gap-1.5">
+                {quick.f.rows.map(r => (
+                  <button key={r.length} onClick={() => setQuick(q => q && { ...q, length: r.length })} className={`rounded-xl border px-2 py-2 text-center transition ${quick.length === r.length ? "border-[#D4AF37] bg-[#FAF8F4]" : "border-black/10 hover:border-black/40"}`}>
+                    <span className="block text-sm font-bold leading-none">{r.length}"</span>
+                    <span className={`block text-[11px] mt-1 leading-none ${quick.length === r.length ? "text-[#E10600] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
+                  </button>
                 ))}
               </div>
+
+              {quick.f.curlsUpcharge && (
+                <div className="mt-3 flex items-center justify-between rounded-xl border border-black/10 px-3 py-2.5">
+                  <span className="text-[13px] font-semibold">HD lace curls</span>
+                  <button onClick={() => setQuick(q => q && { ...q, curls: !q.curls })} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${quick.curls ? "bg-[#E10600] text-white" : "bg-black/5 hover:bg-black/10"}`}>
+                    {quick.curls ? `Added +${money(quick.f.curlsUpcharge)}` : `Add +${money(quick.f.curlsUpcharge)}`}
+                  </button>
+                </div>
+              )}
+
               <div className="flex items-center gap-4 mt-6">
                 <div className="flex items-center border border-black/15 rounded-full">
-                  <button onClick={() => setQuickQty(Math.max(1, quickQty - 1))} className="px-4 py-3"><Minus className="h-4 w-4" /></button>
-                  <span className="w-8 text-center font-bold">{quickQty}</span>
-                  <button onClick={() => setQuickQty(Math.min(9, quickQty + 1))} className="px-4 py-3"><Plus className="h-4 w-4" /></button>
+                  <button onClick={() => setQuick(q => q && { ...q, qty: Math.max(1, q.qty - 1) })} className="px-4 py-3"><Minus className="h-4 w-4" /></button>
+                  <span className="w-8 text-center font-bold">{quick.qty}</span>
+                  <button onClick={() => setQuick(q => q && { ...q, qty: Math.min(9, q.qty + 1) })} className="px-4 py-3"><Plus className="h-4 w-4" /></button>
                 </div>
-                <p className="font-display text-3xl font-bold">{money((quick.price + (quickLen > 20 ? 500 : quickLen > 16 ? 250 : 0)) * quickQty)}</p>
-                <span className="text-sm text-black/40 line-through">{money(quick.compare * quickQty)}</span>
+                <p className="font-display text-3xl font-bold">{money(priceFor(quick.f, quick.length, quick.curls) * quick.qty)}</p>
               </div>
-              <button onClick={() => { addProduct(quick, quickLen, quickQty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
+              <button onClick={() => { addFamily(quick.f, quick.length, quick.curls, quick.qty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
                 <ShoppingBag className="h-5 w-5" /> Add to Bag
               </button>
               <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[11px] font-semibold text-black/55">
