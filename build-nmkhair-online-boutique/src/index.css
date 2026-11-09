@@ -18,6 +18,12 @@
 }
 
 html { scroll-behavior: smooth; }
+section[id], #booking { scroll-margin-top: 88px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-marquee, .animate-floaty, .shine::after { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
 body { background: #FFFFFF; color: #0A0A0A; font-family: "Inter", sans-serif; overflow-x: hidden; }
 ::selection { background: #E10600; color: #fff; }
 
