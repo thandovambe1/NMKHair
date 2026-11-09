@@ -2,9 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ShoppingBag, Heart, X, Plus, Minus, Trash2, ArrowRight,
   Menu, Star, Check, Search, Sparkles, ShieldCheck, Truck, RefreshCcw,
-  Scissors, Calendar, Clock, MapPin, Phone, ChevronDown, ChevronLeft, ChevronRight,
+  Scissors, Calendar, Clock, MapPin, ChevronDown, ChevronLeft, ChevronRight,
   Send, BadgeCheck, Droplets, Wind, Crown, ArrowUp
 } from "lucide-react";
+
+const WhatsAppIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.77 14.08c-.24.68-1.42 1.3-1.97 1.38-.52.08-1.18.11-1.91-.12-.44-.14-1-.33-1.72-.64-3.03-1.31-5-4.37-5.15-4.57-.15-.2-1.23-1.64-1.23-3.13 0-1.49.78-2.22 1.06-2.52.28-.3.61-.38.81-.38.2 0 .41.01.58.01.19 0 .44-.07.69.53.26.62.87 2.13.95 2.28.08.15.13.33.02.53-.11.2-.17.33-.33.51-.17.18-.35.4-.5.54-.17.17-.34.35-.15.69.19.34.86 1.42 1.85 2.3 1.27 1.13 2.34 1.48 2.68 1.65.34.17.54.14.74-.08.2-.22.86-1 .99-1.34.13-.34.26-.28.44-.21.18.07 1.16.55 1.36.65.2.1.33.15.38.23.05.08.05.47-.19 1.15z" />
+  </svg>
+);
 
 /* ---------------- data ---------------- */
 type Origin = "Brazilian" | "Remy" | "Vietnamese";
@@ -51,9 +57,9 @@ const CARE = [
 
 const REVIEWS = [
   { name: "Amara O.", loc: "Cape Town", hair: "Brazilian Body Wave", stars: 5, text: "Third order from NMK and the quality is still unreal. No shedding after 4 months, and my stylist asked where I got it from. The bundles are so full I only needed 2.", img: "https://images.pexels.com/photos/6953589/pexels-photo-6953589.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
-  { name: "Keisha M.", loc: "Johannesburg", hair: "Vietnamese Bone Straight", stars: 5, text: "Bone straight that actually stays straight. I got the sew-in at the NMK salon too — best install I've ever had. Melted lace, zero bumps.", img: "https://images.pexels.com/photos/38979627/pexels-photo-38979627.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
+  { name: "Keisha M.", loc: "Gqeberha", hair: "Vietnamese Bone Straight", stars: 5, text: "Bone straight that actually stays straight. I got the sew-in at the NMK salon too — best install I've ever had. Melted lace, zero bumps.", img: "https://images.pexels.com/photos/38979627/pexels-photo-38979627.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
   { name: "Sofia R.", loc: "Durban", hair: "Remy Deep Wave Wig", stars: 5, text: "The HD lace is invisible on my skin tone. Pre-plucked hairline is perfect, I wore it glueless to brunch. NMK is my only plug now.", img: "https://images.pexels.com/photos/6100178/pexels-photo-6100178.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
-  { name: "Tobi A.", loc: "Pretoria", hair: "Brazilian Kinky Curly", stars: 4, text: "Maintenance service saved my install. They washed, re-curled and re-styled everything in an hour. My curls look brand new again.", img: "https://images.pexels.com/photos/39833234/pexels-photo-39833234.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
+  { name: "Tobi A.", loc: "Gqeberha", hair: "Brazilian Kinky Curly", stars: 4, text: "Maintenance service saved my install. They washed, re-curled and re-styled everything in an hour. My curls look brand new again.", img: "https://images.pexels.com/photos/39833234/pexels-photo-39833234.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
 ];
 
 const FAQS = [
@@ -153,10 +159,22 @@ export default function App() {
     <div className="min-h-screen bg-white text-[#0A0A0A] font-sans antialiased">
       <div className="fixed top-0 left-0 h-[3px] z-[80] bg-gradient-to-r from-[#E10600] via-[#D4AF37] to-[#0A0A0A] transition-all" style={{ width: progress + "%" }} />
       {toast && (
-        <div className="fixed bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 z-[90] flex items-center gap-3 bg-[#0A0A0A] text-white px-5 py-3 rounded-full shadow-2xl text-sm font-medium border border-[#D4AF37]/60 max-w-[calc(100vw-2rem)]">
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[90] flex items-center gap-3 bg-[#0A0A0A] text-white px-5 py-3 rounded-full shadow-2xl text-sm font-medium border border-[#D4AF37]/60 max-w-[calc(100vw-2rem)]">
           <span className="h-2 w-2 shrink-0 rounded-full bg-[#E10600]" /> {toast}
         </div>
       )}
+
+      {/* floating whatsapp */}
+      <a
+        href="https://wa.me/27671550084"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="WhatsApp NMKHair on +27 67 155 0084"
+        className="fixed left-4 bottom-4 md:left-7 md:bottom-7 z-40 inline-flex items-center gap-2.5 h-12 sm:h-12 px-3.5 sm:px-4 rounded-full bg-[#25D366] hover:bg-[#2EE070] text-[#0A0A0A] font-bold text-xs sm:text-sm shadow-xl shadow-black/25 border border-black/15 transition-all hover:-translate-y-0.5"
+      >
+        <WhatsAppIcon className="h-5 w-5 shrink-0" />
+        <span className="hidden sm:inline tracking-tight">+27 67 155 0084</span>
+      </a>
 
       {/* back to top */}
       <div className={`fixed right-4 bottom-4 md:right-7 md:bottom-7 z-40 transition-all duration-500 ${showTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"}`}>
@@ -485,7 +503,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">NMK Studio — Services</p>
+              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">NMK Studio · Gqeberha — Services</p>
               <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Salon services & <em className="gold-text not-italic">maintenance</em></h2>
             </div>
             <p className="text-black/55 max-w-sm text-sm leading-relaxed">Buy the hair, book the chair. Every install includes a consultation, styling and a 7-day touch-up guarantee.</p>
@@ -513,7 +531,7 @@ export default function App() {
               <div className="bg-[#0A0A0A] text-white rounded-[2rem] p-7 md:p-8 shadow-2xl sticky top-24">
                 <div className="flex items-center gap-3">
                   <span className="h-11 w-11 grid place-items-center rounded-full bg-[#E10600]"><Calendar className="h-5 w-5" /></span>
-                  <div><h3 className="font-display text-2xl font-semibold">Book appointment</h3><p className="text-xs text-white/50">NMK Studio · Cape Town</p></div>
+                  <div><h3 className="font-display text-2xl font-semibold">Book appointment</h3><p className="text-xs text-white/50">NMK Studio · Gqeberha</p></div>
                 </div>
                 {booked ? (
                   <div className="mt-8 text-center py-8">
@@ -547,6 +565,17 @@ export default function App() {
                       Confirm Booking <ArrowRight className="h-4 w-4" />
                     </button>
                     <p className="text-center text-[11px] text-white/40">No deposit needed · Free reschedule up to 24h before</p>
+                    <div className="pt-2 border-t border-white/10 text-center">
+                      <a
+                        href="https://wa.me/27671550084"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-[#25D366] hover:text-[#4AE583] transition"
+                      >
+                        <WhatsAppIcon className="h-4 w-4 shrink-0" />
+                        WhatsApp Studio: +27 67 155 0084
+                      </a>
+                    </div>
                   </div>
                 )}
               </div>
@@ -578,7 +607,7 @@ export default function App() {
               <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Maintenance & care</p>
               <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Keep it <em className="gold-text not-italic">flawless</em></h2>
             </div>
-            <p className="text-black/55 max-w-sm text-sm leading-relaxed">Good hair is maintained hair. Shop the care kit, or join a monthly maintenance plan and never worry about tangles again.</p>
+            <p className="text-black/55 max-w-sm text-sm leading-relaxed">Good hair is maintained hair. Shop the care kit or book an in-salon maintenance visit to keep every strand silky and tangle-free.</p>
           </div>
 
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -597,24 +626,6 @@ export default function App() {
                   </div>
                 </div>
               </article>
-            ))}
-          </div>
-
-          <div className="mt-8 grid md:grid-cols-3 gap-5">
-            {[
-              { n: "Essential", p: 399, f: ["Monthly wash & condition", "Detangle & re-curl", "Scalp care", "10% off care products"], hot: false },
-              { n: "Deluxe", p: 699, f: ["Everything in Essential", "Deep repair treatment", "Re-install check", "Free styling session", "20% off care products"], hot: true },
-              { n: "VIP Crown", p: 1199, f: ["Everything in Deluxe", "Priority booking", "Color touch-ups", "Free wig refresh", "30% off + free gifts"], hot: false },
-            ].map((pl, i) => (
-              <div key={pl.n} className={`reveal rounded-[1.75rem] p-7 border-2 ${pl.hot ? "bg-[#0A0A0A] text-white border-[#D4AF37] shadow-2xl md:-translate-y-2" : "bg-[#FAF8F4] border-black/10"}`} style={{ transitionDelay: `${i * 60}ms` }}>
-                {pl.hot && <span className="bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">Most loved</span>}
-                <h3 className="font-display text-2xl font-semibold mt-3">{pl.n} Plan</h3>
-                <p className="mt-2"><span className="font-display text-4xl font-bold">{money(pl.p)}</span><span className={pl.hot ? "text-white/50" : "text-black/45"}> / month</span></p>
-                <ul className="mt-5 space-y-2.5 text-sm">
-                  {pl.f.map(f => <li key={f} className="flex gap-2"><Check className={`h-4 w-4 shrink-0 mt-0.5 ${pl.hot ? "text-[#D4AF37]" : "text-[#E10600]"}`} /> {f}</li>)}
-                </ul>
-                <button onClick={() => addCart(200 + i, `NMK ${pl.n} Maintenance Plan`, pl.p, PRODUCTS[0].img, "Monthly plan", 1)} className={`mt-6 w-full py-3.5 rounded-full font-semibold transition ${pl.hot ? "bg-[#D4AF37] text-black hover:bg-[#F1D27A]" : "bg-[#0A0A0A] text-white hover:bg-[#E10600]"}`}>Join {pl.n}</button>
-              </div>
             ))}
           </div>
 
@@ -714,15 +725,26 @@ export default function App() {
           <div>
             <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] font-bold">Studio</p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/60">
-              <li className="flex gap-2"><MapPin className="h-4 w-4 text-[#E10600] shrink-0" /> 214 Long Street, Cape Town</li>
-              <li className="flex gap-2"><Phone className="h-4 w-4 text-[#E10600] shrink-0" /> +27 21 214 8800</li>
+              <li className="flex gap-2"><MapPin className="h-4 w-4 text-[#E10600] shrink-0" /> Gqeberha, Eastern Cape</li>
+              <li>
+                <a
+                  href="https://wa.me/27671550084"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-semibold text-[#25D366] hover:text-[#4AE583] transition"
+                >
+                  <WhatsAppIcon className="h-4 w-4 shrink-0" />
+                  <span>+27 67 155 0084</span>
+                  <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/40">WhatsApp</span>
+                </a>
+              </li>
               <li className="flex gap-2"><Clock className="h-4 w-4 text-[#E10600] shrink-0" /> Tue–Sat · 9am–7pm</li>
               <li><a href="#services" className="hover:text-[#D4AF37] transition">Book an appointment →</a></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-white/10 py-6 text-center text-xs text-white/35 tracking-widest uppercase px-4">
-          © 2026 NMKHair — Brazilian · Remy · Vietnamese · 100% Human Hair · Prices in ZAR (R)
+          © 2026 NMKHair — Gqeberha, South Africa · Brazilian · Remy · Vietnamese · Prices in ZAR (R)
         </div>
       </footer>
 
