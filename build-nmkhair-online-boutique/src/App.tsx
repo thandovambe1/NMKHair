@@ -12,6 +12,19 @@ const WhatsAppIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
   </svg>
 );
 
+const IMAGES = {
+  bodyWave: "/images/nmk-hero-body-wave.jpg",
+  straight: "/images/nmk-straight-hair.jpg",
+  deepWave: "/images/nmk-deep-wave.jpg",
+  curly: "/images/nmk-curly-hair.jpg",
+  naturalWave: "/images/nmk-natural-wave.jpg",
+  glamLace: "/images/nmk-glam-lace.jpg",
+  braids: "/images/nmk-braids.jpg",
+  salon: "/images/nmk-salon-styling.jpg",
+  care: "/images/nmk-hair-care.jpg",
+  bonnet: "/images/nmk-satin-care.jpg",
+} as const;
+
 /* ---------------- data ---------------- */
 type Origin = "Brazilian" | "Remy" | "Vietnamese";
 type Product = {
@@ -20,21 +33,21 @@ type Product = {
 };
 
 const PRODUCTS: Product[] = [
-  { id: 1, name: "Brazilian Body Wave Bundle", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3299, compare: 4199, rating: 5, reviews: 842, badge: "Bestseller", img: "https://images.pexels.com/photos/6953589/pexels-photo-6953589.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Soft S-wave, natural luster, zero shedding", lengths: [12, 14, 16, 18, 20, 22, 24, 26] },
-  { id: 2, name: "Vietnamese Bone Straight", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3799, compare: 4899, rating: 5, reviews: 631, badge: "New", img: "https://images.pexels.com/photos/38979627/pexels-photo-38979627.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Glass-smooth, silky, holds press for weeks", lengths: [14, 16, 18, 20, 22, 24, 28, 30] },
-  { id: 3, name: "Remy Deep Wave Wig", origin: "Remy", type: "Lace Front Wig", price: 4499, compare: 5799, rating: 5, reviews: 519, badge: "Bestseller", img: "https://images.pexels.com/photos/6100178/pexels-photo-6100178.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "13×4 HD lace, pre-plucked, glueless ready", lengths: [16, 18, 20, 22, 24, 26] },
-  { id: 4, name: "Brazilian Kinky Curly", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3499, compare: 4499, rating: 4, reviews: 388, badge: "Back in stock", img: "https://images.pexels.com/photos/39833234/pexels-photo-39833234.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Defined coils, voluminous, tangle-free", lengths: [12, 14, 16, 18, 20, 22] },
-  { id: 5, name: "Vietnamese Natural Wave", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3599, compare: 4599, rating: 5, reviews: 274, badge: "Staff pick", img: "https://images.pexels.com/photos/6354298/pexels-photo-6354298.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Effortless wave, thick from root to tip", lengths: [14, 16, 18, 20, 22, 24] },
-  { id: 6, name: "Remy Silky Straight", origin: "Remy", type: "Bundles · 3 pcs", price: 2999, compare: 3899, rating: 4, reviews: 463, badge: "Value", img: "https://images.pexels.com/photos/29296910/pexels-photo-29296910.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "True Remy cuticle-aligned, dye-friendly", lengths: [12, 14, 16, 18, 20, 24, 28] },
-  { id: 7, name: "Brazilian Glam Lace Wig", origin: "Brazilian", type: "Lace Front Wig", price: 5199, compare: 6499, rating: 5, reviews: 312, badge: "Limited", img: "https://images.pexels.com/photos/6100174/pexels-photo-6100174.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Full density 200%, baby hairs, HD lace", lengths: [18, 20, 22, 24, 26, 28] },
-  { id: 8, name: "Vietnamese Curly Closure", origin: "Vietnamese", type: "Closure · 4×4", price: 2799, compare: 3599, rating: 5, reviews: 198, badge: "New", img: "https://images.pexels.com/photos/5608917/pexels-photo-5608917.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Free-part, natural hairline, bleached knots", lengths: [14, 16, 18, 20] },
-  { id: 9, name: "Remy Body Wave Bundle", origin: "Remy", type: "Bundles · 3 pcs", price: 3199, compare: 4099, rating: 4, reviews: 356, badge: "Bestseller", img: "https://images.pexels.com/photos/31987393/pexels-photo-31987393.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Bouncy waves, lasts 12+ months with care", lengths: [12, 14, 16, 18, 20, 22, 24] },
+  { id: 1, name: "Brazilian Body Wave Bundle", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3299, compare: 4199, rating: 5, reviews: 842, badge: "Bestseller", img: IMAGES.bodyWave, desc: "Soft S-wave, natural luster, zero shedding", lengths: [12, 14, 16, 18, 20, 22, 24, 26] },
+  { id: 2, name: "Vietnamese Bone Straight", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3799, compare: 4899, rating: 5, reviews: 631, badge: "New", img: IMAGES.straight, desc: "Glass-smooth, silky, holds press for weeks", lengths: [14, 16, 18, 20, 22, 24, 28, 30] },
+  { id: 3, name: "Remy Deep Wave Wig", origin: "Remy", type: "Lace Front Wig", price: 4499, compare: 5799, rating: 5, reviews: 519, badge: "Bestseller", img: IMAGES.deepWave, desc: "13×4 HD lace, pre-plucked, glueless ready", lengths: [16, 18, 20, 22, 24, 26] },
+  { id: 4, name: "Brazilian Kinky Curly", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3499, compare: 4499, rating: 4, reviews: 388, badge: "Back in stock", img: IMAGES.curly, desc: "Defined coils, voluminous, tangle-free", lengths: [12, 14, 16, 18, 20, 22] },
+  { id: 5, name: "Vietnamese Natural Wave", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3599, compare: 4599, rating: 5, reviews: 274, badge: "Staff pick", img: IMAGES.naturalWave, desc: "Effortless wave, thick from root to tip", lengths: [14, 16, 18, 20, 22, 24] },
+  { id: 6, name: "Remy Silky Straight", origin: "Remy", type: "Bundles · 3 pcs", price: 2999, compare: 3899, rating: 4, reviews: 463, badge: "Value", img: IMAGES.straight, desc: "True Remy cuticle-aligned, dye-friendly", lengths: [12, 14, 16, 18, 20, 24, 28] },
+  { id: 7, name: "Brazilian Glam Lace Wig", origin: "Brazilian", type: "Lace Front Wig", price: 5199, compare: 6499, rating: 5, reviews: 312, badge: "Limited", img: IMAGES.glamLace, desc: "Full density 200%, baby hairs, HD lace", lengths: [18, 20, 22, 24, 26, 28] },
+  { id: 8, name: "Vietnamese Curly Closure", origin: "Vietnamese", type: "Closure · 4×4", price: 2799, compare: 3599, rating: 5, reviews: 198, badge: "New", img: IMAGES.curly, desc: "Free-part, natural hairline, bleached knots", lengths: [14, 16, 18, 20] },
+  { id: 9, name: "Remy Body Wave Bundle", origin: "Remy", type: "Bundles · 3 pcs", price: 3199, compare: 4099, rating: 4, reviews: 356, badge: "Bestseller", img: IMAGES.naturalWave, desc: "Bouncy waves, lasts 12+ months with care", lengths: [12, 14, 16, 18, 20, 22, 24] },
 ];
 
 const ORIGINS: { name: Origin; tag: string; img: string; desc: string; feats: string[]; from: number }[] = [
-  { name: "Brazilian", tag: "Full & voluminous", img: "https://images.pexels.com/photos/6953589/pexels-photo-6953589.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "Thick, lustrous and built to hold any style — from silk press to big curls. Our most-loved texture for everyday glam.", feats: ["Densest bundles", "Holds curl & press", "12–24\" lengths"], from: 2499 },
-  { name: "Remy", tag: "True cuticle-aligned", img: "https://images.pexels.com/photos/6100178/pexels-photo-6100178.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "100% Remy with cuticles intact and aligned in one direction. No tangling, no matting — just smooth, long-lasting shine.", feats: ["Zero tangle", "Dye & bleach safe", "Natural hairline"], from: 2299 },
-  { name: "Vietnamese", tag: "Silky & bone straight", img: "https://images.pexels.com/photos/38979627/pexels-photo-38979627.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800", desc: "The sleekest hair we sell. Vietnamese strands are naturally smooth, strong and glossy — perfect for bone-straight looks.", feats: ["Glass finish", "Strongest strands", "Heat resistant"], from: 2699 },
+  { name: "Brazilian", tag: "Full & voluminous", img: IMAGES.bodyWave, desc: "Thick, lustrous and built to hold any style — from silk press to big curls. Our most-loved texture for everyday glam.", feats: ["Densest bundles", "Holds curl & press", "12–24\" lengths"], from: 2499 },
+  { name: "Remy", tag: "True cuticle-aligned", img: IMAGES.deepWave, desc: "100% Remy with cuticles intact and aligned in one direction. No tangling, no matting — just smooth, long-lasting shine.", feats: ["Zero tangle", "Dye & bleach safe", "Natural hairline"], from: 2299 },
+  { name: "Vietnamese", tag: "Silky & bone straight", img: IMAGES.straight, desc: "The sleekest hair we sell. Vietnamese strands are naturally smooth, strong and glossy — perfect for bone-straight looks.", feats: ["Glass finish", "Strongest strands", "Heat resistant"], from: 2699 },
 ];
 
 const SERVICES = [
@@ -49,17 +62,17 @@ const SERVICES = [
 ];
 
 const CARE = [
-  { id: 101, name: "Sulfate-Free Wash Kit", price: 349, img: "https://images.pexels.com/photos/15868320/pexels-photo-15868320.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", desc: "Shampoo + conditioner for extensions", tag: "Essential" },
-  { id: 102, name: "Argan Repair Serum", price: 229, img: "https://images.pexels.com/photos/3065171/pexels-photo-3065171.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", desc: "Frizz control, glass shine, heat protect", tag: "Bestseller" },
-  { id: 103, name: "Satin Bonnet + Scarf Set", price: 199, img: "https://images.pexels.com/photos/5793709/pexels-photo-5793709.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", desc: "Night protection, zero breakage", tag: "New" },
-  { id: 104, name: "Deep Repair Mask", price: 299, img: "https://images.pexels.com/photos/5157580/pexels-photo-5157580.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", desc: "Weekly treatment for dry, colored hair", tag: "Essential" },
+  { id: 101, name: "Sulfate-Free Wash Kit", price: 349, img: IMAGES.salon, imgAlt: "A Black stylist caring for a client's long wavy hair", desc: "Shampoo + conditioner for extensions", tag: "Essential" },
+  { id: 102, name: "Argan Repair Serum", price: 229, img: IMAGES.care, imgAlt: "A Black woman holding a hair serum beside her long waves", desc: "Frizz control, glass shine, heat protect", tag: "Bestseller" },
+  { id: 103, name: "Satin Bonnet + Scarf Set", price: 199, img: IMAGES.bonnet, imgAlt: "A smiling Black woman wearing a black satin bonnet", desc: "Night protection, zero breakage", tag: "New" },
+  { id: 104, name: "Deep Repair Mask", price: 299, img: IMAGES.curly, imgAlt: "A Black woman with voluminous, defined curls", desc: "Weekly treatment for dry, colored hair", tag: "Essential" },
 ];
 
 const REVIEWS = [
-  { name: "Amara O.", loc: "Cape Town", hair: "Brazilian Body Wave", stars: 5, text: "Third order from NMK and the quality is still unreal. No shedding after 4 months, and my stylist asked where I got it from. The bundles are so full I only needed 2.", img: "https://images.pexels.com/photos/6953589/pexels-photo-6953589.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
-  { name: "Keisha M.", loc: "Gqeberha", hair: "Vietnamese Bone Straight", stars: 5, text: "Bone straight that actually stays straight. I got the sew-in at the NMK salon too — best install I've ever had. Melted lace, zero bumps.", img: "https://images.pexels.com/photos/38979627/pexels-photo-38979627.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
-  { name: "Sofia R.", loc: "Durban", hair: "Remy Deep Wave Wig", stars: 5, text: "The HD lace is invisible on my skin tone. Pre-plucked hairline is perfect, I wore it glueless to brunch. NMK is my only plug now.", img: "https://images.pexels.com/photos/6100178/pexels-photo-6100178.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
-  { name: "Tobi A.", loc: "Gqeberha", hair: "Brazilian Kinky Curly", stars: 4, text: "Maintenance service saved my install. They washed, re-curled and re-styled everything in an hour. My curls look brand new again.", img: "https://images.pexels.com/photos/39833234/pexels-photo-39833234.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" },
+  { name: "Amara O.", loc: "Cape Town", hair: "Brazilian Body Wave", stars: 5, text: "Third order from NMK and the quality is still unreal. No shedding after 4 months, and my stylist asked where I got it from. The bundles are so full I only needed 2." },
+  { name: "Keisha M.", loc: "Gqeberha", hair: "Vietnamese Bone Straight", stars: 5, text: "Bone straight that actually stays straight. I got the sew-in at the NMK salon too — best install I've ever had. Melted lace, zero bumps." },
+  { name: "Sofia R.", loc: "Durban", hair: "Remy Deep Wave Wig", stars: 5, text: "The HD lace is invisible on my skin tone. Pre-plucked hairline is perfect, I wore it glueless to brunch. NMK is my only plug now." },
+  { name: "Tobi A.", loc: "Gqeberha", hair: "Brazilian Kinky Curly", stars: 4, text: "Maintenance service saved my install. They washed, re-curled and re-styled everything in an hour. My curls look brand new again." },
 ];
 
 const FAQS = [
@@ -143,10 +156,14 @@ export default function App() {
     const onScroll = () => { const h = document.documentElement; setProgress(h.scrollTop / (h.scrollHeight - h.clientHeight) * 100); setShowTop(h.scrollTop > 480); };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }), { threshold: 0.1 });
     document.querySelectorAll(".reveal").forEach(el => io.observe(el));
-    return () => { window.removeEventListener("scroll", onScroll); io.disconnect(); };
-  }, []);
+    return () => io.disconnect();
+  }, [filter, query]);
 
   useEffect(() => { const t = setInterval(() => setReviewIdx(i => (i + 1) % REVIEWS.length), 6000); return () => clearInterval(t); }, []);
 
@@ -291,7 +308,7 @@ export default function App() {
             <div className="absolute -inset-3 rounded-[2rem] border-2 border-[#D4AF37]/70 rotate-1 pointer-events-none" />
             <div className="absolute -inset-3 rounded-[2rem] border border-[#E10600]/30 -rotate-1 pointer-events-none" />
             <div className="img-zoom relative rounded-[2rem] overflow-hidden shadow-2xl shadow-black/20">
-              <img src="https://images.pexels.com/photos/6953589/pexels-photo-6953589.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Brazilian body wave hair" className="w-full h-[540px] object-cover" />
+              <img src={IMAGES.bodyWave} alt="Black woman wearing long, glossy body wave hair" fetchPriority="high" className="w-full h-[540px] object-cover object-[center_25%]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
                 <div className="text-white">
@@ -302,7 +319,7 @@ export default function App() {
               </div>
             </div>
             <div className="absolute -left-4 md:-left-10 top-8 bg-white rounded-2xl shadow-xl shadow-black/15 border border-black/10 p-3 flex items-center gap-3 animate-floaty">
-              <img src="https://images.pexels.com/photos/6100178/pexels-photo-6100178.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Remy deep wave" className="h-14 w-14 rounded-xl object-cover" />
+              <img src={IMAGES.deepWave} alt="Black woman wearing deep wave hair" className="h-14 w-14 rounded-xl object-cover object-top" />
               <div><p className="text-xs font-bold">Remy Deep Wave</p><p className="text-xs text-black/50">HD Lace · R4 499</p></div>
               <span className="h-2 w-2 rounded-full bg-[#E10600]" />
             </div>
@@ -342,7 +359,7 @@ export default function App() {
             {ORIGINS.map((o, i) => (
               <article key={o.name} className="reveal group bg-white rounded-[1.75rem] overflow-hidden border border-black/10 hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1.5 transition-all duration-500" style={{ transitionDelay: `${i * 70}ms` }}>
                 <div className="img-zoom relative h-72 overflow-hidden">
-                  <img src={o.img} alt={o.name + " hair"} className="w-full h-full object-cover" />
+                  <img src={o.img} alt={`Black woman showing ${o.name} hair`} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
                   <span className="absolute top-4 left-4 bg-white/95 text-black text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{o.tag}</span>
                   <span className="absolute bottom-4 right-4 bg-[#0A0A0A] text-[#F1D27A] text-xs font-bold px-3 py-1.5 rounded-full">from {money(o.from)}</span>
                 </div>
@@ -388,7 +405,7 @@ export default function App() {
               {filtered.map((p, i) => (
                 <article key={p.id} className="reveal group bg-white rounded-[1.5rem] overflow-hidden border border-black/10 hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500" style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
                   <div className="img-zoom relative h-72 overflow-hidden cursor-pointer" onClick={() => { setQuick(p); setQuickLen(p.lengths[2] ?? p.lengths[0]); setQuickQty(1); }}>
-                    <img src={p.img} alt={p.name} className="w-full h-full object-cover" />
+                    <img src={p.img} alt={`Black woman modelling ${p.name}`} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
                     <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${p.badge === "Limited" ? "bg-[#E10600] text-white" : p.badge === "New" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white text-black"}`}>{p.badge}</span>
                     <button onClick={e => { e.stopPropagation(); toggleWish(p.id); }} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/90 shadow hover:scale-110 transition" aria-label="wishlist">
                       <Heart className={`h-4 w-4 ${wish.includes(p.id) ? "fill-[#E10600] text-[#E10600]" : "text-black"}`} />
@@ -584,15 +601,15 @@ export default function App() {
 
           <div className="reveal mt-8 grid md:grid-cols-3 gap-4">
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
-              <img src="https://images.pexels.com/photos/3065171/pexels-photo-3065171.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Salon styling" className="w-full h-full object-cover" />
+              <img src={IMAGES.salon} alt="Black stylist working on a client's long, wavy hair" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               <span className="absolute bottom-4 left-4 bg-white text-black text-xs font-bold px-3 py-1.5 rounded-full">Installs & styling</span>
             </div>
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
-              <img src="https://images.pexels.com/photos/5793709/pexels-photo-5793709.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Braiding service" className="w-full h-full object-cover" />
+              <img src={IMAGES.braids} alt="Black woman wearing long knotless braids" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
               <span className="absolute bottom-4 left-4 bg-white text-black text-xs font-bold px-3 py-1.5 rounded-full">Braids & protective styles</span>
             </div>
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
-              <img src="https://images.pexels.com/photos/15868320/pexels-photo-15868320.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Wig collection" className="w-full h-full object-cover" />
+              <img src={IMAGES.glamLace} alt="Black woman wearing a full, glamorous lace-front hairstyle" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
               <span className="absolute bottom-4 left-4 bg-[#0A0A0A] text-[#F1D27A] text-xs font-bold px-3 py-1.5 rounded-full">Wig bar — try before you buy</span>
             </div>
           </div>
@@ -614,7 +631,7 @@ export default function App() {
             {CARE.map((c, i) => (
               <article key={c.id} className="reveal group border border-black/10 rounded-3xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all" style={{ transitionDelay: `${i * 50}ms` }}>
                 <div className="img-zoom h-52 overflow-hidden relative">
-                  <img src={c.img} alt={c.name} className="w-full h-full object-cover" />
+                  <img src={c.img} alt={c.imgAlt} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
                   <span className="absolute top-3 left-3 bg-white text-black text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full">{c.tag}</span>
                 </div>
                 <div className="p-5">
@@ -650,7 +667,7 @@ export default function App() {
             <div className="flex justify-center gap-1">{Array.from({ length: REVIEWS[reviewIdx].stars }).map((_, i) => <Star key={i} className="h-5 w-5 fill-[#D4AF37] text-[#D4AF37]" />)}</div>
             <blockquote className="font-display text-2xl md:text-[28px] leading-snug font-light mt-6">“{REVIEWS[reviewIdx].text}”</blockquote>
             <div className="mt-8 flex items-center justify-center gap-4">
-              <img src={REVIEWS[reviewIdx].img} alt={REVIEWS[reviewIdx].name} className="h-14 w-14 rounded-full object-cover border-2 border-[#D4AF37]" />
+              <span aria-hidden="true" className="h-14 w-14 shrink-0 rounded-full border-2 border-[#D4AF37] bg-white/10 grid place-items-center font-display text-xl text-[#F1D27A]">{REVIEWS[reviewIdx].name.charAt(0)}</span>
               <div className="text-left">
                 <p className="font-bold">{REVIEWS[reviewIdx].name} <span className="text-white/40 font-normal">· {REVIEWS[reviewIdx].loc}</span></p>
                 <p className="text-sm text-[#F1D27A] flex items-center gap-1.5"><BadgeCheck className="h-4 w-4" /> Verified buyer — {REVIEWS[reviewIdx].hair}</p>
@@ -754,7 +771,7 @@ export default function App() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setQuick(null)} />
           <div className="relative bg-white rounded-[2rem] w-full max-w-3xl overflow-hidden shadow-2xl grid md:grid-cols-2 max-h-[90vh]">
             <div className="relative h-64 md:h-auto">
-              <img src={quick.img} alt={quick.name} className="absolute inset-0 w-full h-full object-cover" />
+              <img src={quick.img} alt={`Black woman modelling ${quick.name}`} className="absolute inset-0 w-full h-full object-cover object-top" />
               <span className="absolute top-4 left-4 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.badge}</span>
             </div>
             <div className="p-7 overflow-y-auto">
@@ -825,7 +842,7 @@ export default function App() {
                 <div className="flex-1 overflow-y-auto p-6 space-y-4">
                   {cart.map((c, i) => (
                     <div key={i} className="flex gap-4 border border-black/10 rounded-2xl p-3">
-                      <img src={c.img} alt={c.name} className="h-24 w-20 object-cover rounded-xl" />
+                      <img src={c.img} alt="" className="h-24 w-20 object-cover object-top rounded-xl" />
                       <div className="flex-1 min-w-0">
                         <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#E10600]">{c.meta}</p>
                         <p className="font-display text-lg leading-tight truncate">{c.name}</p>
