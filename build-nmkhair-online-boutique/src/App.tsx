@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ShoppingBag, Heart, X, Plus, Minus, Trash2, ArrowRight,
   Menu, Star, Check, Search, Sparkles, ShieldCheck, Truck, RefreshCcw,
   Scissors, Calendar, Clock, MapPin, ChevronDown, ChevronLeft, ChevronRight,
-  Send, BadgeCheck, Droplets, Wind, Crown, ArrowUp
+  Send, BadgeCheck, Droplets, Wind, Crown, ArrowUp,
+  GraduationCap, Palette, Wand2, Layers, SlidersHorizontal
 } from "lucide-react";
 
 const WhatsAppIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
@@ -27,45 +28,44 @@ const IMAGES = {
 
 /* ---------------- data ---------------- */
 type Origin = "Brazilian" | "Remy" | "Vietnamese";
-type Product = {
-  id: number; name: string; origin: Origin; type: string; price: number; compare: number;
-  rating: number; reviews: number; badge: string; img: string; desc: string; lengths: number[];
+type Kind = "Wig" | "Bob" | "Closure";
+type PriceRow = { length: number; price: number };
+type Family = {
+  id: string; name: string; kind: Kind; badge?: string; img: string;
+  desc: string; rating: number; reviews: number; rows: PriceRow[];
+  curlsUpcharge?: number;
 };
 
-const PRODUCTS: Product[] = [
-  { id: 2, name: "Vietnamese Bone Straight", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3799, compare: 4899, rating: 5, reviews: 631, badge: "Bestseller", img: IMAGES.straight, desc: "Glass-smooth, silky, holds press for weeks", lengths: [14, 16, 18, 20, 22, 24, 28, 30] },
-  { id: 5, name: "Vietnamese Natural Wave", origin: "Vietnamese", type: "Bundles · 3 pcs", price: 3599, compare: 4599, rating: 5, reviews: 274, badge: "Staff pick", img: IMAGES.naturalWave, desc: "Effortless wave, thick from root to tip", lengths: [14, 16, 18, 20, 22, 24] },
-  { id: 8, name: "Vietnamese Curly Closure", origin: "Vietnamese", type: "Closure · 4×4", price: 2799, compare: 3599, rating: 5, reviews: 198, badge: "New", img: IMAGES.curly, desc: "Free-part, natural hairline, bleached knots", lengths: [14, 16, 18, 20] },
-  { id: 1, name: "Brazilian Body Wave Bundle", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3299, compare: 4199, rating: 5, reviews: 842, badge: "Popular", img: IMAGES.bodyWave, desc: "Soft S-wave, natural luster, zero shedding", lengths: [12, 14, 16, 18, 20, 22, 24, 26] },
-  { id: 3, name: "Remy Deep Wave Wig", origin: "Remy", type: "Lace Front Wig", price: 4499, compare: 5799, rating: 5, reviews: 519, badge: "Top rated", img: IMAGES.deepWave, desc: "13×4 HD lace, pre-plucked, glueless ready", lengths: [16, 18, 20, 22, 24, 26] },
-  { id: 4, name: "Brazilian Kinky Curly", origin: "Brazilian", type: "Bundles · 3 pcs", price: 3499, compare: 4499, rating: 4, reviews: 388, badge: "Back in stock", img: IMAGES.curly, desc: "Defined coils, voluminous, tangle-free", lengths: [12, 14, 16, 18, 20, 22] },
-  { id: 6, name: "Remy Silky Straight", origin: "Remy", type: "Bundles · 3 pcs", price: 2999, compare: 3899, rating: 4, reviews: 463, badge: "Value", img: IMAGES.straight, desc: "True Remy cuticle-aligned, dye-friendly", lengths: [12, 14, 16, 18, 20, 24, 28] },
-  { id: 7, name: "Brazilian Glam Lace Wig", origin: "Brazilian", type: "Lace Front Wig", price: 5199, compare: 6499, rating: 5, reviews: 312, badge: "Limited", img: IMAGES.glamLace, desc: "Full density 200%, baby hairs, HD lace", lengths: [18, 20, 22, 24, 26, 28] },
-  { id: 9, name: "Remy Body Wave Bundle", origin: "Remy", type: "Bundles · 3 pcs", price: 3199, compare: 4099, rating: 4, reviews: 356, badge: "Everyday favorite", img: IMAGES.naturalWave, desc: "Bouncy waves, lasts 12+ months with care", lengths: [12, 14, 16, 18, 20, 22, 24] },
+const rows = (...pairs: [number, number][]): PriceRow[] => pairs.map(([length, price]) => ({ length, price }));
+
+const FAMILIES: Family[] = [
+  { id: "sdd-curls", name: "13×4 SDD Curls", kind: "Wig", badge: "Bestseller", img: IMAGES.curly, desc: "Defined, bouncy curls on a soft 13×4 lace frontal.", rating: 5, reviews: 631,
+    rows: rows([18, 2750], [20, 3000], [22, 3300], [24, 3800], [26, 4400]) },
+  { id: "sdd-straight", name: "13×4 SDD Straight", kind: "Wig", badge: "Bestseller", img: IMAGES.straight, desc: "Silky bone-straight hair with a 13×4 lace frontal.", rating: 5, reviews: 842,
+    rows: rows([12, 1900], [14, 2100], [16, 2250], [18, 2550], [20, 2900], [22, 3050]) },
+  { id: "sdd-straight-5x5", name: "5×5 SDD Straight", kind: "Wig", badge: "Popular", img: IMAGES.bodyWave, desc: "Neat 5×5 closure in glossy bone-straight hair.", rating: 5, reviews: 519,
+    rows: rows([12, 1800], [14, 2000], [16, 2450], [18, 2600], [20, 2800], [22, 3100], [24, 3200]) },
+  { id: "single-drawn-13x6", name: "13×6 Straight — Single Drawn", kind: "Wig", img: IMAGES.naturalWave, desc: "Single-drawn 13×6 frontal in a sleek straight finish.", rating: 4, reviews: 356,
+    rows: rows([22, 2500], [24, 2800], [26, 3000], [28, 3200], [30, 3600]) },
+  { id: "bob-13x4", name: "13×4 Chinese Bone Straight Bob", kind: "Bob", img: IMAGES.deepWave, desc: "Blunt Chinese bone-straight bob with a 13×4 lace frontal.", rating: 5, reviews: 274,
+    rows: rows([8, 2000], [10, 2100], [12, 2200], [14, 2500], [16, 2900], [18, 3200]) },
+  { id: "bob-5x5", name: "5×5 Chinese Bone Straight Bob", kind: "Bob", img: IMAGES.glamLace, desc: "Sharp 5×5 closure bob in Chinese bone-straight hair.", rating: 5, reviews: 198,
+    rows: rows([8, 2100], [10, 2300], [12, 2600], [14, 2800], [16, 3100], [18, 3300]) },
+  { id: "hd-dd-wigs", name: "13×4 HD DD Straight Wigs", kind: "Wig", badge: "Top rated", img: IMAGES.straight, curlsUpcharge: 500, desc: "HD double-drawn straight wigs. Add R500 for HD lace curls.", rating: 5, reviews: 631,
+    rows: rows([18, 2900], [20, 3200], [22, 3500], [24, 3800], [26, 4100], [28, 4750], [30, 5200]) },
+  { id: "lagos-closure", name: "13×4 HD Lagos Hairline Closure", kind: "Closure", img: IMAGES.curly, desc: "HD Lagos hairline closure with a natural, meltable hairline.", rating: 5, reviews: 388,
+    rows: rows([12, 1800], [14, 2000], [16, 2300], [18, 2500], [20, 2650]) },
 ];
 
-const FEATURED_VIETNAMESE = PRODUCTS[0];
+const priceFor = (f: Family, length: number, curls = false) =>
+  (f.rows.find(r => r.length === length)?.price ?? f.rows[0].price) + (curls ? f.curlsUpcharge ?? 0 : 0);
+
+const FEATURED = FAMILIES[0];
 
 const ORIGINS: { name: Origin; tag: string; img: string; desc: string; feats: string[]; from: number }[] = [
   { name: "Vietnamese", tag: "NMKHair's #1 bestseller", img: IMAGES.straight, desc: "Our most-loved hair: naturally silky, strong and glossy. From bone-straight lengths to soft waves, find the style that's yours.", feats: ["Glass finish", "Strongest strands", "Heat resistant"], from: 2799 },
   { name: "Brazilian", tag: "Full & voluminous", img: IMAGES.bodyWave, desc: "Thick, lustrous and built to hold any style — from silk press to big curls. An effortless texture for everyday glam.", feats: ["Densest bundles", "Holds curl & press", "12–24\" lengths"], from: 3299 },
   { name: "Remy", tag: "True cuticle-aligned", img: IMAGES.deepWave, desc: "100% Remy with cuticles intact and aligned in one direction. No tangling, no matting — just smooth, long-lasting shine.", feats: ["Zero tangle", "Dye & bleach safe", "Natural hairline"], from: 2999 },
-];
-
-type WigCollection = {
-  id: string; name: string; lace: string; note: string; img: string;
-  lengths: [number, number][]; curlsExtra?: number; curlsImg?: string;
-};
-
-const WIGS: WigCollection[] = [
-  { id: "sdd-curls", name: "13×4 SDD Curls", lace: "13×4", note: "Super double drawn · curls", img: IMAGES.deepWave, lengths: [[18, 2750], [20, 3000], [22, 3300], [24, 3800], [26, 4400]] },
-  { id: "sdd-straight", name: "13×4 SDD Straight", lace: "13×4", note: "Super double drawn · straight", img: IMAGES.straight, lengths: [[12, 1900], [14, 2100], [16, 2250], [18, 2550], [20, 2900], [22, 3050]] },
-  { id: "sdd-5x5", name: "5×5 SDD Straight", lace: "5×5", note: "Super double drawn · 5×5 closure", img: IMAGES.straight, lengths: [[12, 1800], [14, 2000], [16, 2450], [18, 2600], [20, 2800], [22, 3100], [24, 3200]] },
-  { id: "sd-13x6", name: "13×6 Straight", lace: "13×6", note: "Single drawn · deep parting", img: IMAGES.glamLace, lengths: [[22, 2500], [24, 2800], [26, 3000], [28, 3200], [30, 3600]] },
-  { id: "bob-13x4", name: "13×4 Chinese Bone Straight Bob", lace: "13×4", note: "Chic blunt-cut bob", img: IMAGES.bodyWave, lengths: [[8, 2000], [10, 2100], [12, 2200], [14, 2500], [16, 2900], [18, 3200]] },
-  { id: "bob-5x5", name: "5×5 Chinese Bone Straight Bob", lace: "5×5", note: "Glueless-ready bob", img: IMAGES.naturalWave, lengths: [[8, 2100], [10, 2300], [12, 2600], [14, 2800], [16, 3100], [18, 3300]] },
-  { id: "hd-dd", name: "13×4 HD DD Straight Wig", lace: "13×4 HD", note: "Double drawn · melt-in HD lace", img: IMAGES.straight, curlsExtra: 500, curlsImg: IMAGES.deepWave, lengths: [[18, 2900], [20, 3200], [22, 3500], [24, 3800], [26, 4100], [28, 4750], [30, 5200]] },
-  { id: "lagos", name: "13×4 HD Lagos Hairline Closure", lace: "13×4 HD", note: "Signature Lagos hairline", img: IMAGES.glamLace, lengths: [[12, 1800], [14, 2000], [16, 2300], [18, 2500], [20, 2650]] },
 ];
 
 const SERVICES = [
@@ -79,11 +79,23 @@ const SERVICES = [
   { id: "bridal", name: "Bridal & Event Hair", price: 1850, time: "3 hrs", desc: "Trial + day-of styling for brides and special occasions.", popular: false },
 ];
 
-const CARE = [
-  { id: 101, name: "Sulfate-Free Wash Kit", price: 349, img: IMAGES.salon, imgAlt: "A Black stylist caring for a client's long wavy hair", desc: "Shampoo + conditioner for extensions", tag: "Essential" },
-  { id: 102, name: "Argan Repair Serum", price: 229, img: IMAGES.care, imgAlt: "A Black woman holding a hair serum beside her long waves", desc: "Frizz control, glass shine, heat protect", tag: "Top pick" },
-  { id: 103, name: "Satin Bonnet + Scarf Set", price: 199, img: IMAGES.bonnet, imgAlt: "A smiling Black woman wearing a black satin bonnet", desc: "Night protection, zero breakage", tag: "New" },
-  { id: 104, name: "Deep Repair Mask", price: 299, img: IMAGES.curly, imgAlt: "A Black woman with voluminous, defined curls", desc: "Weekly treatment for dry, colored hair", tag: "Essential" },
+const CARE_SERVICES = [
+  { id: "wig-treatment", name: "Wig Treatment", price: 300, from: true, icon: Sparkles, tag: "Most booked",
+    desc: "Deep cleanse, steam and bond repair that brings tired hair back to life." },
+  { id: "masterclass", name: "Installation Masterclasses", price: 4000, from: false, icon: GraduationCap, tag: "Training",
+    desc: "One-on-one training: melt, pluck, customise and install like a professional." },
+  { id: "basic-install", name: "Basic Installations", price: 350, from: true, icon: Scissors,
+    desc: "Glued or glueless installs, braided down neat and styled to finish." },
+  { id: "wig-colour", name: "Wig Colourings", price: 700, from: true, icon: Palette,
+    desc: "Full colour, highlights or toning with bond protection throughout." },
+  { id: "wig-revamp", name: "Wig Revamps", price: 500, from: true, icon: RefreshCcw, tag: "Revive",
+    desc: "Wash, detangle, re-curl and restyle an old unit until it looks new." },
+  { id: "wig-making", name: "Wig Making", price: 500, from: true, icon: Wand2,
+    desc: "Your bundles sewn into a custom-fit unit, built on our studio blocks." },
+  { id: "closure-replacement", name: "Closure Replacements", price: 500, from: true, icon: Layers,
+    desc: "Swap a worn closure for a fresh, natural-looking hairline." },
+  { id: "customisation", name: "Customisation", price: 300, from: false, icon: SlidersHorizontal,
+    desc: "Plucking, bleached knots, lace tint and baby hairs shaped to you." },
 ];
 
 const REVIEWS = [
@@ -104,16 +116,17 @@ const FAQS = [
 const money = (n: number) => "R" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
 export default function App() {
-  const [filter, setFilter] = useState<"All" | Origin>("All");
+  const [filter, setFilter] = useState<"All" | Kind>("All");
   const [query, setQuery] = useState("");
   const [cart, setCart] = useState<{ id: number; name: string; price: number; img: string; meta: string; qty: number }[]>([]);
   const [wish, setWish] = useState<number[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState("");
-  const [quick, setQuick] = useState<Product | null>(null);
-  const [quickLen, setQuickLen] = useState(18);
-  const [quickQty, setQuickQty] = useState(1);
+  const [quick, setQuick] = useState<{ f: Family; length: number; curls: boolean; qty: number } | null>(null);
+  const [picks, setPicks] = useState<Record<string, { length: number; curls: boolean }>>(
+    () => Object.fromEntries(FAMILIES.map(f => [f.id, { length: f.rows[0].length, curls: false }]))
+  );
   const [reviewIdx, setReviewIdx] = useState(0);
   const [openFaq, setOpenFaq] = useState(0);
   const [email, setEmail] = useState("");
@@ -121,37 +134,9 @@ export default function App() {
   const [checkoutDone, setCheckoutDone] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showTop, setShowTop] = useState(false);
-
-  /* wig price list configurator */
-  const [wigId, setWigId] = useState(WIGS[0].id);
-  const [wigLen, setWigLen] = useState<number>(WIGS[0].lengths[0][0]);
-  const [wigCurls, setWigCurls] = useState(false);
-  const [wigQty, setWigQty] = useState(1);
-  const wig = WIGS.find(w => w.id === wigId) ?? WIGS[0];
-  const wigBase = (wig.lengths.find(l => l[0] === wigLen) ?? wig.lengths[0])[1];
-  const wigUnit = wigBase + (wig.curlsExtra && wigCurls ? wig.curlsExtra : 0);
-  const wigName = wig.curlsExtra && wigCurls ? "13×4 HD Lace Curls Wig" : wig.name;
-  const wigImg = wig.curlsExtra && wigCurls && wig.curlsImg ? wig.curlsImg : wig.img;
-  const wigMeta = `${wig.lace} · ${wigLen}"${wig.curlsExtra ? (wigCurls ? " · HD Curls" : " · Straight") : ""}`;
-  const wigOrderHref = `https://wa.me/27671550084?text=${encodeURIComponent(`Hi NMKHair! I'd like to order ${wigQty} × ${wigName} — ${wigMeta} at ${money(wigUnit)} each (total ${money(wigUnit * wigQty)}).`)}`;
-  const selectWig = (w: WigCollection, len?: number, scroll = false) => {
-    setWigId(w.id);
-    setWigLen(len ?? w.lengths[0][0]);
-    setWigCurls(false);
-    setWigQty(1);
-    if (scroll) document.getElementById("wig-config")?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-  const addWig = () => addCart(400 + WIGS.indexOf(wig), wigName, wigUnit, wigImg, wigMeta, wigQty);
-
-  /* length guide */
-  const [gLen, setGLen] = useState(20);
-  const [gTex, setGTex] = useState("Body Wave");
-  const guidePrice = useMemo(() => {
-    const base = gLen <= 14 ? 999 : gLen <= 18 ? 1199 : gLen <= 22 ? 1399 : gLen <= 26 ? 1699 : 1999;
-    const texAdd = gTex === "Bone Straight" ? 150 : gTex === "Deep Wave" ? 75 : 0;
-    const bundles = gLen <= 16 ? 2 : 3;
-    return { base: base + texAdd, bundles, total: (base + texAdd) * bundles };
-  }, [gLen, gTex]);
+  const [fabClear, setFabClear] = useState({ wa: true, top: true });
+  const waRef = useRef<HTMLAnchorElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
 
   /* booking */
   const [bk, setBk] = useState({ name: "", phone: "", service: "Sew-In Install", date: "", time: "10:00 AM", notes: "" });
@@ -169,21 +154,26 @@ export default function App() {
     });
     showToast(`${name} added to bag`);
   };
-  const addProduct = (p: Product, len?: number, qty = 1) => {
-    const L = len ?? p.lengths[0];
-    const extra = L > 20 ? 500 : L > 16 ? 250 : 0;
-    addCart(p.id, p.name, p.price + extra, p.img, `${p.origin} · ${L}"`, qty);
+  const addFamily = (f: Family, length: number, curls: boolean, qty = 1) => {
+    const id = 1000 + FAMILIES.indexOf(f) * 100 + length + (curls ? 50 : 0);
+    const meta = `${f.name} · ${length}"${curls ? " · Curls" : ""}`;
+    addCart(id, f.name, priceFor(f, length, curls), f.img, meta, qty);
   };
   const toggleWish = (id: number) => setWish(w => w.includes(id) ? w.filter(x => x !== id) : [...w, id]);
+  const chooseLength = (id: string, length: number) => setPicks(p => ({ ...p, [id]: { ...p[id], length } }));
+  const toggleCurls = (id: string) => setPicks(p => ({ ...p, [id]: { ...p[id], curls: !p[id].curls } }));
+  const openQuick = (f: Family) => setQuick({ f, length: picks[f.id].length, curls: picks[f.id].curls, qty: 1 });
 
-  const filtered = PRODUCTS.filter(p =>
-    (filter === "All" || p.origin === filter) &&
-    (p.name.toLowerCase().includes(query.toLowerCase()) || p.type.toLowerCase().includes(query.toLowerCase()))
+  const filtered = FAMILIES.filter(f =>
+    (filter === "All" || f.kind === filter) &&
+    (f.name.toLowerCase().includes(query.toLowerCase()) || f.desc.toLowerCase().includes(query.toLowerCase()))
   );
 
   const bookService = (name: string) => {
     setBk(b => ({ ...b, service: name }));
-    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+    setBooked(null);
+    showToast(`${name} selected — choose your date`);
+    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   const submitBooking = () => {
     if (!bk.name.trim() || !bk.phone.trim() || !bk.date) { showToast("Please add your name, phone and date"); return; }
@@ -206,6 +196,57 @@ export default function App() {
 
   useEffect(() => { const t = setInterval(() => setReviewIdx(i => (i + 1) % REVIEWS.length), 6000); return () => clearInterval(t); }, []);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setQuick(null); setCartOpen(false); setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  useEffect(() => {
+    const locked = Boolean(quick) || cartOpen;
+    document.body.style.overflow = locked ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [quick, cartOpen]);
+
+  /* Keep the floating buttons from ever covering a price or an action. */
+  useEffect(() => {
+    const GUARDS = 'a,button,input,select,textarea,[role="button"],[data-fab-guard]';
+    const isClear = (el: HTMLElement | null) => {
+      if (!el) return true;
+      const r = el.getBoundingClientRect();
+      if (!r.width) return true;
+      const nodes = document.querySelectorAll(GUARDS);
+      for (const node of nodes) {
+        if (el.contains(node)) continue;
+        const b = node.getBoundingClientRect();
+        if (!b.width || b.bottom < 0 || b.top > window.innerHeight) continue;
+        const hits = !(b.right < r.left + 4 || b.left > r.right - 4 || b.bottom < r.top + 4 || b.top > r.bottom - 4);
+        if (hits) return false;
+      }
+      return true;
+    };
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const next = { wa: isClear(waRef.current), top: isClear(topRef.current) };
+      setFabClear(prev => (prev.wa === next.wa && prev.top === next.top ? prev : next));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(measure); };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    const settle = window.setTimeout(schedule, 600);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [filter, query, openFaq, cartOpen, quick, showTop]);
+
   const subscribe = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast("Please enter a valid email"); return; }
     setSubscribed(true); showToast("Welcome to the NMK list — 10% off sent");
@@ -222,18 +263,21 @@ export default function App() {
 
       {/* floating whatsapp */}
       <a
+        ref={waRef}
         href="https://wa.me/27671550084"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp NMKHair on +27 67 155 0084"
-        className="fixed left-4 bottom-4 md:left-7 md:bottom-7 z-40 inline-flex items-center gap-2.5 h-12 sm:h-12 px-3.5 sm:px-4 rounded-full bg-[#25D366] hover:bg-[#2EE070] text-[#0A0A0A] font-bold text-xs sm:text-sm shadow-xl shadow-black/25 border border-black/15 transition-all hover:-translate-y-0.5"
+        aria-hidden={!fabClear.wa}
+        tabIndex={fabClear.wa ? 0 : -1}
+        className={`fixed left-4 bottom-4 md:left-7 md:bottom-7 z-40 inline-flex items-center gap-2.5 h-12 px-3.5 sm:px-4 rounded-full bg-[#25D366] hover:bg-[#2EE070] text-[#0A0A0A] font-bold text-xs sm:text-sm shadow-xl shadow-black/25 border border-black/15 transition-all duration-300 hover:-translate-y-0.5 ${fabClear.wa ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"}`}
       >
         <WhatsAppIcon className="h-5 w-5 shrink-0" />
         <span className="hidden sm:inline tracking-tight">+27 67 155 0084</span>
       </a>
 
       {/* back to top */}
-      <div className={`fixed right-4 bottom-4 md:right-7 md:bottom-7 z-40 transition-all duration-500 ${showTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"}`}>
+      <div ref={topRef} className={`fixed right-4 bottom-4 md:right-7 md:bottom-7 z-40 transition-all duration-500 ${showTop && fabClear.top ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"}`}>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
@@ -265,26 +309,25 @@ export default function App() {
 
       {/* nav */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/10">
-        <div className="max-w-7xl mx-auto px-5 md:px-8 h-[72px] flex items-center justify-between gap-4">
-          <a href="#top" className="flex items-center gap-2.5 shrink-0">
-            <span className="h-10 w-10 grid place-items-center bg-[#0A0A0A] text-white rounded-full relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8 h-[72px] flex items-center justify-between gap-2 sm:gap-4">
+          <a href="#top" className="flex items-center gap-2.5 min-w-0">
+            <span className="h-10 w-10 shrink-0 grid place-items-center bg-[#0A0A0A] text-white rounded-full relative overflow-hidden">
               <span className="font-display font-bold text-lg leading-none">N</span>
               <span className="absolute bottom-1.5 h-[3px] w-5 bg-gradient-to-r from-[#E10600] to-[#D4AF37] rounded-full" />
             </span>
-            <span className="leading-none">
+            <span className="leading-none min-w-0">
               <span className="block font-display font-bold text-[22px] tracking-tight">NMK<span className="gold-text">Hair</span></span>
-              <span className="block text-[9px] tracking-[0.35em] uppercase text-black/50 mt-0.5">Brazilian · Remy · Vietnamese</span>
+              <span className="hidden sm:block text-[9px] tracking-[0.35em] uppercase text-black/50 mt-0.5 truncate">Brazilian · Remy · Vietnamese</span>
             </span>
           </a>
           <nav className="hidden lg:flex items-center gap-7 text-[13px] font-medium tracking-wide text-black/70">
             <a href="#shop" className="hover:text-[#E10600] transition">Shop Hair</a>
-            <a href="#pricelist" className="hover:text-[#E10600] transition">Price List</a>
             <a href="#origins" className="hover:text-[#E10600] transition">Hair Types</a>
             <a href="#services" className="hover:text-[#E10600] transition">Services</a>
             <a href="#care" className="hover:text-[#E10600] transition">Maintenance</a>
             <a href="#reviews" className="hover:text-[#E10600] transition">Reviews</a>
           </nav>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 shrink-0">
             <a href="#shop" className="hidden md:grid h-10 w-10 place-items-center rounded-full hover:bg-black/5 transition" aria-label="Search"><Search className="h-5 w-5" /></a>
             <button onClick={() => showToast(wish.length ? `${wish.length} item(s) in wishlist` : "Tap a heart to save a style")} className="relative hidden md:grid h-10 w-10 place-items-center rounded-full hover:bg-black/5 transition" aria-label="Wishlist">
               <Heart className={`h-5 w-5 ${wish.length ? "fill-[#E10600] text-[#E10600]" : ""}`} />
@@ -299,7 +342,7 @@ export default function App() {
         </div>
         {menuOpen && (
           <div className="lg:hidden border-t border-black/10 px-5 py-4 flex flex-col gap-1 bg-white">
-            {[["#shop", "Shop Hair"], ["#pricelist", "Wig Price List"], ["#origins", "Hair Types"], ["#services", "Services"], ["#care", "Maintenance"], ["#reviews", "Reviews"]].map(([h, l]) => (
+            {[["#shop", "Shop Hair"], ["#origins", "Hair Types"], ["#services", "Services"], ["#care", "Maintenance"], ["#reviews", "Reviews"]].map(([h, l]) => (
               <a key={h} href={h} onClick={() => setMenuOpen(false)} className="py-2.5 font-medium border-b border-black/5 last:border-0">{l}</a>
             ))}
           </div>
@@ -323,7 +366,7 @@ export default function App() {
               Meet NMKHair's bestselling Vietnamese hair: silky, strong and made to shine. Explore Brazilian and Remy textures too, plus expert installs, styling and maintenance in Gqeberha.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#shop" onClick={() => { setQuery(""); setFilter("Vietnamese"); }} className="group inline-flex items-center gap-2 bg-[#0A0A0A] text-white px-7 py-4 rounded-full text-sm font-semibold hover:bg-black transition">
+              <a href="#shop" onClick={() => { setQuery(""); setFilter("Wig"); }} className="group inline-flex items-center gap-2 bg-[#0A0A0A] text-white px-7 py-4 rounded-full text-sm font-semibold hover:bg-black transition">
                 Shop Vietnamese Hair <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
               </a>
               <a href="#services" className="inline-flex items-center gap-2 border-2 border-[#0A0A0A] px-7 py-4 rounded-full text-sm font-semibold hover:bg-[#E10600] hover:border-[#E10600] hover:text-white transition">
@@ -348,19 +391,19 @@ export default function App() {
             <div className="absolute -inset-3 rounded-[2rem] border-2 border-[#D4AF37]/70 rotate-1 pointer-events-none" />
             <div className="absolute -inset-3 rounded-[2rem] border border-[#E10600]/30 -rotate-1 pointer-events-none" />
             <div className="img-zoom relative rounded-[2rem] overflow-hidden shadow-2xl shadow-black/20">
-              <img src={FEATURED_VIETNAMESE.img} alt="Black woman wearing long, glossy Vietnamese bone straight hair" fetchPriority="high" className="w-full h-[540px] object-cover object-[center_25%]" />
+              <img src={FEATURED.img} alt="Model with long, glossy curls" fetchPriority="high" className="w-full h-[540px] object-cover object-[center_25%]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
                 <div className="text-white">
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">Vietnamese · #1 Bestseller</p>
-                  <p className="font-display text-2xl mt-1">{FEATURED_VIETNAMESE.name}</p>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">#1 Bestseller · {FEATURED.rows[0].length}"</p>
+                  <p className="font-display text-2xl mt-1">{FEATURED.name}</p>
                 </div>
-                <button onClick={() => addProduct(FEATURED_VIETNAMESE)} className="shrink-0 bg-white text-black text-sm font-bold px-5 py-3 rounded-full hover:bg-[#D4AF37] transition">Add — {money(FEATURED_VIETNAMESE.price)}</button>
+                <button onClick={() => addFamily(FEATURED, FEATURED.rows[0].length, false)} className="shrink-0 bg-white text-black text-sm font-bold px-5 py-3 rounded-full hover:bg-[#D4AF37] transition">Add — {money(FEATURED.rows[0].price)}</button>
               </div>
             </div>
             <div className="absolute -left-4 md:-left-10 top-8 bg-white rounded-2xl shadow-xl shadow-black/15 border border-black/10 p-3 flex items-center gap-3 animate-floaty">
-              <img src={IMAGES.naturalWave} alt="Black woman wearing Vietnamese natural wave hair" className="h-14 w-14 rounded-xl object-cover object-top" />
-              <div><p className="text-xs font-bold">Vietnamese Natural Wave</p><p className="text-xs text-black/50">From {money(PRODUCTS[1].price)}</p></div>
+              <img src={IMAGES.straight} alt="Model with long, bone straight hair" className="h-14 w-14 rounded-xl object-cover object-top" />
+              <div><p className="text-xs font-bold">13×4 SDD Straight</p><p className="text-xs text-black/50">From {money(FAMILIES[1].rows[0].price)}</p></div>
               <span className="h-2 w-2 rounded-full bg-[#E10600]" />
             </div>
             <div className="absolute -right-3 md:-right-6 bottom-24 bg-[#0A0A0A] text-white rounded-2xl shadow-xl p-4 animate-floaty" style={{ animationDelay: "1.2s" }}>
@@ -409,154 +452,10 @@ export default function App() {
                   <ul className="mt-4 space-y-2">
                     {o.feats.map(f => <li key={f} className="flex items-center gap-2 text-sm font-medium"><Check className="h-4 w-4 text-[#E10600]" /> {f}</li>)}
                   </ul>
-                  <a href="#shop" onClick={() => { setQuery(""); setFilter(o.name); }} className="mt-5 inline-flex items-center gap-2 font-bold text-sm border-b-2 border-[#D4AF37] pb-1 hover:text-[#E10600] hover:border-[#E10600] transition">Shop {o.name} <ArrowRight className="h-4 w-4" /></a>
+                  <a href="#shop" onClick={() => setQuery("")} className="mt-5 inline-flex items-center gap-2 font-bold text-sm border-b-2 border-[#D4AF37] pb-1 hover:text-[#E10600] hover:border-[#E10600] transition">Shop {o.name} <ArrowRight className="h-4 w-4" /></a>
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WIG PRICE LIST */}
-      <section id="pricelist" className="bg-[#0A0A0A] text-white relative overflow-hidden scroll-mt-24">
-        <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ background: "linear-gradient(115deg, transparent 64%, rgba(225,6,0,0.22) 64%, rgba(225,6,0,0.22) 65%, transparent 65%), linear-gradient(115deg, transparent 76%, rgba(212,175,55,0.28) 76%, rgba(212,175,55,0.28) 77.5%, transparent 77.5%)" }} />
-        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
-          <div className="reveal flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Wigs · closures · bobs</p>
-              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">The NMK <em className="gold-text not-italic">price list</em></h2>
-            </div>
-            <p className="text-white/55 max-w-sm text-sm leading-relaxed">Every wig, every length, one honest price — in Rands. Pick a collection and length below, add it to your bag, or order straight from the studio on WhatsApp.</p>
-          </div>
-
-          {/* configurator */}
-          <div id="wig-config" className="mt-10 grid lg:grid-cols-5 gap-6 scroll-mt-28">
-            <div className="lg:col-span-3 reveal">
-              <p className="text-xs tracking-[0.25em] uppercase text-white/50 font-bold">1 · Choose your collection</p>
-              <div className="mt-3 grid sm:grid-cols-2 gap-3">
-                {WIGS.map(w => {
-                  const from = Math.min(...w.lengths.map(l => l[1]));
-                  const active = w.id === wigId;
-                  return (
-                    <button key={w.id} onClick={() => selectWig(w)} aria-pressed={active} className={`text-left rounded-2xl border px-4 py-3.5 transition-all flex items-center gap-3 ${active ? "border-[#D4AF37] bg-[#D4AF37]/10 shadow-lg shadow-black/30" : "border-white/15 bg-white/[0.04] hover:border-white/40"}`}>
-                      <img src={w.img} alt="" loading="lazy" className={`h-12 w-12 rounded-xl object-cover object-top shrink-0 ${active ? "ring-2 ring-[#D4AF37]" : ""}`} />
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-bold leading-tight truncate">{w.name}</span>
-                        <span className="block text-[11px] text-white/50 mt-0.5">{w.note}</span>
-                      </span>
-                      <span className="text-right shrink-0">
-                        <span className="block text-[9px] tracking-[0.2em] uppercase text-white/40">from</span>
-                        <span className={`block font-display text-lg font-bold ${active ? "text-[#F1D27A]" : "text-white"}`}>{money(from)}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-white/45 font-semibold tracking-wide uppercase">
-                <span className="flex items-center gap-1.5"><BadgeCheck className="h-3.5 w-3.5 text-[#D4AF37]" /> SDD = super double drawn</span>
-                <span className="flex items-center gap-1.5"><Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" /> HD = melt-in HD lace</span>
-                <span className="flex items-center gap-1.5"><Truck className="h-3.5 w-3.5 text-[#D4AF37]" /> Free shipping R1 500+</span>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2 reveal">
-              <div className="bg-white text-black rounded-[1.75rem] p-6 md:p-7 shadow-2xl lg:sticky lg:top-24">
-                <div className="flex items-center gap-4">
-                  <img src={wigImg} alt={`Black woman modelling ${wigName}`} className="h-20 w-16 rounded-xl object-cover object-top" />
-                  <div className="min-w-0">
-                    <p className="text-[10px] tracking-[0.25em] uppercase font-bold text-[#E10600]">{wig.lace} lace</p>
-                    <h3 className="font-display text-[22px] font-semibold leading-tight mt-0.5">{wigName}</h3>
-                    <p className="text-xs text-black/50 mt-0.5">{wig.note}</p>
-                  </div>
-                </div>
-
-                <p className="text-[11px] tracking-[0.25em] uppercase font-bold text-black/45 mt-5">2 · Length & price</p>
-                <div className="mt-2 grid grid-cols-3 gap-2">
-                  {wig.lengths.map(([l, p]) => (
-                    <button key={l} onClick={() => setWigLen(l)} aria-pressed={wigLen === l} className={`rounded-xl border py-2 text-center transition ${wigLen === l ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 hover:border-black"}`}>
-                      <span className="block text-sm font-bold">{l}"</span>
-                      <span className={`block text-[11px] font-semibold ${wigLen === l ? "text-[#F1D27A]" : "text-black/50"}`}>{money(p + (wig.curlsExtra && wigCurls ? wig.curlsExtra : 0))}</span>
-                    </button>
-                  ))}
-                </div>
-
-                {wig.curlsExtra && (
-                  <div className="mt-4">
-                    <p className="text-[11px] tracking-[0.25em] uppercase font-bold text-black/45">3 · Texture</p>
-                    <div className="mt-2 grid grid-cols-2 gap-2">
-                      <button onClick={() => setWigCurls(false)} aria-pressed={!wigCurls} className={`rounded-xl border py-2.5 text-sm font-semibold transition ${!wigCurls ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 hover:border-black"}`}>Straight</button>
-                      <button onClick={() => setWigCurls(true)} aria-pressed={wigCurls} className={`rounded-xl border py-2.5 text-sm font-semibold transition ${wigCurls ? "bg-[#E10600] text-white border-[#E10600]" : "border-black/15 hover:border-black"}`}>HD Curls <span className={wigCurls ? "text-white/80" : "text-[#E10600]"}>+{money(wig.curlsExtra)}</span></button>
-                    </div>
-                  </div>
-                )}
-
-                <div className="mt-5 flex items-center justify-between gap-3">
-                  <div className="flex items-center border border-black/15 rounded-full">
-                    <button onClick={() => setWigQty(Math.max(1, wigQty - 1))} className="px-3.5 py-2.5" aria-label="Decrease quantity"><Minus className="h-4 w-4" /></button>
-                    <span className="w-7 text-center font-bold">{wigQty}</span>
-                    <button onClick={() => setWigQty(Math.min(9, wigQty + 1))} className="px-3.5 py-2.5" aria-label="Increase quantity"><Plus className="h-4 w-4" /></button>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[10px] tracking-[0.2em] uppercase text-black/40 font-bold">{wigLen}" · total</p>
-                    <p className="font-display text-3xl font-bold leading-none mt-0.5">{money(wigUnit * wigQty)}</p>
-                  </div>
-                </div>
-
-                <button onClick={addWig} className="mt-4 w-full bg-[#0A0A0A] text-white font-semibold py-3.5 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
-                  <ShoppingBag className="h-4 w-4" /> Add to Bag — {money(wigUnit * wigQty)}
-                </button>
-                <a href={wigOrderHref} target="_blank" rel="noopener noreferrer" className="mt-2 w-full bg-[#25D366] hover:bg-[#2EE070] text-[#0A0A0A] font-bold py-3.5 rounded-full transition flex items-center justify-center gap-2 text-sm">
-                  <WhatsAppIcon className="h-4 w-4" /> Order on WhatsApp
-                </a>
-                <p className="text-center text-[11px] text-black/40 mt-3 tracking-wide uppercase">Install & customization available in Gqeberha</p>
-              </div>
-            </div>
-          </div>
-
-          {/* full price list */}
-          <div className="reveal mt-14">
-            <div className="flex items-center gap-4">
-              <span className="gold-line flex-1" />
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Full price list — tap any price to configure</p>
-              <span className="gold-line flex-1" />
-            </div>
-            <div className="mt-6 grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
-              {WIGS.map(w => (
-                <div key={w.id} className={`rounded-2xl border p-5 ${w.id === wigId ? "border-[#D4AF37] bg-[#D4AF37]/[0.07]" : "border-white/12 bg-white/[0.04]"}`}>
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-display text-lg font-semibold leading-tight">{w.name}</h3>
-                    <span className="shrink-0 text-[9px] font-bold tracking-widest uppercase bg-[#D4AF37] text-black px-2 py-1 rounded-full">{w.lace}</span>
-                  </div>
-                  <p className="text-[11px] text-white/45 mt-1">{w.note}</p>
-                  {w.curlsExtra ? (
-                    <>
-                      <div className="mt-3 grid grid-cols-[1fr_auto_auto] gap-x-4 text-[10px] tracking-[0.2em] uppercase font-bold text-white/40">
-                        <span>Length</span><span className="text-right">Straight</span><span className="text-right text-[#F1D27A]">Curls</span>
-                      </div>
-                      <div className="mt-1 divide-y divide-white/8">
-                        {w.lengths.map(([l, p]) => (
-                          <div key={l} className="grid grid-cols-[1fr_auto_auto] gap-x-4 py-1.5 text-sm items-center">
-                            <span className="text-white/70 font-semibold">{l}"</span>
-                            <button onClick={() => { selectWig(w, l, true); setWigCurls(false); }} className="text-right font-semibold hover:text-[#F1D27A] transition tabular-nums">{money(p)}</button>
-                            <button onClick={() => { selectWig(w, l, true); setWigCurls(true); }} className="text-right font-semibold text-[#F1D27A] hover:text-white transition tabular-nums">{money(p + (w.curlsExtra ?? 0))}</button>
-                          </div>
-                        ))}
-                      </div>
-                      <p className="mt-2 text-[10px] text-white/40 uppercase tracking-wide">HD lace curls +{money(w.curlsExtra)}</p>
-                    </>
-                  ) : (
-                    <div className="mt-3 divide-y divide-white/8">
-                      {w.lengths.map(([l, p]) => (
-                        <button key={l} onClick={() => selectWig(w, l, true)} className="w-full flex items-center justify-between py-1.5 text-sm group/row">
-                          <span className="text-white/70 font-semibold">{l}"</span>
-                          <span className="font-semibold group-hover/row:text-[#F1D27A] transition tabular-nums">{money(p)}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -566,106 +465,145 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Our #1 bestseller: Vietnamese Hair</p>
-              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Shop the <em className="gold-text not-italic">collection</em></h2>
-              <a href="#pricelist" className="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold text-black/70 border-b-2 border-[#D4AF37] pb-0.5 hover:text-[#E10600] hover:border-[#E10600] transition">Looking for wigs, bobs & closures? See the price list from R1 800 <ArrowRight className="h-4 w-4" /></a>
+              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Real per-length pricing</p>
+              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Shop the <em className="gold-text not-italic">price list</em></h2>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
-                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search waves, wigs, closures…" className="w-full sm:w-72 rounded-full border border-black/15 pl-11 pr-4 py-3 text-sm outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30" />
+                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search wigs, bobs, closures…" className="w-full sm:w-72 rounded-full border border-black/15 pl-11 pr-4 py-3 text-sm outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30" />
               </div>
               <div className="flex flex-wrap gap-2">
-                {(["All", "Vietnamese", "Brazilian", "Remy"] as const).map(f => (
-                  <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wide border transition ${filter === f ? f === "Vietnamese" ? "bg-[#D4AF37] text-black border-[#D4AF37]" : "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 text-black/60 hover:border-black hover:text-black"}`}>{f}</button>
+                {(["All", "Wig", "Bob", "Closure"] as const).map(f => (
+                  <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wide border transition ${filter === f ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 text-black/60 hover:border-black hover:text-black"}`}>{f}{f === "All" ? " hair" : "s"}</button>
                 ))}
               </div>
             </div>
           </div>
 
           {filtered.length === 0 ? (
-            <div className="text-center py-20 text-black/50"><p className="font-display text-3xl">No matches</p><p className="text-sm mt-2">Try another texture or origin.</p></div>
+            <div className="text-center py-20 text-black/50"><p className="font-display text-3xl">No matches</p><p className="text-sm mt-2">Try another style or search term.</p></div>
           ) : (
             <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {filtered.map((p, i) => (
-                <article key={p.id} className={`reveal group bg-white rounded-[1.5rem] overflow-hidden border ${p.id === FEATURED_VIETNAMESE.id ? "border-[#D4AF37]" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500`} style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
-                  <div className="img-zoom relative h-72 overflow-hidden cursor-pointer" onClick={() => { setQuick(p); setQuickLen(p.lengths[2] ?? p.lengths[0]); setQuickQty(1); }}>
-                    <img src={p.img} alt={`Black woman modelling ${p.name}`} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                    <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${p.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : p.badge === "Limited" ? "bg-[#E10600] text-white" : p.badge === "New" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white text-black"}`}>{p.badge}</span>
-                    <button onClick={e => { e.stopPropagation(); toggleWish(p.id); }} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/90 shadow hover:scale-110 transition" aria-label="wishlist">
-                      <Heart className={`h-4 w-4 ${wish.includes(p.id) ? "fill-[#E10600] text-[#E10600]" : "text-black"}`} />
+              {filtered.map((f, i) => {
+                const selected = picks[f.id].length;
+                const selectedCurls = picks[f.id].curls;
+                return (
+                <article key={f.id} className={`reveal group bg-white rounded-[1.5rem] overflow-hidden border ${f.id === FEATURED.id ? "border-[#D4AF37]" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500`} style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
+                  <div className="img-zoom relative h-64 overflow-hidden">
+                    <img src={f.img} alt="Model with long, glossy hair" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
+                    <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : f.badge === "Top rated" ? "bg-[#E10600] text-white" : f.badge === "Popular" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white text-black"}`}>{f.badge ?? f.kind}</span>
+                    <button onClick={() => toggleWish(i)} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/90 shadow hover:scale-110 transition" aria-label="wishlist">
+                      <Heart className={`h-4 w-4 ${wish.includes(i) ? "fill-[#E10600] text-[#E10600]" : "text-black"}`} />
                     </button>
-                    <span className="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">{p.origin} · {p.type}</span>
+                    <span className="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">{f.kind} · from {money(f.rows[0].price)}</span>
                   </div>
                   <div className="p-5">
                     <div className="flex items-center justify-between">
-                      <span className="flex gap-0.5">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-3.5 w-3.5 ${s < p.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
-                      <span className="text-xs text-black/45">{p.reviews} reviews</span>
+                      <span className="flex gap-0.5">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-3.5 w-3.5 ${s < f.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
+                      <span className="text-xs text-black/45">{f.reviews} reviews</span>
                     </div>
-                    <h3 className="font-display text-[22px] font-semibold leading-tight mt-2">{p.name}</h3>
-                    <p className="text-[13px] text-black/50 mt-1">{p.desc}</p>
-                    <div className="flex items-end justify-between mt-4">
-                      <div>
-                        <span className="font-display text-2xl font-bold">{money(p.price)}</span>
-                        <span className="text-sm text-black/40 line-through ml-2">{money(p.compare)}</span>
-                        <span className="block text-[11px] font-bold text-[#E10600] uppercase tracking-wide mt-0.5">Save {money(p.compare - p.price)}</span>
+                    <h3 className="font-display text-[22px] font-semibold leading-tight mt-2">{f.name}</h3>
+                    <p className="text-[13px] text-black/50 mt-1">{f.desc}</p>
+
+                    <p className="text-[10px] tracking-[0.25em] uppercase font-bold text-black/45 mt-4">Choose your length</p>
+                    <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {f.rows.map(r => (
+                        <button key={r.length} onClick={() => chooseLength(f.id, r.length)} aria-pressed={selected === r.length} className={`rounded-xl border px-2 py-2 text-center transition ${selected === r.length ? "border-[#D4AF37] bg-[#FAF8F4]" : "border-black/10 hover:border-black/40"}`}>
+                          <span className="block text-sm font-bold leading-none">{r.length}"</span>
+                          <span className={`block text-[11px] mt-1 leading-none ${selected === r.length ? "text-[#E10600] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {f.curlsUpcharge && (
+                      <div className="mt-3 flex items-center justify-between rounded-xl border border-black/10 px-3 py-2.5">
+                        <span className="text-[13px] font-semibold">HD lace curls</span>
+                        <button onClick={() => toggleCurls(f.id)} aria-pressed={selectedCurls} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${selectedCurls ? "bg-[#E10600] text-white" : "bg-black/5 hover:bg-black/10"}`}>
+                          {selectedCurls ? `Added +${money(f.curlsUpcharge)}` : `Add +${money(f.curlsUpcharge)}`}
+                        </button>
                       </div>
-                    </div>
-                    <div className="mt-4 flex gap-2">
-                      <button onClick={() => addProduct(p)} className="flex-1 bg-[#0A0A0A] text-white text-sm font-semibold py-3 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
-                        <ShoppingBag className="h-4 w-4" /> Add to Bag
-                      </button>
-                      <button onClick={() => { setQuick(p); setQuickLen(p.lengths[2] ?? p.lengths[0]); setQuickQty(1); }} className="px-4 py-3 rounded-full border border-black/15 text-sm font-semibold hover:border-[#D4AF37] transition">View</button>
+                    )}
+
+                    <div className="mt-4 flex items-center justify-between gap-2">
+                      <span data-fab-guard className="font-display text-2xl font-bold">{money(priceFor(f, selected, selectedCurls))}</span>
+                      <div className="flex gap-2">
+                        <button onClick={() => openQuick(f)} className="px-4 py-3 rounded-full border border-black/15 text-sm font-semibold hover:border-[#D4AF37] transition">View</button>
+                        <button onClick={() => addFamily(f, selected, selectedCurls)} className="bg-[#0A0A0A] text-white text-sm font-semibold py-3 px-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
+                          <ShoppingBag className="h-4 w-4" /> Add
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
       </section>
 
-      {/* LENGTH GUIDE */}
-      <section className="bg-[#0A0A0A] text-white relative overflow-hidden">
+      {/* FULL PRICE LIST */}
+      <section id="pricelist" className="bg-[#0A0A0A] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-40" style={{ background: "linear-gradient(115deg, transparent 60%, rgba(225,6,0,0.25) 60%, rgba(225,6,0,0.25) 61%, transparent 61%), linear-gradient(115deg, transparent 72%, rgba(212,175,55,0.3) 72%, rgba(212,175,55,0.3) 73.5%, transparent 73.5%)" }} />
-        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="reveal">
-            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Length & texture guide</p>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3 leading-tight">Find your <em className="gold-text not-italic">perfect length</em></h2>
-            <p className="text-white/60 mt-4 max-w-md">Select a length and texture — we will calculate bundles and price instantly. Not sure? Book a free consultation and our stylists will match you.</p>
-            <div className="mt-8">
-              <p className="text-xs tracking-[0.25em] uppercase text-white/50 font-bold">Length — <span className="text-[#F1D27A]">{gLen} inches</span></p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {[12, 14, 16, 18, 20, 22, 24, 26, 28, 30].map(l => (
-                  <button key={l} onClick={() => setGLen(l)} className={`px-4 py-2.5 rounded-full text-sm font-semibold border transition ${gLen === l ? "bg-[#E10600] border-[#E10600] text-white" : "border-white/25 text-white/70 hover:border-[#D4AF37] hover:text-[#D4AF37]"}`}>{l}"</button>
-                ))}
-              </div>
-            </div>
-            <div className="mt-6">
-              <p className="text-xs tracking-[0.25em] uppercase text-white/50 font-bold">Texture</p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {["Body Wave", "Bone Straight", "Deep Wave", "Kinky Curly", "Natural Wave"].map(t => (
-                  <button key={t} onClick={() => setGTex(t)} className={`px-4 py-2.5 rounded-full text-sm font-semibold border transition ${gTex === t ? "bg-[#D4AF37] border-[#D4AF37] text-black" : "border-white/25 text-white/70 hover:border-white hover:text-white"}`}>{t}</button>
-                ))}
-              </div>
-            </div>
+        <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
+          <div className="reveal text-center max-w-2xl mx-auto">
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Full price list</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Every style, every <em className="gold-text not-italic">length</em></h2>
+            <p className="text-white/60 mt-4">Tap a length to select it, then add it to your bag. All prices in ZAR. HD lace curls are +R500 on 13×4 HD DD straight wigs.</p>
           </div>
-          <div className="reveal bg-white text-black rounded-[2rem] p-8 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-black/45">Your custom bundle</p>
-              <span className="bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">Recommended</span>
-            </div>
-            <p className="font-display text-4xl font-semibold mt-4">{gLen}" {gTex}</p>
-            <div className="mt-6 space-y-3 text-sm">
-              <div className="flex justify-between border-b border-black/10 pb-3"><span className="text-black/55">Bundles needed</span><span className="font-bold">{guidePrice.bundles} bundles · full coverage</span></div>
-              <div className="flex justify-between border-b border-black/10 pb-3"><span className="text-black/55">Per bundle</span><span className="font-bold">{money(guidePrice.base)}</span></div>
-              <div className="flex justify-between border-b border-black/10 pb-3"><span className="text-black/55">Closure add-on</span><span className="font-bold">+R599 (optional)</span></div>
-              <div className="flex justify-between items-center pt-2"><span className="font-semibold">Total estimate</span><span className="font-display text-4xl font-bold">{money(guidePrice.total)}</span></div>
-            </div>
-            <button onClick={() => { addCart(900 + gLen, `${gLen}" ${gTex} Bundle Set`, guidePrice.total, PRODUCTS[0].img, `Custom · ${guidePrice.bundles} bundles`); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
-              <ShoppingBag className="h-5 w-5" /> Add Custom Set — {money(guidePrice.total)}
-            </button>
-            <p className="text-center text-xs text-black/45 mt-3">Free shipping · 30-day exchange · Install available in-salon</p>
+
+          <div className="mt-12 grid md:grid-cols-2 gap-5">
+            {FAMILIES.map(f => (
+              <div key={f.id} className={`reveal rounded-[1.75rem] p-6 md:p-7 border ${f.id === FEATURED.id ? "border-[#D4AF37] bg-white/[0.06]" : "border-white/15 bg-white/[0.03]"}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-display text-2xl font-semibold leading-tight">{f.name}</h3>
+                    <p className="text-[11px] tracking-[0.25em] uppercase text-white/45 mt-1">{f.kind}</p>
+                  </div>
+                  {f.badge && <span className={`shrink-0 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : "bg-[#E10600] text-white"}`}>{f.badge}</span>}
+                </div>
+                <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {f.rows.map(r => {
+                    const active = picks[f.id].length === r.length;
+                    return (
+                      <button
+                        key={r.length}
+                        onClick={() => chooseLength(f.id, r.length)}
+                        aria-pressed={active}
+                        className={`flex items-center justify-between rounded-xl border px-3 py-2.5 transition ${active ? "border-[#D4AF37] bg-white/10" : "border-white/15 hover:border-white/50"}`}
+                      >
+                        <span className="text-sm font-bold">{r.length}"</span>
+                        <span className={`text-sm font-semibold ${active ? "text-[#F1D27A]" : "text-white/70"}`}>{money(r.price)}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {f.curlsUpcharge && (
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <p className="text-xs text-white/55">HD lace curls — +{money(f.curlsUpcharge)}</p>
+                    <button onClick={() => toggleCurls(f.id)} aria-pressed={picks[f.id].curls} className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${picks[f.id].curls ? "bg-[#E10600] text-white" : "bg-white/10 text-white hover:bg-white/20"}`}>
+                      {picks[f.id].curls ? "Curls added" : "Add curls"}
+                    </button>
+                  </div>
+                )}
+                <div className="mt-4 pt-4 border-t border-white/15 flex items-end justify-between gap-3">
+                  <div>
+                    <span className="block text-[10px] tracking-[0.25em] uppercase text-white/45">Selected · {picks[f.id].length}"{picks[f.id].curls ? " · curls" : ""}</span>
+                    <span data-fab-guard className="font-display text-2xl font-bold gold-text">{money(priceFor(f, picks[f.id].length, picks[f.id].curls))}</span>
+                  </div>
+                  <button onClick={() => addFamily(f, picks[f.id].length, picks[f.id].curls)} className="shrink-0 bg-white text-black text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#D4AF37] transition flex items-center gap-2">
+                    <ShoppingBag className="h-4 w-4" /> Add to bag
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="reveal mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-white/60">
+            <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-[#D4AF37]" /> Free shipping over R1 500</span>
+            <span className="flex items-center gap-2"><RefreshCcw className="h-4 w-4 text-[#D4AF37]" /> 30-day exchange</span>
+            <span className="flex items-center gap-2"><Scissors className="h-4 w-4 text-[#D4AF37]" /> Install available in-salon</span>
           </div>
         </div>
       </section>
@@ -748,8 +686,13 @@ export default function App() {
                     <input value={bk.name} onChange={e => setBk({ ...bk, name: e.target.value })} placeholder="Your name" className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D4AF37]" />
                     <input value={bk.phone} onChange={e => setBk({ ...bk, phone: e.target.value })} placeholder="Phone number (e.g. 082 123 4567)" className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D4AF37]" />
                     <div className="relative">
-                      <select value={bk.service} onChange={e => setBk({ ...bk, service: e.target.value })} className="w-full appearance-none rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D4AF37] [&>option]:text-black">
-                        {SERVICES.map(s => <option key={s.id}>{s.name} — {money(s.price)}</option>)}
+                      <select value={bk.service} onChange={e => setBk({ ...bk, service: e.target.value })} className="w-full appearance-none rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D4AF37] [&_option]:text-black [&_optgroup]:text-black [&_optgroup]:font-bold">
+                        <optgroup label="Salon services">
+                          {SERVICES.map(s => <option key={s.id} value={s.name}>{s.name} — {money(s.price)}</option>)}
+                        </optgroup>
+                        <optgroup label="Wig care & studio">
+                          {CARE_SERVICES.map(s => <option key={s.id} value={s.name}>{s.name} — {s.from ? "from " : ""}{money(s.price)}</option>)}
+                        </optgroup>
                       </select>
                       <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50 pointer-events-none" />
                     </div>
@@ -795,7 +738,7 @@ export default function App() {
             </div>
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
               <img src={IMAGES.glamLace} alt="Black woman wearing a full, glamorous lace-front hairstyle" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-              <a href="#pricelist" className="absolute bottom-4 left-4 bg-[#0A0A0A] text-[#F1D27A] text-xs font-bold px-3 py-1.5 rounded-full hover:bg-[#E10600] hover:text-white transition">Wig bar — see the full price list →</a>
+              <span className="absolute bottom-4 left-4 bg-[#0A0A0A] text-[#F1D27A] text-xs font-bold px-3 py-1.5 rounded-full">Wig bar — try before you buy</span>
             </div>
           </div>
         </div>
@@ -804,40 +747,89 @@ export default function App() {
       {/* CARE / MAINTENANCE */}
       <section id="care" className="bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
-          <div className="reveal flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Maintenance & care</p>
-              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Keep it <em className="gold-text not-italic">flawless</em></h2>
-            </div>
-            <p className="text-black/55 max-w-sm text-sm leading-relaxed">Good hair is maintained hair. Shop the care kit or book an in-salon maintenance visit to keep every strand silky and tangle-free.</p>
-          </div>
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-4">
+              <div className="lg:sticky lg:top-28 reveal">
+                <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Maintenance & care</p>
+                <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3 leading-[1.05]">Keep it <em className="gold-text not-italic">flawless</em></h2>
+                <p className="text-black/55 text-sm leading-relaxed mt-4 max-w-sm">
+                  Eight studio services that keep every unit looking new — from a quick treatment to a full installation masterclass. Bring your own hair or buy it from us.
+                </p>
 
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {CARE.map((c, i) => (
-              <article key={c.id} className="reveal group border border-black/10 rounded-3xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all" style={{ transitionDelay: `${i * 50}ms` }}>
-                <div className="img-zoom h-52 overflow-hidden relative">
-                  <img src={c.img} alt={c.imgAlt} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                  <span className="absolute top-3 left-3 bg-white text-black text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full">{c.tag}</span>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-display text-xl font-semibold">{c.name}</h3>
-                  <p className="text-[13px] text-black/50 mt-1">{c.desc}</p>
-                  <div className="flex items-center justify-between mt-4">
-                    <span className="font-display text-xl font-bold">{money(c.price)}</span>
-                    <button onClick={() => addCart(c.id, c.name, c.price, c.img, "Care", 1)} className="bg-[#0A0A0A] text-white text-sm font-semibold px-4 py-2.5 rounded-full hover:bg-[#E10600] transition">Add</button>
+                <div className="img-zoom relative mt-7 rounded-[1.75rem] overflow-hidden border border-black/10 shadow-xl shadow-black/10 hidden sm:block">
+                  <img src={IMAGES.care} alt="Black woman caring for her long wavy hair in the studio" loading="lazy" decoding="async" className="w-full h-72 object-cover object-top" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+                    <div className="text-white">
+                      <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">Studio care menu</p>
+                      <p className="font-display text-xl mt-1">Gqeberha · by appointment</p>
+                    </div>
+                    <span className="shrink-0 h-9 w-9 grid place-items-center rounded-full bg-[#D4AF37] text-black"><Crown className="h-4 w-4" /></span>
                   </div>
                 </div>
-              </article>
-            ))}
+
+                <a
+                  href="https://wa.me/27671550084"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#128C4A] hover:text-[#0d6b38] transition"
+                >
+                  <WhatsAppIcon className="h-4 w-4 shrink-0" />
+                  Not sure what you need? WhatsApp us
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-8 grid sm:grid-cols-2 gap-4">
+              {CARE_SERVICES.map((s, i) => {
+                const feature = s.tag === "Training";
+                return (
+                  <article
+                    key={s.id}
+                    className={`reveal group relative overflow-hidden rounded-3xl p-6 border transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${feature ? "bg-[#0A0A0A] text-white border-[#D4AF37] shadow-lg shadow-black/20" : "bg-[#FAF8F4] border-black/10 hover:border-[#D4AF37]"}`}
+                    style={{ transitionDelay: `${(i % 2) * 60}ms` }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <span className={`h-11 w-11 shrink-0 grid place-items-center rounded-2xl transition-colors ${feature ? "bg-[#D4AF37] text-black" : "bg-[#0A0A0A] text-[#F1D27A] group-hover:bg-[#E10600] group-hover:text-white"}`}>
+                        <s.icon className="h-5 w-5" />
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {s.tag && (
+                          <span className={`text-[9px] font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-full ${feature ? "bg-[#E10600] text-white" : "bg-white text-black border border-black/10"}`}>{s.tag}</span>
+                        )}
+                        <span className={`font-display text-lg ${feature ? "text-white/25" : "text-black/15"}`}>{String(i + 1).padStart(2, "0")}</span>
+                      </div>
+                    </div>
+
+                    <h3 className="font-display text-[22px] font-semibold leading-tight mt-4">{s.name}</h3>
+                    <p className={`text-[13px] leading-relaxed mt-1.5 ${feature ? "text-white/60" : "text-black/55"}`}>{s.desc}</p>
+
+                    <div className={`mt-5 pt-4 flex items-end justify-between gap-3 border-t ${feature ? "border-white/15" : "border-black/10"}`}>
+                      <div>
+                        <span className={`block text-[10px] tracking-[0.25em] uppercase ${feature ? "text-white/45" : "text-black/40"}`}>{s.from ? "From" : "Flat rate"}</span>
+                        <span data-fab-guard className={`font-display text-2xl font-bold ${feature ? "gold-text" : ""}`}>{money(s.price)}</span>
+                      </div>
+                      <button
+                        onClick={() => bookService(s.name)}
+                        className={`text-sm font-semibold px-5 py-2.5 rounded-full transition ${feature ? "bg-[#D4AF37] text-black hover:bg-[#F1D27A]" : "bg-[#0A0A0A] text-white hover:bg-[#E10600]"}`}
+                      >
+                        Book
+                      </button>
+                    </div>
+                    <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 bg-gradient-to-r from-[#E10600] to-[#D4AF37]" />
+                  </article>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="reveal mt-8 bg-[#FAF8F4] border border-black/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
+          <div className="reveal mt-10 bg-[#FAF8F4] border border-black/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
             <span className="h-14 w-14 shrink-0 grid place-items-center rounded-2xl bg-[#E10600] text-white"><Droplets className="h-7 w-7" /></span>
             <div className="flex-1 text-center md:text-left">
               <h3 className="font-display text-2xl font-semibold">The 5-minute weekly routine</h3>
-              <p className="text-sm text-black/55 mt-1">Co-wash on day 1 · Deep condition day 3 · Detangle + serum day 5 · Satin bonnet every night. Follow this and NMK hair lasts 12+ months.</p>
+              <p className="text-sm text-black/55 mt-1">Co-wash on day 1 · Deep condition day 3 · Detangle and seal day 5 · Satin bonnet every night. Follow this and NMK hair lasts 12+ months.</p>
             </div>
-            <a href="#services" className="shrink-0 bg-[#0A0A0A] text-white px-6 py-3.5 rounded-full text-sm font-semibold hover:bg-[#E10600] transition">Book a maintenance visit</a>
+            <button onClick={() => bookService("Wig Treatment")} className="shrink-0 bg-[#0A0A0A] text-white px-6 py-3.5 rounded-full text-sm font-semibold hover:bg-[#E10600] transition">Book a wig treatment</button>
           </div>
         </div>
       </section>
@@ -921,13 +913,12 @@ export default function App() {
           <div>
             <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] font-bold">Shop</p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/60">
-              {(["Vietnamese", "Brazilian", "Remy"] as const).map(origin => (
-                <li key={origin}>
-                  <a href="#shop" onClick={() => { setQuery(""); setFilter(origin); }} className="hover:text-[#D4AF37] transition">{origin} Hair</a>
+              {(["Wig", "Bob", "Closure"] as const).map(kind => (
+                <li key={kind}>
+                  <a href="#shop" onClick={() => { setQuery(""); setFilter(kind); }} className="hover:text-[#D4AF37] transition">{kind}s</a>
                 </li>
               ))}
-              <li><a href="#shop" onClick={() => { setFilter("All"); setQuery(""); }} className="hover:text-[#D4AF37] transition">All Hair</a></li>
-              <li><a href="#pricelist" className="hover:text-[#D4AF37] transition">Wigs & Closures — Price List</a></li>
+              <li><a href="#pricelist" className="hover:text-[#D4AF37] transition">Full price list</a></li>
               <li><a href="#care" className="hover:text-[#D4AF37] transition">Care & Maintenance</a></li>
             </ul>
           </div>
@@ -963,34 +954,47 @@ export default function App() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setQuick(null)} />
           <div className="relative bg-white rounded-[2rem] w-full max-w-3xl overflow-hidden shadow-2xl grid md:grid-cols-2 max-h-[90vh]">
             <div className="relative h-64 md:h-auto">
-              <img src={quick.img} alt={`Black woman modelling ${quick.name}`} className="absolute inset-0 w-full h-full object-cover object-top" />
-              <span className="absolute top-4 left-4 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.badge}</span>
+              <img src={quick.f.img} alt="Model with long, glossy hair" className="absolute inset-0 w-full h-full object-cover object-top" />
+              <span className="absolute top-4 left-4 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.f.badge ?? quick.f.kind}</span>
             </div>
             <div className="p-7 overflow-y-auto">
               <button onClick={() => setQuick(null)} className="absolute top-4 right-4 h-10 w-10 grid place-items-center rounded-full bg-white shadow hover:rotate-90 transition"><X className="h-5 w-5" /></button>
-              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-[#E10600]">{quick.origin} · {quick.type}</p>
-              <h3 className="font-display text-3xl font-semibold mt-2 leading-tight">{quick.name}</h3>
+              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-[#E10600]">{quick.f.kind} · 100% human hair</p>
+              <h3 className="font-display text-3xl font-semibold mt-2 leading-tight">{quick.f.name}</h3>
               <div className="flex items-center gap-2 mt-2">
-                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < quick.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
-                <span className="text-sm text-black/50">{quick.reviews} verified reviews</span>
+                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < quick.f.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
+                <span className="text-sm text-black/50">{quick.f.reviews} verified reviews</span>
               </div>
-              <p className="text-sm text-black/55 leading-relaxed mt-3">{quick.desc}. 100% human hair, double-drawn, tangle-free and dye-friendly. Ships in 48 hours with a free satin pouch.</p>
-              <p className="text-xs tracking-[0.25em] uppercase font-bold text-black/45 mt-6">Length — <span className="text-[#E10600]">{quickLen}"</span></p>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {quick.lengths.map(l => (
-                  <button key={l} onClick={() => setQuickLen(l)} className={`px-4 py-2 rounded-full text-sm font-semibold border transition ${quickLen === l ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 hover:border-black"}`}>{l}"</button>
+              <p className="text-sm text-black/55 leading-relaxed mt-3">{quick.f.desc}. Ships in 48 hours with a free satin pouch.</p>
+
+              <p className="text-xs tracking-[0.25em] uppercase font-bold text-black/45 mt-6">Length — <span className="text-[#E10600]">{quick.length}"</span></p>
+              <div className="mt-2 grid grid-cols-3 gap-1.5">
+                {quick.f.rows.map(r => (
+                  <button key={r.length} onClick={() => setQuick(q => q && { ...q, length: r.length })} className={`rounded-xl border px-2 py-2 text-center transition ${quick.length === r.length ? "border-[#D4AF37] bg-[#FAF8F4]" : "border-black/10 hover:border-black/40"}`}>
+                    <span className="block text-sm font-bold leading-none">{r.length}"</span>
+                    <span className={`block text-[11px] mt-1 leading-none ${quick.length === r.length ? "text-[#E10600] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
+                  </button>
                 ))}
               </div>
+
+              {quick.f.curlsUpcharge && (
+                <div className="mt-3 flex items-center justify-between rounded-xl border border-black/10 px-3 py-2.5">
+                  <span className="text-[13px] font-semibold">HD lace curls</span>
+                  <button onClick={() => setQuick(q => q && { ...q, curls: !q.curls })} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${quick.curls ? "bg-[#E10600] text-white" : "bg-black/5 hover:bg-black/10"}`}>
+                    {quick.curls ? `Added +${money(quick.f.curlsUpcharge)}` : `Add +${money(quick.f.curlsUpcharge)}`}
+                  </button>
+                </div>
+              )}
+
               <div className="flex items-center gap-4 mt-6">
                 <div className="flex items-center border border-black/15 rounded-full">
-                  <button onClick={() => setQuickQty(Math.max(1, quickQty - 1))} className="px-4 py-3"><Minus className="h-4 w-4" /></button>
-                  <span className="w-8 text-center font-bold">{quickQty}</span>
-                  <button onClick={() => setQuickQty(Math.min(9, quickQty + 1))} className="px-4 py-3"><Plus className="h-4 w-4" /></button>
+                  <button onClick={() => setQuick(q => q && { ...q, qty: Math.max(1, q.qty - 1) })} className="px-4 py-3"><Minus className="h-4 w-4" /></button>
+                  <span className="w-8 text-center font-bold">{quick.qty}</span>
+                  <button onClick={() => setQuick(q => q && { ...q, qty: Math.min(9, q.qty + 1) })} className="px-4 py-3"><Plus className="h-4 w-4" /></button>
                 </div>
-                <p className="font-display text-3xl font-bold">{money((quick.price + (quickLen > 20 ? 500 : quickLen > 16 ? 250 : 0)) * quickQty)}</p>
-                <span className="text-sm text-black/40 line-through">{money(quick.compare * quickQty)}</span>
+                <p className="font-display text-3xl font-bold">{money(priceFor(quick.f, quick.length, quick.curls) * quick.qty)}</p>
               </div>
-              <button onClick={() => { addProduct(quick, quickLen, quickQty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
+              <button onClick={() => { addFamily(quick.f, quick.length, quick.curls, quick.qty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
                 <ShoppingBag className="h-5 w-5" /> Add to Bag
               </button>
               <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[11px] font-semibold text-black/55">
