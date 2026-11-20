@@ -12,7 +12,7 @@ export default function Logo({ className = "h-12 w-12" }: { className?: string }
       aria-label="N · M · K Hair — Your look, our priority"
     >
       <img
-        src="/images/nmk-logo.png"
+        src="/images/nmk-logo.jpeg"
         alt="N · M · K Hair logo"
         className="h-full w-full object-cover"
         draggable={false}
