@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Logo from "./components/Logo";
 import {
   ShoppingBag, Heart, X, Plus, Minus, Trash2, ArrowRight,
   Menu, Star, Check, Search, Sparkles, ShieldCheck, Truck, RefreshCcw,
@@ -310,14 +311,11 @@ export default function App() {
       {/* nav */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8 h-[72px] flex items-center justify-between gap-2 sm:gap-4">
-          <a href="#top" className="flex items-center gap-2.5 min-w-0">
-            <span className="h-10 w-10 shrink-0 grid place-items-center bg-[#0A0A0A] text-white rounded-full relative overflow-hidden">
-              <span className="font-display font-bold text-lg leading-none">N</span>
-              <span className="absolute bottom-1.5 h-[3px] w-5 bg-gradient-to-r from-[#E10600] to-[#D4AF37] rounded-full" />
-            </span>
+          <a href="#top" className="flex items-center gap-3 min-w-0" aria-label="NMKHair — home">
+            <Logo className="h-12 w-12 sm:h-14 sm:w-14" />
             <span className="leading-none min-w-0">
-              <span className="block font-display font-bold text-[22px] tracking-tight">NMK<span className="gold-text">Hair</span></span>
-              <span className="hidden sm:block text-[9px] tracking-[0.35em] uppercase text-black/50 mt-0.5 truncate">Brazilian · Remy · Vietnamese</span>
+              <span className="block text-[10px] tracking-[0.35em] uppercase text-black/50 truncate">Brazilian · Remy · Vietnamese</span>
+              <span className="block text-[10px] tracking-[0.35em] uppercase text-[#E10600] mt-1 truncate">Your look, our priority</span>
             </span>
           </a>
           <nav className="hidden lg:flex items-center gap-7 text-[13px] font-medium tracking-wide text-black/70">
@@ -670,8 +668,12 @@ export default function App() {
             <div id="booking" className="lg:col-span-2 reveal">
               <div className="bg-[#0A0A0A] text-white rounded-[2rem] p-7 md:p-8 shadow-2xl sticky top-24">
                 <div className="flex items-center gap-3">
-                  <span className="h-11 w-11 grid place-items-center rounded-full bg-[#E10600]"><Calendar className="h-5 w-5" /></span>
-                  <div><h3 className="font-display text-2xl font-semibold">Book appointment</h3><p className="text-xs text-white/50">NMK Studio · Gqeberha</p></div>
+                  <Logo className="h-12 w-12" />
+                  <div>
+                    <h3 className="font-display text-2xl font-semibold">Book appointment</h3>
+                    <p className="text-xs text-white/50">NMK Studio · Gqeberha</p>
+                  </div>
+                  <span className="ml-auto h-10 w-10 grid place-items-center rounded-full bg-[#E10600] shrink-0"><Calendar className="h-5 w-5" /></span>
                 </div>
                 {booked ? (
                   <div className="mt-8 text-center py-8">
@@ -764,7 +766,7 @@ export default function App() {
                       <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">Studio care menu</p>
                       <p className="font-display text-xl mt-1">Gqeberha · by appointment</p>
                     </div>
-                    <span className="shrink-0 h-9 w-9 grid place-items-center rounded-full bg-[#D4AF37] text-black"><Crown className="h-4 w-4" /></span>
+                    <Logo className="h-12 w-12" />
                   </div>
                 </div>
 
@@ -883,8 +885,8 @@ export default function App() {
       {/* NEWSLETTER */}
       <section className="bg-[#FAF8F4] border-t border-black/10 streaks-soft">
         <div className="max-w-4xl mx-auto px-5 py-20 text-center">
-          <span className="inline-grid place-items-center h-14 w-14 rounded-full bg-[#0A0A0A] text-[#F1D27A]"><Crown className="h-7 w-7" /></span>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold mt-5">Join the <em className="gold-text not-italic">NMK list</em></h2>
+          <Logo className="h-28 w-28 mx-auto" />
+          <h2 className="font-display text-4xl md:text-5xl font-semibold mt-6">Join the <em className="gold-text not-italic">NMK list</em></h2>
           <p className="text-black/55 mt-3 max-w-md mx-auto">Get 10% off your first order, early access to limited drops and salon offers. One email a week — no spam, ever.</p>
           {subscribed ? (
             <div className="mt-8 inline-flex items-center gap-3 bg-[#0A0A0A] text-white px-7 py-4 rounded-full font-semibold"><Check className="h-5 w-5 text-[#D4AF37]" /> You're in! Check your inbox for 10% off.</div>
@@ -901,8 +903,8 @@ export default function App() {
       <footer className="bg-[#0A0A0A] text-white">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 grid md:grid-cols-4 gap-10">
           <div className="md:col-span-2">
-            <p className="font-display font-bold text-3xl">NMK<span className="gold-text">Hair</span></p>
-            <p className="text-white/50 text-sm leading-relaxed mt-4 max-w-sm">Premium Brazilian, Remy and Vietnamese hair with full salon services. Ethically sourced, hand-checked, and guaranteed for 30 days.</p>
+            <Logo className="h-24 w-24" />
+            <p className="text-white/50 text-sm leading-relaxed mt-5 max-w-sm">Premium Brazilian, Remy and Vietnamese hair with full salon services. Ethically sourced, hand-checked, and guaranteed for 30 days.</p>
             <div className="flex gap-2 mt-6">
               <span className="h-8 w-8 rounded-full bg-white border border-white/20" title="White" />
               <span className="h-8 w-8 rounded-full bg-black border border-white/30" title="Black" />
