@@ -303,11 +303,6 @@ export default function App() {
         </button>
       </div>
 
-      {/* announcement */}
-      <div className="bg-[#0A0A0A] text-white text-center text-[11px] tracking-[0.22em] uppercase py-2.5 px-4">
-        Vietnamese hair: our #1 bestseller <span className="text-[#D4AF37] mx-2">◆</span> Free shipping over R1 500 <span className="text-[#E10600] mx-2">◆</span> 30-day exchange
-      </div>
-
       {/* nav */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8 h-[72px] flex items-center justify-between gap-2 sm:gap-4">
@@ -417,7 +412,7 @@ export default function App() {
         <div className="flex whitespace-nowrap animate-marquee w-max">
           {[0, 1].map(k => (
             <span key={k} className="flex items-center gap-7 pr-7 text-[13px] font-bold tracking-[0.25em] uppercase">
-              {["Vietnamese Hair · #1 Bestseller", "Brazilian Hair", "Remy Hair", "100% Human Hair", "Free Shipping R1 500+", "Salon Services", "Vietnamese Hair · #1 Bestseller", "Brazilian Hair", "Remy Hair", "100% Human Hair"].map((w, i) => (
+              {["Vietnamese Hair · #1 Bestseller", "Brazilian Hair", "Remy Hair", "100% Human Hair", "Salon Services", "Vietnamese Hair · #1 Bestseller", "Brazilian Hair", "Remy Hair", "100% Human Hair", "Wig Care & Training"].map((w, i) => (
                 <span key={i} className="flex items-center gap-7">
                   <span className={i % 3 === 0 ? "text-[#D4AF37]" : i % 3 === 1 ? "text-[#E10600]" : ""}>{w}</span>
                   <span className="h-1.5 w-1.5 rotate-45 bg-[#D4AF37]" />
@@ -599,7 +594,6 @@ export default function App() {
           </div>
 
           <div className="reveal mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-white/60">
-            <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-[#D4AF37]" /> Free shipping over R1 500</span>
             <span className="flex items-center gap-2"><RefreshCcw className="h-4 w-4 text-[#D4AF37]" /> 30-day exchange</span>
             <span className="flex items-center gap-2"><Scissors className="h-4 w-4 text-[#D4AF37]" /> Install available in-salon</span>
           </div>
@@ -999,8 +993,7 @@ export default function App() {
               <button onClick={() => { addFamily(quick.f, quick.length, quick.curls, quick.qty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
                 <ShoppingBag className="h-5 w-5" /> Add to Bag
               </button>
-              <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[11px] font-semibold text-black/55">
-                <span className="border border-black/10 rounded-xl py-2.5">Free shipping R1 500+</span>
+              <div className="mt-4 grid grid-cols-2 gap-2 text-center text-[11px] font-semibold text-black/55">
                 <span className="border border-black/10 rounded-xl py-2.5">30-day exchange</span>
                 <span className="border border-black/10 rounded-xl py-2.5">Install available</span>
               </div>
@@ -1058,9 +1051,8 @@ export default function App() {
                   ))}
                 </div>
                 <div className="p-6 border-t border-black/10 space-y-3 bg-[#FAF8F4]">
-                  <div className="flex justify-between text-sm text-black/55"><span>Shipping</span><span className="font-bold text-black">{subtotal >= 1500 ? "Free" : money(99)}</span></div>
-                  <div className="flex justify-between font-display text-2xl"><span>Subtotal</span><span className="font-bold">{money(subtotal + (subtotal >= 1500 ? 0 : 99))}</span></div>
-                  <button onClick={() => { setCheckoutDone(true); setCart([]); setTimeout(() => { setCheckoutDone(false); setCartOpen(false); }, 3200); }} className="w-full bg-[#E10600] hover:bg-[#B80000] text-white py-4 rounded-full font-semibold transition">Checkout — {money(subtotal + (subtotal >= 1500 ? 0 : 99))}</button>
+                  <div className="flex justify-between font-display text-2xl"><span>Subtotal</span><span className="font-bold">{money(subtotal)}</span></div>
+                  <button onClick={() => { setCheckoutDone(true); setCart([]); setTimeout(() => { setCheckoutDone(false); setCartOpen(false); }, 3200); }} className="w-full bg-[#E10600] hover:bg-[#B80000] text-white py-4 rounded-full font-semibold transition">Checkout — {money(subtotal)}</button>
                   <p className="text-center text-[11px] text-black/40 tracking-widest uppercase">30-day exchange · Secure checkout</p>
                 </div>
               </>
