@@ -278,11 +278,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#0A0A0A] font-sans antialiased">
-      <div className="fixed top-0 left-0 h-[3px] z-[80] bg-gradient-to-r from-[#E10600] via-[#D4AF37] to-[#0A0A0A] transition-all" style={{ width: progress + "%" }} />
+    <div className="min-h-screen bg-white text-[#141414] font-sans antialiased">
+      <div className="fixed top-0 left-0 h-[3px] z-[80] bg-gradient-to-r from-[#0A0A0A] via-[#7A0000] to-[#D90404] transition-all" style={{ width: progress + "%" }} />
       {toast && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[90] flex items-center gap-3 bg-[#0A0A0A] text-white px-5 py-3 rounded-full shadow-2xl text-sm font-medium border border-[#D4AF37]/60 max-w-[calc(100vw-2rem)]">
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[#E10600]" /> {toast}
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[90] flex items-center gap-3 bg-[#0A0A0A] text-white px-5 py-3 rounded-full shadow-2xl text-sm font-medium border border-[#D90404]/50 max-w-[calc(100vw-2rem)]">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-[#D90404]" /> {toast}
         </div>
       )}
 
@@ -306,53 +306,54 @@ export default function App() {
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
-          className="group relative grid place-items-center h-14 w-14 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:ring-offset-2"
+          className="group relative grid place-items-center h-14 w-14 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D90404] focus-visible:ring-offset-2"
         >
           <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 56 56" aria-hidden="true">
             <defs>
               <linearGradient id="nmkTopRing" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#E10600" />
-                <stop offset="100%" stopColor="#D4AF37" />
+                <stop offset="0%" stopColor="#0A0A0A" />
+                <stop offset="50%" stopColor="#7A0000" />
+                <stop offset="100%" stopColor="#D90404" />
               </linearGradient>
             </defs>
-            <circle cx="28" cy="28" r="25" fill="none" stroke="rgba(212,175,55,0.3)" strokeWidth="2.5" />
+            <circle cx="28" cy="28" r="25" fill="none" stroke="rgba(217,4,4,0.22)" strokeWidth="2.5" />
             <circle cx="28" cy="28" r="25" fill="none" stroke="url(#nmkTopRing)" strokeWidth="2.5" strokeLinecap="round" strokeDasharray={2 * Math.PI * 25} strokeDashoffset={2 * Math.PI * 25 * (1 - progress / 100)} className="transition-[stroke-dashoffset] duration-150 ease-linear" />
           </svg>
-          <span className="grid place-items-center h-11 w-11 rounded-full bg-[#0A0A0A] text-[#F1D27A] shadow-xl shadow-black/25 border border-[#D4AF37]/40 transition-all duration-300 group-hover:bg-[#E10600] group-hover:text-white group-hover:border-[#E10600] group-hover:-translate-y-0.5 group-active:translate-y-0 group-active:scale-95">
+          <span className="grid place-items-center h-11 w-11 rounded-full bg-[#0A0A0A] text-white shadow-xl shadow-black/25 border border-white/15 transition-all duration-300 group-hover:bg-[#D90404] group-hover:text-white group-hover:border-[#D90404] group-hover:-translate-y-0.5 group-active:translate-y-0 group-active:scale-95">
             <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5" />
           </span>
-          <span className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#0A0A0A] text-white text-xs font-semibold px-3.5 py-2 opacity-0 translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 hidden md:block border border-[#D4AF37]/40">
+          <span className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#0A0A0A] text-white text-xs font-semibold px-3.5 py-2 opacity-0 translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 hidden md:block border border-[#D90404]/50">
             Back to top
           </span>
         </button>
       </div>
 
       {/* nav */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/10">
+      <header className="sticky top-0 z-50 frosted-band border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-8 h-[72px] flex items-center justify-between gap-2 sm:gap-4">
           <a href="#top" className="flex items-center gap-3 min-w-0" aria-label="NMKHair — home">
             <Logo className="h-12 w-12 sm:h-14 sm:w-14" />
             <span className="leading-none min-w-0">
-              <span className="block text-[10px] tracking-[0.35em] uppercase text-black/50 truncate">Brazilian · Remy · Vietnamese</span>
-              <span className="block text-[10px] tracking-[0.35em] uppercase text-[#E10600] mt-1 truncate">Your look, our priority</span>
+              <span className="block font-display text-sm sm:text-base tracking-[0.22em] uppercase text-[#1C1C1C] font-semibold truncate">N · M · K Hair</span>
+              <span className="block text-[9px] tracking-[0.3em] uppercase text-[#D90404] mt-1 font-medium truncate">Your look, our priority</span>
             </span>
           </a>
-          <nav className="hidden lg:flex items-center gap-7 text-[13px] font-medium tracking-wide text-black/70">
-            <a href="#shop" className="hover:text-[#E10600] transition">Shop Hair</a>
-            <a href="#origins" className="hover:text-[#E10600] transition">Hair Types</a>
-            <a href="#services" className="hover:text-[#E10600] transition">Services</a>
-            <a href="#care" className="hover:text-[#E10600] transition">Maintenance</a>
-            <a href="#reviews" className="hover:text-[#E10600] transition">Reviews</a>
+          <nav className="hidden lg:flex items-center gap-7 text-[13px] font-medium tracking-wide text-[#1C1C1C]/75">
+            <a href="#shop" className="hover:text-[#D90404] transition">Shop Hair</a>
+            <a href="#origins" className="hover:text-[#D90404] transition">Hair Types</a>
+            <a href="#services" className="hover:text-[#D90404] transition">Services</a>
+            <a href="#care" className="hover:text-[#D90404] transition">Maintenance</a>
+            <a href="#reviews" className="hover:text-[#D90404] transition">Reviews</a>
           </nav>
           <div className="flex items-center gap-1.5 shrink-0">
             <a href="#shop" className="hidden md:grid h-10 w-10 place-items-center rounded-full hover:bg-black/5 transition" aria-label="Search"><Search className="h-5 w-5" /></a>
             <button onClick={() => showToast(wish.length ? `${wish.length} item(s) in wishlist` : "Tap a heart to save a style")} className="relative hidden md:grid h-10 w-10 place-items-center rounded-full hover:bg-black/5 transition" aria-label="Wishlist">
-              <Heart className={`h-5 w-5 ${wish.length ? "fill-[#E10600] text-[#E10600]" : ""}`} />
-              {wish.length > 0 && <span className="absolute top-1 right-1 h-4 w-4 grid place-items-center rounded-full bg-[#E10600] text-white text-[10px] font-bold">{wish.length}</span>}
+              <Heart className={`h-5 w-5 ${wish.length ? "fill-[#D90404] text-[#D90404]" : ""}`} />
+              {wish.length > 0 && <span className="absolute top-1 right-1 h-4 w-4 grid place-items-center rounded-full bg-[#D90404] text-white text-[10px] font-bold">{wish.length}</span>}
             </button>
-            <button onClick={() => setCartOpen(true)} className="relative flex items-center gap-2 bg-[#0A0A0A] text-white pl-4 pr-5 py-2.5 rounded-full text-sm font-semibold hover:bg-black transition">
+            <button onClick={() => setCartOpen(true)} className="relative flex items-center gap-2 bg-[#0A0A0A] text-white pl-4 pr-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#D90404] transition">
               <ShoppingBag className="h-4 w-4" /> Bag
-              {cartCount > 0 && <span className="absolute -top-1.5 -right-1.5 h-5 w-5 grid place-items-center rounded-full bg-[#E10600] text-[11px] font-bold">{cartCount}</span>}
+              {cartCount > 0 && <span className="absolute -top-1.5 -right-1.5 h-5 w-5 grid place-items-center rounded-full bg-[#D90404] text-[11px] font-bold">{cartCount}</span>}
             </button>
             <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2">{menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}</button>
           </div>
@@ -360,7 +361,7 @@ export default function App() {
         {menuOpen && (
           <div className="lg:hidden border-t border-black/10 px-5 py-4 flex flex-col gap-1 bg-white">
             {[["#shop", "Shop Hair"], ["#origins", "Hair Types"], ["#services", "Services"], ["#care", "Maintenance"], ["#reviews", "Reviews"]].map(([h, l]) => (
-              <a key={h} href={h} onClick={() => setMenuOpen(false)} className="py-2.5 font-medium border-b border-black/5 last:border-0">{l}</a>
+              <a key={h} href={h} onClick={() => setMenuOpen(false)} className="py-2.5 font-medium border-b border-black/5 last:border-0 hover:text-[#D90404]">{l}</a>
             ))}
             <div className="pt-3 mt-1 border-t border-black/10 flex flex-wrap gap-2">
               {SOCIALS.map(s => (
@@ -370,7 +371,7 @@ export default function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${s.name}: ${s.handle}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-black/15 px-3.5 py-2 text-xs font-semibold text-black/80 hover:border-[#D4AF37] hover:bg-[#0A0A0A] hover:text-[#F1D27A] transition"
+                  className="inline-flex items-center gap-2 rounded-full border border-black/15 px-3.5 py-2 text-xs font-semibold text-[#1C1C1C] hover:border-[#D90404] hover:bg-[#D90404] hover:text-white transition"
                 >
                   <s.icon className="h-3.5 w-3.5 shrink-0" />
                   <span>{s.handle}</span>
@@ -382,79 +383,79 @@ export default function App() {
       </header>
 
       {/* HERO */}
-      <section id="top" className="relative overflow-hidden streaks bg-white">
-        <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-[#F3EFE6] to-transparent pointer-events-none" />
+      <section id="top" className="relative overflow-hidden streaks bg-[#F6F6F6]">
+        <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-[#FDF2F2]/80 via-white/50 to-transparent pointer-events-none" />
         <div className="relative max-w-7xl mx-auto px-5 md:px-8 pt-12 pb-16 md:pt-20 md:pb-24 grid lg:grid-cols-2 gap-12 items-center">
           <div className="reveal visible">
-            <div className="inline-flex items-center gap-2 border border-black/15 rounded-full pl-2 pr-4 py-1.5 text-xs font-semibold tracking-wide">
-              <span className="bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full">Bestseller</span>
+            <div className="inline-flex items-center gap-2 bg-white/85 backdrop-blur border border-black/10 rounded-full pl-2 pr-4 py-1.5 text-xs font-semibold tracking-wide shadow-sm">
+              <span className="crimson-ombre text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full">Bestseller</span>
               Vietnamese Hair · Our most-loved collection
             </div>
-            <h1 className="font-display font-semibold leading-[0.95] mt-6 text-[clamp(3rem,7.5vw,5.8rem)] tracking-tight">
-              Hair that<br />turns <em className="gold-text not-italic font-bold">heads.</em><br />
-              <span className="text-[0.55em] font-medium text-black/80">Worn with <span className="text-[#E10600]">confidence.</span></span>
+            <h1 className="font-display font-semibold leading-[0.95] mt-6 text-[clamp(3rem,7.5vw,5.8rem)] tracking-tight text-[#141414]">
+              Hair that<br />turns <em className="crimson-text not-italic font-bold">heads.</em><br />
+              <span className="text-[0.55em] font-medium text-[#1C1C1C]/85">Worn with <span className="text-[#D90404]">confidence.</span></span>
             </h1>
-            <p className="mt-5 max-w-md text-black/60 leading-relaxed">
+            <p className="mt-5 max-w-md text-[#2E2E2E]/75 leading-relaxed">
               Meet NMKHair's bestselling Vietnamese hair: silky, strong and made to shine. Explore Brazilian and Remy textures too, plus expert installs, styling and maintenance in Gqeberha.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#shop" onClick={() => { setQuery(""); setFilter("Wig"); }} className="group inline-flex items-center gap-2 bg-[#0A0A0A] text-white px-7 py-4 rounded-full text-sm font-semibold hover:bg-black transition">
+              <a href="#shop" onClick={() => { setQuery(""); setFilter("Wig"); }} className="group inline-flex items-center gap-2 crimson-ombre text-white px-7 py-4 rounded-full text-sm font-semibold shadow-lg shadow-[#D90404]/20 hover:opacity-95 transition">
                 Shop Vietnamese Hair <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
               </a>
-              <a href="#services" className="inline-flex items-center gap-2 border-2 border-[#0A0A0A] px-7 py-4 rounded-full text-sm font-semibold hover:bg-[#E10600] hover:border-[#E10600] hover:text-white transition">
+              <a href="#services" className="inline-flex items-center gap-2 bg-white/85 backdrop-blur border-2 border-[#141414] px-7 py-4 rounded-full text-sm font-semibold hover:bg-[#D90404] hover:border-[#D90404] hover:text-white transition">
                 <Scissors className="h-4 w-4" /> Book a Service
               </a>
             </div>
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <div className="flex items-center gap-2">
-                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-[#D4AF37] text-[#D4AF37]" />)}</span>
+                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-[#D90404] text-[#D90404]" />)}</span>
                 <span className="text-sm font-semibold">4.9/5</span><span className="text-sm text-black/50">· 12,400+ reviews</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-black/60"><ShieldCheck className="h-4 w-4 text-[#E10600]" /> 30-day exchange guarantee</div>
+              <div className="flex items-center gap-2 text-sm text-black/65"><ShieldCheck className="h-4 w-4 text-[#D90404]" /> 30-day exchange guarantee</div>
             </div>
             <div className="mt-8 grid grid-cols-3 max-w-md divide-x divide-black/10 border-y border-black/10 py-4">
               {[["12k+", "Happy clients"], ["100%", "Human hair"], ["48h", "Fast dispatch"]].map(([v, l]) => (
-                <div key={l} className="px-4 first:pl-0"><p className="font-display text-2xl font-bold">{v}</p><p className="text-[11px] tracking-widest uppercase text-black/45 mt-0.5">{l}</p></div>
+                <div key={l} className="px-4 first:pl-0"><p className="font-display text-2xl font-bold text-[#141414]">{v}</p><p className="text-[11px] tracking-widest uppercase text-black/50 mt-0.5">{l}</p></div>
               ))}
             </div>
           </div>
 
           <div className="relative reveal visible">
-            <div className="absolute -inset-3 rounded-[2rem] border-2 border-[#D4AF37]/70 rotate-1 pointer-events-none" />
-            <div className="absolute -inset-3 rounded-[2rem] border border-[#E10600]/30 -rotate-1 pointer-events-none" />
+            <div className="absolute -inset-3 rounded-[2rem] border-2 border-[#D90404]/55 rotate-1 pointer-events-none" />
+            <div className="absolute -inset-3 rounded-[2rem] border border-[#141414]/20 -rotate-1 pointer-events-none" />
             <div className="img-zoom relative rounded-[2rem] overflow-hidden shadow-2xl shadow-black/20">
               <img src={FEATURED.img} alt="Model with long, glossy curls" fetchPriority="high" className="w-full h-[540px] object-cover object-[center_25%]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
                 <div className="text-white">
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">#1 Bestseller · {FEATURED.rows[0].length}"</p>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-[#FF8A8A] font-bold">#1 Bestseller · {FEATURED.rows[0].length}"</p>
                   <p className="font-display text-2xl mt-1">{FEATURED.name}</p>
                 </div>
-                <button onClick={() => addFamily(FEATURED, FEATURED.rows[0].length, false)} className="shrink-0 bg-white text-black text-sm font-bold px-5 py-3 rounded-full hover:bg-[#D4AF37] transition">Add — {money(FEATURED.rows[0].price)}</button>
+                <button onClick={() => addFamily(FEATURED, FEATURED.rows[0].length, false)} className="shrink-0 bg-white text-[#141414] text-sm font-bold px-5 py-3 rounded-full hover:bg-[#D90404] hover:text-white transition">Add — {money(FEATURED.rows[0].price)}</button>
               </div>
             </div>
-            <div className="absolute -left-4 md:-left-10 top-8 bg-white rounded-2xl shadow-xl shadow-black/15 border border-black/10 p-3 flex items-center gap-3 animate-floaty">
+            <div className="absolute -left-4 md:-left-10 top-8 frosted-band rounded-2xl shadow-xl shadow-black/15 border border-black/10 p-3 flex items-center gap-3 animate-floaty">
               <img src={IMAGES.straight} alt="Model with long, bone straight hair" className="h-14 w-14 rounded-xl object-cover object-top" />
-              <div><p className="text-xs font-bold">13×4 SDD Straight</p><p className="text-xs text-black/50">From {money(FAMILIES[1].rows[0].price)}</p></div>
-              <span className="h-2 w-2 rounded-full bg-[#E10600]" />
+              <div><p className="text-xs font-bold text-[#141414]">13×4 SDD Straight</p><p className="text-xs text-black/55">From {money(FAMILIES[1].rows[0].price)}</p></div>
+              <span className="h-2 w-2 rounded-full bg-[#D90404]" />
             </div>
-            <div className="absolute -right-3 md:-right-6 bottom-24 bg-[#0A0A0A] text-white rounded-2xl shadow-xl p-4 animate-floaty" style={{ animationDelay: "1.2s" }}>
-              <p className="flex items-center gap-1.5 text-xs font-bold"><Sparkles className="h-4 w-4 text-[#D4AF37]" /> Zero shedding</p>
-              <p className="text-[11px] text-white/60 mt-1">Tangle-free · 12+ months</p>
+            <div className="absolute -right-3 md:-right-6 bottom-24 crimson-ombre text-white rounded-2xl shadow-xl border border-white/15 p-4 animate-floaty" style={{ animationDelay: "1.2s" }}>
+              <p className="flex items-center gap-1.5 text-xs font-bold"><Sparkles className="h-4 w-4 text-[#FF9494]" /> Zero shedding</p>
+              <p className="text-[11px] text-white/75 mt-1">Tangle-free · 12+ months</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* marquee */}
-      <div className="bg-[#0A0A0A] text-white overflow-hidden py-3.5">
+      <div className="bg-[#0A0A0A] text-white overflow-hidden py-3.5 border-y border-[#520000]/60">
         <div className="flex whitespace-nowrap animate-marquee w-max">
           {[0, 1].map(k => (
             <span key={k} className="flex items-center gap-7 pr-7 text-[13px] font-bold tracking-[0.25em] uppercase">
               {["Vietnamese Hair · #1 Bestseller", "Brazilian Hair", "Remy Hair", "100% Human Hair", "Salon Services", "Vietnamese Hair · #1 Bestseller", "Brazilian Hair", "Remy Hair", "100% Human Hair", "Wig Care & Training"].map((w, i) => (
                 <span key={i} className="flex items-center gap-7">
-                  <span className={i % 3 === 0 ? "text-[#D4AF37]" : i % 3 === 1 ? "text-[#E10600]" : ""}>{w}</span>
-                  <span className="h-1.5 w-1.5 rotate-45 bg-[#D4AF37]" />
+                  <span className={i % 2 === 0 ? "text-white" : "text-[#FF4747]"}>{w}</span>
+                  <span className="h-1.5 w-1.5 rotate-45 bg-[#D90404]" />
                 </span>
               ))}
             </span>
@@ -463,28 +464,28 @@ export default function App() {
       </div>
 
       {/* ORIGINS */}
-      <section id="origins" className="bg-[#FAF8F4] streaks-soft">
+      <section id="origins" className="bg-white streaks-soft">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal text-center max-w-2xl mx-auto">
-            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Shop by origin</p>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Three origins. <em className="gold-text not-italic">One standard.</em></h2>
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D90404]">Shop by origin</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Three origins. <em className="crimson-text not-italic">One standard.</em></h2>
             <p className="text-black/55 mt-4">Every NMK bundle is 100% human hair, double-drawn and hand-checked. The difference is in the texture — find yours.</p>
           </div>
           <div className="mt-12 grid md:grid-cols-3 gap-5">
             {ORIGINS.map((o, i) => (
-              <article key={o.name} className={`reveal group bg-white rounded-[1.75rem] overflow-hidden border ${o.name === "Vietnamese" ? "border-[#D4AF37]" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1.5 transition-all duration-500`} style={{ transitionDelay: `${i * 70}ms` }}>
+              <article key={o.name} className={`reveal group bg-[#F6F6F6] rounded-[1.75rem] overflow-hidden border ${o.name === "Vietnamese" ? "border-[#D90404]/70 ring-1 ring-[#D90404]/15" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1.5 transition-all duration-500`} style={{ transitionDelay: `${i * 70}ms` }}>
                 <div className="img-zoom relative h-72 overflow-hidden">
                   <img src={o.img} alt={`Black woman showing ${o.name} hair`} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                  <span className={`absolute top-4 left-4 text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${o.name === "Vietnamese" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white/95 text-black"}`}>{o.tag}</span>
-                  <span className="absolute bottom-4 right-4 bg-[#0A0A0A] text-[#F1D27A] text-xs font-bold px-3 py-1.5 rounded-full">from {money(o.from)}</span>
+                  <span className={`absolute top-4 left-4 text-[11px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${o.name === "Vietnamese" ? "crimson-ombre text-white" : "frosted-band text-[#141414]"}`}>{o.tag}</span>
+                  <span className="absolute bottom-4 right-4 bg-[#0A0A0A] text-white text-xs font-bold px-3 py-1.5 rounded-full border border-white/15">from {money(o.from)}</span>
                 </div>
                 <div className="p-6">
-                  <h3 className="font-display text-3xl font-semibold">{o.name} <span className="text-[#E10600]">Hair</span></h3>
-                  <p className="text-sm text-black/55 leading-relaxed mt-2">{o.desc}</p>
+                  <h3 className="font-display text-3xl font-semibold">{o.name} <span className="text-[#D90404]">Hair</span></h3>
+                  <p className="text-sm text-black/60 leading-relaxed mt-2">{o.desc}</p>
                   <ul className="mt-4 space-y-2">
-                    {o.feats.map(f => <li key={f} className="flex items-center gap-2 text-sm font-medium"><Check className="h-4 w-4 text-[#E10600]" /> {f}</li>)}
+                    {o.feats.map(f => <li key={f} className="flex items-center gap-2 text-sm font-medium"><Check className="h-4 w-4 text-[#D90404]" /> {f}</li>)}
                   </ul>
-                  <a href="#shop" onClick={() => setQuery("")} className="mt-5 inline-flex items-center gap-2 font-bold text-sm border-b-2 border-[#D4AF37] pb-1 hover:text-[#E10600] hover:border-[#E10600] transition">Shop {o.name} <ArrowRight className="h-4 w-4" /></a>
+                  <a href="#shop" onClick={() => setQuery("")} className="mt-5 inline-flex items-center gap-2 font-bold text-sm border-b-2 border-[#141414] pb-1 hover:text-[#D90404] hover:border-[#D90404] transition">Shop {o.name} <ArrowRight className="h-4 w-4" /></a>
                 </div>
               </article>
             ))}
@@ -493,21 +494,21 @@ export default function App() {
       </section>
 
       {/* SHOP */}
-      <section id="shop" className="bg-white">
+      <section id="shop" className="bg-[#F6F6F6]">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Real per-length pricing</p>
-              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Shop the <em className="gold-text not-italic">price list</em></h2>
+              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D90404]">Real per-length pricing</p>
+              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Shop the <em className="crimson-text not-italic">price list</em></h2>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-black/40" />
-                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search wigs, bobs, closures…" className="w-full sm:w-72 rounded-full border border-black/15 pl-11 pr-4 py-3 text-sm outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30" />
+                <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search wigs, bobs, closures…" className="w-full sm:w-72 rounded-full bg-white border border-black/15 pl-11 pr-4 py-3 text-sm outline-none focus:border-[#D90404] focus:ring-2 focus:ring-[#D90404]/20" />
               </div>
               <div className="flex flex-wrap gap-2">
                 {(["All", "Wig", "Bob", "Closure"] as const).map(f => (
-                  <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wide border transition ${filter === f ? "bg-[#0A0A0A] text-white border-[#0A0A0A]" : "border-black/15 text-black/60 hover:border-black hover:text-black"}`}>{f}{f === "All" ? " hair" : "s"}</button>
+                  <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2.5 rounded-full text-xs font-bold tracking-wide border transition ${filter === f ? "crimson-ombre text-white border-[#D90404]" : "bg-white border-black/15 text-black/65 hover:border-[#D90404] hover:text-[#D90404]"}`}>{f}{f === "All" ? " hair" : "s"}</button>
                 ))}
               </div>
             </div>
@@ -521,29 +522,29 @@ export default function App() {
                 const selected = picks[f.id].length;
                 const selectedCurls = picks[f.id].curls;
                 return (
-                <article key={f.id} className={`reveal group bg-white rounded-[1.5rem] overflow-hidden border ${f.id === FEATURED.id ? "border-[#D4AF37]" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500`} style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
+                <article key={f.id} className={`reveal group bg-white rounded-[1.5rem] overflow-hidden border ${f.id === FEATURED.id ? "border-[#D90404]/70 ring-1 ring-[#D90404]/15" : "border-black/10"} hover:shadow-2xl hover:shadow-black/10 hover:-translate-y-1 transition-all duration-500`} style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
                   <div className="img-zoom relative h-64 overflow-hidden">
                     <img src={f.img} alt="Model with long, glossy hair" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-                    <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : f.badge === "Top rated" ? "bg-[#E10600] text-white" : f.badge === "Popular" ? "bg-[#0A0A0A] text-[#F1D27A]" : "bg-white text-black"}`}>{f.badge ?? f.kind}</span>
+                    <span className={`absolute top-3 left-3 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-full ${f.badge === "Bestseller" ? "crimson-ombre text-white" : f.badge === "Top rated" ? "bg-[#D90404] text-white" : f.badge === "Popular" ? "bg-[#0A0A0A] text-white" : "frosted-band text-[#141414]"}`}>{f.badge ?? f.kind}</span>
                     <button onClick={() => toggleWish(i)} className="absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full bg-white/90 shadow hover:scale-110 transition" aria-label="wishlist">
-                      <Heart className={`h-4 w-4 ${wish.includes(i) ? "fill-[#E10600] text-[#E10600]" : "text-black"}`} />
+                      <Heart className={`h-4 w-4 ${wish.includes(i) ? "fill-[#D90404] text-[#D90404]" : "text-black"}`} />
                     </button>
-                    <span className="absolute bottom-3 left-3 bg-black/70 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">{f.kind} · from {money(f.rows[0].price)}</span>
+                    <span className="absolute bottom-3 left-3 bg-black/75 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1 rounded-full">{f.kind} · from {money(f.rows[0].price)}</span>
                   </div>
                   <div className="p-5">
                     <div className="flex items-center justify-between">
-                      <span className="flex gap-0.5">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-3.5 w-3.5 ${s < f.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
+                      <span className="flex gap-0.5">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-3.5 w-3.5 ${s < f.rating ? "fill-[#D90404] text-[#D90404]" : "text-black/20"}`} />)}</span>
                       <span className="text-xs text-black/45">{f.reviews} reviews</span>
                     </div>
                     <h3 className="font-display text-[22px] font-semibold leading-tight mt-2">{f.name}</h3>
-                    <p className="text-[13px] text-black/50 mt-1">{f.desc}</p>
+                    <p className="text-[13px] text-black/55 mt-1">{f.desc}</p>
 
                     <p className="text-[10px] tracking-[0.25em] uppercase font-bold text-black/45 mt-4">Choose your length</p>
                     <div className="mt-2 grid grid-cols-3 gap-1.5">
                       {f.rows.map(r => (
-                        <button key={r.length} onClick={() => chooseLength(f.id, r.length)} aria-pressed={selected === r.length} className={`rounded-xl border px-2 py-2 text-center transition ${selected === r.length ? "border-[#D4AF37] bg-[#FAF8F4]" : "border-black/10 hover:border-black/40"}`}>
+                        <button key={r.length} onClick={() => chooseLength(f.id, r.length)} aria-pressed={selected === r.length} className={`rounded-xl border px-2 py-2 text-center transition ${selected === r.length ? "border-[#D90404] bg-[#FDF2F2]" : "border-black/10 hover:border-black/40"}`}>
                           <span className="block text-sm font-bold leading-none">{r.length}"</span>
-                          <span className={`block text-[11px] mt-1 leading-none ${selected === r.length ? "text-[#E10600] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
+                          <span className={`block text-[11px] mt-1 leading-none ${selected === r.length ? "text-[#D90404] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
                         </button>
                       ))}
                     </div>
@@ -551,7 +552,7 @@ export default function App() {
                     {f.curlsUpcharge && (
                       <div className="mt-3 flex items-center justify-between rounded-xl border border-black/10 px-3 py-2.5">
                         <span className="text-[13px] font-semibold">HD lace curls</span>
-                        <button onClick={() => toggleCurls(f.id)} aria-pressed={selectedCurls} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${selectedCurls ? "bg-[#E10600] text-white" : "bg-black/5 hover:bg-black/10"}`}>
+                        <button onClick={() => toggleCurls(f.id)} aria-pressed={selectedCurls} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${selectedCurls ? "bg-[#D90404] text-white" : "bg-black/5 hover:bg-black/10"}`}>
                           {selectedCurls ? `Added +${money(f.curlsUpcharge)}` : `Add +${money(f.curlsUpcharge)}`}
                         </button>
                       </div>
@@ -560,8 +561,8 @@ export default function App() {
                     <div className="mt-4 flex items-center justify-between gap-2">
                       <span data-fab-guard className="font-display text-2xl font-bold">{money(priceFor(f, selected, selectedCurls))}</span>
                       <div className="flex gap-2">
-                        <button onClick={() => openQuick(f)} className="px-4 py-3 rounded-full border border-black/15 text-sm font-semibold hover:border-[#D4AF37] transition">View</button>
-                        <button onClick={() => addFamily(f, selected, selectedCurls)} className="bg-[#0A0A0A] text-white text-sm font-semibold py-3 px-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
+                        <button onClick={() => openQuick(f)} className="px-4 py-3 rounded-full border border-black/15 text-sm font-semibold hover:border-[#D90404] hover:text-[#D90404] transition">View</button>
+                        <button onClick={() => addFamily(f, selected, selectedCurls)} className="bg-[#0A0A0A] text-white text-sm font-semibold py-3 px-4 rounded-full hover:bg-[#D90404] transition flex items-center justify-center gap-2">
                           <ShoppingBag className="h-4 w-4" /> Add
                         </button>
                       </div>
@@ -577,23 +578,23 @@ export default function App() {
 
       {/* FULL PRICE LIST */}
       <section id="pricelist" className="bg-[#0A0A0A] text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-40" style={{ background: "linear-gradient(115deg, transparent 60%, rgba(225,6,0,0.25) 60%, rgba(225,6,0,0.25) 61%, transparent 61%), linear-gradient(115deg, transparent 72%, rgba(212,175,55,0.3) 72%, rgba(212,175,55,0.3) 73.5%, transparent 73.5%)" }} />
+        <div className="absolute inset-0 opacity-60" style={{ background: "radial-gradient(ellipse at top right, rgba(217,4,4,0.28), transparent 55%), linear-gradient(115deg, transparent 60%, rgba(217,4,4,0.22) 60%, rgba(217,4,4,0.22) 61%, transparent 61%), linear-gradient(115deg, transparent 72%, rgba(255,255,255,0.08) 72%, rgba(255,255,255,0.08) 73%, transparent 73%)" }} />
         <div className="relative max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal text-center max-w-2xl mx-auto">
-            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Full price list</p>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Every style, every <em className="gold-text not-italic">length</em></h2>
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#FF6B6B]">Full price list</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Every style, every <em className="crimson-text-light not-italic">length</em></h2>
             <p className="text-white/60 mt-4">Tap a length to select it, then add it to your bag. All prices in ZAR. HD lace curls are +R500 on 13×4 HD DD straight wigs.</p>
           </div>
 
           <div className="mt-12 grid md:grid-cols-2 gap-5">
             {FAMILIES.map(f => (
-              <div key={f.id} className={`reveal rounded-[1.75rem] p-6 md:p-7 border ${f.id === FEATURED.id ? "border-[#D4AF37] bg-white/[0.06]" : "border-white/15 bg-white/[0.03]"}`}>
+              <div key={f.id} className={`reveal rounded-[1.75rem] p-6 md:p-7 border ${f.id === FEATURED.id ? "border-[#D90404]/80 bg-gradient-to-br from-[#2B0000]/70 to-white/[0.04]" : "border-white/15 bg-white/[0.03]"}`}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-display text-2xl font-semibold leading-tight">{f.name}</h3>
                     <p className="text-[11px] tracking-[0.25em] uppercase text-white/45 mt-1">{f.kind}</p>
                   </div>
-                  {f.badge && <span className={`shrink-0 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D4AF37] text-black" : "bg-[#E10600] text-white"}`}>{f.badge}</span>}
+                  {f.badge && <span className={`shrink-0 text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full ${f.badge === "Bestseller" ? "bg-[#D90404] text-white" : "bg-white/15 text-white"}`}>{f.badge}</span>}
                 </div>
                 <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {f.rows.map(r => {
@@ -603,10 +604,10 @@ export default function App() {
                         key={r.length}
                         onClick={() => chooseLength(f.id, r.length)}
                         aria-pressed={active}
-                        className={`flex items-center justify-between rounded-xl border px-3 py-2.5 transition ${active ? "border-[#D4AF37] bg-white/10" : "border-white/15 hover:border-white/50"}`}
+                        className={`flex items-center justify-between rounded-xl border px-3 py-2.5 transition ${active ? "border-[#D90404] bg-[#D90404]/20" : "border-white/15 hover:border-white/50"}`}
                       >
                         <span className="text-sm font-bold">{r.length}"</span>
-                        <span className={`text-sm font-semibold ${active ? "text-[#F1D27A]" : "text-white/70"}`}>{money(r.price)}</span>
+                        <span className={`text-sm font-semibold ${active ? "text-[#FF8A8A]" : "text-white/70"}`}>{money(r.price)}</span>
                       </button>
                     );
                   })}
@@ -614,7 +615,7 @@ export default function App() {
                 {f.curlsUpcharge && (
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <p className="text-xs text-white/55">HD lace curls — +{money(f.curlsUpcharge)}</p>
-                    <button onClick={() => toggleCurls(f.id)} aria-pressed={picks[f.id].curls} className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${picks[f.id].curls ? "bg-[#E10600] text-white" : "bg-white/10 text-white hover:bg-white/20"}`}>
+                    <button onClick={() => toggleCurls(f.id)} aria-pressed={picks[f.id].curls} className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${picks[f.id].curls ? "bg-[#D90404] text-white" : "bg-white/10 text-white hover:bg-white/20"}`}>
                       {picks[f.id].curls ? "Curls added" : "Add curls"}
                     </button>
                   </div>
@@ -622,9 +623,9 @@ export default function App() {
                 <div className="mt-4 pt-4 border-t border-white/15 flex items-end justify-between gap-3">
                   <div>
                     <span className="block text-[10px] tracking-[0.25em] uppercase text-white/45">Selected · {picks[f.id].length}"{picks[f.id].curls ? " · curls" : ""}</span>
-                    <span data-fab-guard className="font-display text-2xl font-bold gold-text">{money(priceFor(f, picks[f.id].length, picks[f.id].curls))}</span>
+                    <span data-fab-guard className="font-display text-2xl font-bold crimson-text-light">{money(priceFor(f, picks[f.id].length, picks[f.id].curls))}</span>
                   </div>
-                  <button onClick={() => addFamily(f, picks[f.id].length, picks[f.id].curls)} className="shrink-0 bg-white text-black text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#D4AF37] transition flex items-center gap-2">
+                  <button onClick={() => addFamily(f, picks[f.id].length, picks[f.id].curls)} className="shrink-0 bg-white text-[#141414] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#D90404] hover:text-white transition flex items-center gap-2">
                     <ShoppingBag className="h-4 w-4" /> Add to bag
                   </button>
                 </div>
@@ -632,9 +633,9 @@ export default function App() {
             ))}
           </div>
 
-          <div className="reveal mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-white/60">
-            <span className="flex items-center gap-2"><RefreshCcw className="h-4 w-4 text-[#D4AF37]" /> 30-day exchange</span>
-            <span className="flex items-center gap-2"><Scissors className="h-4 w-4 text-[#D4AF37]" /> Install available in-salon</span>
+          <div className="reveal mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-white/65">
+            <span className="flex items-center gap-2"><RefreshCcw className="h-4 w-4 text-[#FF6B6B]" /> 30-day exchange</span>
+            <span className="flex items-center gap-2"><Scissors className="h-4 w-4 text-[#FF6B6B]" /> Install available in-salon</span>
           </div>
         </div>
       </section>
@@ -643,8 +644,8 @@ export default function App() {
       <section className="bg-white streaks-soft">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20">
           <div className="reveal text-center max-w-xl mx-auto">
-            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">The NMK promise</p>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Quality you can <em className="gold-text not-italic">feel</em></h2>
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D90404]">The NMK promise</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Quality you can <em className="crimson-text not-italic">feel</em></h2>
           </div>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -653,29 +654,29 @@ export default function App() {
               { icon: Sparkles, t: "Tangle-Free Remy", d: "Cuticle-aligned strands glide past each other. Brush in seconds, not minutes." },
               { icon: RefreshCcw, t: "30-Day Exchange", d: "Not in love? Exchange within 30 days — no questions, no restocking fees." },
             ].map((f, i) => (
-              <div key={f.t} className="reveal bg-[#FAF8F4] border border-black/10 rounded-3xl p-7 hover:border-[#D4AF37] hover:shadow-xl transition-all" style={{ transitionDelay: `${i * 60}ms` }}>
-                <span className="h-12 w-12 grid place-items-center rounded-2xl bg-[#0A0A0A] text-[#F1D27A]"><f.icon className="h-6 w-6" /></span>
+              <div key={f.t} className="reveal bg-[#F6F6F6] border border-black/10 rounded-3xl p-7 hover:border-[#D90404]/60 hover:shadow-xl transition-all" style={{ transitionDelay: `${i * 60}ms` }}>
+                <span className="h-12 w-12 grid place-items-center rounded-2xl crimson-ombre text-white"><f.icon className="h-6 w-6" /></span>
                 <h3 className="font-display text-2xl font-semibold mt-5">{f.t}</h3>
-                <p className="text-sm text-black/55 leading-relaxed mt-2">{f.d}</p>
-                <span className="block mt-5 h-[3px] w-10 bg-gradient-to-r from-[#E10600] to-[#D4AF37] rounded-full" />
+                <p className="text-sm text-black/60 leading-relaxed mt-2">{f.d}</p>
+                <span className="block mt-5 h-[3px] w-10 bg-gradient-to-r from-[#0A0A0A] via-[#7A0000] to-[#D90404] rounded-full" />
               </div>
             ))}
           </div>
-          <div className="reveal mt-8 flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm font-semibold text-black/60">
-            <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-[#E10600]" /> Ships in 48h, tracked</span>
-            <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#E10600]" /> Secure checkout</span>
-            <span className="flex items-center gap-2"><Crown className="h-4 w-4 text-[#D4AF37]" /> VIP loyalty rewards</span>
+          <div className="reveal mt-8 flex flex-wrap justify-center gap-x-10 gap-y-3 text-sm font-semibold text-black/65">
+            <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-[#D90404]" /> Ships in 48h, tracked</span>
+            <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-[#D90404]" /> Secure checkout</span>
+            <span className="flex items-center gap-2"><Crown className="h-4 w-4 text-[#D90404]" /> VIP loyalty rewards</span>
           </div>
         </div>
       </section>
 
       {/* SERVICES */}
-      <section id="services" className="bg-[#FAF8F4] border-y border-black/10">
+      <section id="services" className="bg-[#F6F6F6] border-y border-black/10">
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-24">
           <div className="reveal flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">NMK Studio · Gqeberha — Services</p>
-              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Salon services & <em className="gold-text not-italic">maintenance</em></h2>
+              <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D90404]">NMK Studio · Gqeberha — Services</p>
+              <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Salon services & <em className="crimson-text not-italic">maintenance</em></h2>
             </div>
             <p className="text-black/55 max-w-sm text-sm leading-relaxed">Buy the hair, book the chair. Every install includes a consultation, styling and a 7-day touch-up guarantee.</p>
           </div>
@@ -683,15 +684,15 @@ export default function App() {
           <div className="mt-10 grid lg:grid-cols-5 gap-6">
             <div className="lg:col-span-3 grid sm:grid-cols-2 gap-4">
               {SERVICES.map((s, i) => (
-                <div key={s.id} className="reveal bg-white border border-black/10 rounded-3xl p-6 hover:shadow-xl hover:border-[#D4AF37] transition-all" style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
+                <div key={s.id} className="reveal bg-white border border-black/10 rounded-3xl p-6 hover:shadow-xl hover:border-[#D90404]/60 transition-all" style={{ transitionDelay: `${(i % 4) * 50}ms` }}>
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-[22px] font-semibold leading-tight">{s.name}</h3>
-                    {s.popular && <span className="shrink-0 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full">Popular</span>}
+                    {s.popular && <span className="shrink-0 bg-[#D90404] text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full">Popular</span>}
                   </div>
                   <p className="text-sm text-black/55 leading-relaxed mt-2">{s.desc}</p>
                   <div className="flex items-center justify-between mt-5">
                     <div><span className="font-display text-2xl font-bold">{money(s.price)}</span><span className="text-xs text-black/45 ml-2"><Clock className="h-3.5 w-3.5 inline" /> {s.time}</span></div>
-                    <button onClick={() => bookService(s.name)} className="bg-[#0A0A0A] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#E10600] transition">Book</button>
+                    <button onClick={() => bookService(s.name)} className="bg-[#0A0A0A] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#D90404] transition">Book</button>
                   </div>
                 </div>
               ))}
@@ -699,29 +700,29 @@ export default function App() {
 
             {/* booking form */}
             <div id="booking" className="lg:col-span-2 reveal">
-              <div className="bg-[#0A0A0A] text-white rounded-[2rem] p-7 md:p-8 shadow-2xl sticky top-24">
+              <div className="bg-[#0A0A0A] text-white rounded-[2rem] p-7 md:p-8 shadow-2xl border border-[#520000]/60 sticky top-24">
                 <div className="flex items-center gap-3">
                   <Logo className="h-12 w-12" />
                   <div>
                     <h3 className="font-display text-2xl font-semibold">Book appointment</h3>
-                    <p className="text-xs text-white/50">NMK Studio · Gqeberha</p>
+                    <p className="text-xs text-white/55">NMK Studio · Gqeberha</p>
                   </div>
-                  <span className="ml-auto h-10 w-10 grid place-items-center rounded-full bg-[#E10600] shrink-0"><Calendar className="h-5 w-5" /></span>
+                  <span className="ml-auto h-10 w-10 grid place-items-center rounded-full bg-[#D90404] shrink-0"><Calendar className="h-5 w-5" /></span>
                 </div>
                 {booked ? (
                   <div className="mt-8 text-center py-8">
-                    <span className="mx-auto h-16 w-16 grid place-items-center rounded-full bg-[#D4AF37] text-black"><Check className="h-8 w-8" /></span>
+                    <span className="mx-auto h-16 w-16 grid place-items-center rounded-full bg-[#D90404] text-white"><Check className="h-8 w-8" /></span>
                     <p className="font-display text-3xl mt-5">You're booked!</p>
-                    <p className="text-white/60 text-sm mt-2">Reference <span className="text-[#F1D27A] font-bold">{booked}</span><br />{bk.service} · {bk.date} · {bk.time}</p>
+                    <p className="text-white/60 text-sm mt-2">Reference <span className="text-[#FF8A8A] font-bold">{booked}</span><br />{bk.service} · {bk.date} · {bk.time}</p>
                     <p className="text-white/45 text-xs mt-3">A confirmation SMS is on its way to {bk.phone}. Please arrive 10 minutes early.</p>
-                    <button onClick={() => { setBooked(null); setBk({ name: "", phone: "", service: "Sew-In Install", date: "", time: "10:00 AM", notes: "" }); }} className="mt-6 border border-white/25 px-6 py-3 rounded-full text-sm font-semibold hover:border-[#D4AF37] hover:text-[#D4AF37] transition">Book another</button>
+                    <button onClick={() => { setBooked(null); setBk({ name: "", phone: "", service: "Sew-In Install", date: "", time: "10:00 AM", notes: "" }); }} className="mt-6 border border-white/25 px-6 py-3 rounded-full text-sm font-semibold hover:border-[#D90404] hover:text-[#FF8A8A] transition">Book another</button>
                   </div>
                 ) : (
                   <div className="mt-6 space-y-3.5">
-                    <input value={bk.name} onChange={e => setBk({ ...bk, name: e.target.value })} placeholder="Your name" className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D4AF37]" />
-                    <input value={bk.phone} onChange={e => setBk({ ...bk, phone: e.target.value })} placeholder="Phone number (e.g. 082 123 4567)" className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D4AF37]" />
+                    <input value={bk.name} onChange={e => setBk({ ...bk, name: e.target.value })} placeholder="Your name" className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D90404]" />
+                    <input value={bk.phone} onChange={e => setBk({ ...bk, phone: e.target.value })} placeholder="Phone number (e.g. 082 123 4567)" className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D90404]" />
                     <div className="relative">
-                      <select value={bk.service} onChange={e => setBk({ ...bk, service: e.target.value })} className="w-full appearance-none rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D4AF37] [&_option]:text-black [&_optgroup]:text-black [&_optgroup]:font-bold">
+                      <select value={bk.service} onChange={e => setBk({ ...bk, service: e.target.value })} className="w-full appearance-none rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D90404] [&_option]:text-black [&_optgroup]:text-black [&_optgroup]:font-bold">
                         <optgroup label="Salon services">
                           {SERVICES.map(s => <option key={s.id} value={s.name}>{s.name} — {money(s.price)}</option>)}
                         </optgroup>
@@ -732,16 +733,16 @@ export default function App() {
                       <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50 pointer-events-none" />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <input type="date" value={bk.date} onChange={e => setBk({ ...bk, date: e.target.value })} className="rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D4AF37] [color-scheme:dark]" />
+                      <input type="date" value={bk.date} onChange={e => setBk({ ...bk, date: e.target.value })} className="rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D90404] [color-scheme:dark]" />
                       <div className="relative">
-                        <select value={bk.time} onChange={e => setBk({ ...bk, time: e.target.value })} className="w-full appearance-none rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D4AF37] [&>option]:text-black">
+                        <select value={bk.time} onChange={e => setBk({ ...bk, time: e.target.value })} className="w-full appearance-none rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm outline-none focus:border-[#D90404] [&>option]:text-black">
                           {["9:00 AM", "10:00 AM", "11:30 AM", "1:00 PM", "2:30 PM", "4:00 PM", "5:30 PM"].map(t => <option key={t}>{t}</option>)}
                         </select>
                         <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50 pointer-events-none" />
                       </div>
                     </div>
-                    <textarea value={bk.notes} onChange={e => setBk({ ...bk, notes: e.target.value })} placeholder="Notes (hair type, length, inspo link…)" rows={3} className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D4AF37] resize-none" />
-                    <button onClick={submitBooking} className="w-full bg-[#E10600] hover:bg-[#B80000] font-semibold py-4 rounded-full transition flex items-center justify-center gap-2">
+                    <textarea value={bk.notes} onChange={e => setBk({ ...bk, notes: e.target.value })} placeholder="Notes (hair type, length, inspo link…)" rows={3} className="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3.5 text-sm placeholder:text-white/40 outline-none focus:border-[#D90404] resize-none" />
+                    <button onClick={submitBooking} className="w-full bg-[#D90404] hover:bg-[#A80000] font-semibold py-4 rounded-full transition flex items-center justify-center gap-2">
                       Confirm Booking <ArrowRight className="h-4 w-4" />
                     </button>
                     <p className="text-center text-[11px] text-white/40">No deposit needed · Free reschedule up to 24h before</p>
@@ -765,15 +766,15 @@ export default function App() {
           <div className="reveal mt-8 grid md:grid-cols-3 gap-4">
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
               <img src={IMAGES.salon} alt="Black stylist working on a client's long, wavy hair" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-              <span className="absolute bottom-4 left-4 bg-white text-black text-xs font-bold px-3 py-1.5 rounded-full">Installs & styling</span>
+              <span className="absolute bottom-4 left-4 frosted-band text-[#141414] text-xs font-bold px-3 py-1.5 rounded-full">Installs & styling</span>
             </div>
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
               <img src={IMAGES.braids} alt="Black woman wearing long knotless braids" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-              <span className="absolute bottom-4 left-4 bg-white text-black text-xs font-bold px-3 py-1.5 rounded-full">Braids & protective styles</span>
+              <span className="absolute bottom-4 left-4 frosted-band text-[#141414] text-xs font-bold px-3 py-1.5 rounded-full">Braids & protective styles</span>
             </div>
             <div className="img-zoom rounded-3xl overflow-hidden h-56 relative">
               <img src={IMAGES.glamLace} alt="Black woman wearing a full, glamorous lace-front hairstyle" loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
-              <span className="absolute bottom-4 left-4 bg-[#0A0A0A] text-[#F1D27A] text-xs font-bold px-3 py-1.5 rounded-full">Wig bar — try before you buy</span>
+              <span className="absolute bottom-4 left-4 crimson-ombre text-white text-xs font-bold px-3 py-1.5 rounded-full">Wig bar — try before you buy</span>
             </div>
           </div>
         </div>
@@ -785,18 +786,18 @@ export default function App() {
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-4">
               <div className="lg:sticky lg:top-28 reveal">
-                <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Maintenance & care</p>
-                <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3 leading-[1.05]">Keep it <em className="gold-text not-italic">flawless</em></h2>
+                <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D90404]">Maintenance & care</p>
+                <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3 leading-[1.05]">Keep it <em className="crimson-text not-italic">flawless</em></h2>
                 <p className="text-black/55 text-sm leading-relaxed mt-4 max-w-sm">
                   Eight studio services that keep every unit looking new — from a quick treatment to a full installation masterclass. Bring your own hair or buy it from us.
                 </p>
 
                 <div className="img-zoom relative mt-7 rounded-[1.75rem] overflow-hidden border border-black/10 shadow-xl shadow-black/10 hidden sm:block">
                   <img src={IMAGES.care} alt="Black woman caring for her long wavy hair in the studio" loading="lazy" decoding="async" className="w-full h-72 object-cover object-top" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
                     <div className="text-white">
-                      <p className="text-[10px] tracking-[0.3em] uppercase text-[#F1D27A] font-bold">Studio care menu</p>
+                      <p className="text-[10px] tracking-[0.3em] uppercase text-[#FF8A8A] font-bold">Studio care menu</p>
                       <p className="font-display text-xl mt-1">Gqeberha · by appointment</p>
                     </div>
                     <Logo className="h-12 w-12" />
@@ -821,75 +822,75 @@ export default function App() {
                 return (
                   <article
                     key={s.id}
-                    className={`reveal group relative overflow-hidden rounded-3xl p-6 border transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${feature ? "bg-[#0A0A0A] text-white border-[#D4AF37] shadow-lg shadow-black/20" : "bg-[#FAF8F4] border-black/10 hover:border-[#D4AF37]"}`}
+                    className={`reveal group relative overflow-hidden rounded-3xl p-6 border transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${feature ? "crimson-ombre text-white border-[#D90404] shadow-lg shadow-[#520000]/25" : "bg-[#F6F6F6] border-black/10 hover:border-[#D90404]/60"}`}
                     style={{ transitionDelay: `${(i % 2) * 60}ms` }}
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <span className={`h-11 w-11 shrink-0 grid place-items-center rounded-2xl transition-colors ${feature ? "bg-[#D4AF37] text-black" : "bg-[#0A0A0A] text-[#F1D27A] group-hover:bg-[#E10600] group-hover:text-white"}`}>
+                      <span className={`h-11 w-11 shrink-0 grid place-items-center rounded-2xl transition-colors ${feature ? "bg-white text-[#D90404]" : "bg-[#0A0A0A] text-white group-hover:bg-[#D90404]"}`}>
                         <s.icon className="h-5 w-5" />
                       </span>
                       <div className="flex items-center gap-2">
                         {s.tag && (
-                          <span className={`text-[9px] font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-full ${feature ? "bg-[#E10600] text-white" : "bg-white text-black border border-black/10"}`}>{s.tag}</span>
+                          <span className={`text-[9px] font-bold tracking-[0.18em] uppercase px-2.5 py-1 rounded-full ${feature ? "bg-black/40 text-white border border-white/20" : "bg-white text-[#141414] border border-black/10"}`}>{s.tag}</span>
                         )}
-                        <span className={`font-display text-lg ${feature ? "text-white/25" : "text-black/15"}`}>{String(i + 1).padStart(2, "0")}</span>
+                        <span className={`font-display text-lg ${feature ? "text-white/35" : "text-black/15"}`}>{String(i + 1).padStart(2, "0")}</span>
                       </div>
                     </div>
 
                     <h3 className="font-display text-[22px] font-semibold leading-tight mt-4">{s.name}</h3>
-                    <p className={`text-[13px] leading-relaxed mt-1.5 ${feature ? "text-white/60" : "text-black/55"}`}>{s.desc}</p>
+                    <p className={`text-[13px] leading-relaxed mt-1.5 ${feature ? "text-white/80" : "text-black/55"}`}>{s.desc}</p>
 
-                    <div className={`mt-5 pt-4 flex items-end justify-between gap-3 border-t ${feature ? "border-white/15" : "border-black/10"}`}>
+                    <div className={`mt-5 pt-4 flex items-end justify-between gap-3 border-t ${feature ? "border-white/20" : "border-black/10"}`}>
                       <div>
-                        <span className={`block text-[10px] tracking-[0.25em] uppercase ${feature ? "text-white/45" : "text-black/40"}`}>{s.from ? "From" : "Flat rate"}</span>
-                        <span data-fab-guard className={`font-display text-2xl font-bold ${feature ? "gold-text" : ""}`}>{money(s.price)}</span>
+                        <span className={`block text-[10px] tracking-[0.25em] uppercase ${feature ? "text-white/65" : "text-black/45"}`}>{s.from ? "From" : "Flat rate"}</span>
+                        <span data-fab-guard className="font-display text-2xl font-bold">{money(s.price)}</span>
                       </div>
                       <button
                         onClick={() => bookService(s.name)}
-                        className={`text-sm font-semibold px-5 py-2.5 rounded-full transition ${feature ? "bg-[#D4AF37] text-black hover:bg-[#F1D27A]" : "bg-[#0A0A0A] text-white hover:bg-[#E10600]"}`}
+                        className={`text-sm font-semibold px-5 py-2.5 rounded-full transition ${feature ? "bg-white text-[#141414] hover:bg-[#FDF2F2]" : "bg-[#0A0A0A] text-white hover:bg-[#D90404]"}`}
                       >
                         Book
                       </button>
                     </div>
-                    <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 bg-gradient-to-r from-[#E10600] to-[#D4AF37]" />
+                    <span className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 bg-gradient-to-r from-[#0A0A0A] via-[#7A0000] to-[#D90404]" />
                   </article>
                 );
               })}
             </div>
           </div>
 
-          <div className="reveal mt-10 bg-[#FAF8F4] border border-black/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-            <span className="h-14 w-14 shrink-0 grid place-items-center rounded-2xl bg-[#E10600] text-white"><Droplets className="h-7 w-7" /></span>
+          <div className="reveal mt-10 bg-[#F6F6F6] border border-black/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
+            <span className="h-14 w-14 shrink-0 grid place-items-center rounded-2xl crimson-ombre text-white"><Droplets className="h-7 w-7" /></span>
             <div className="flex-1 text-center md:text-left">
               <h3 className="font-display text-2xl font-semibold">The 5-minute weekly routine</h3>
-              <p className="text-sm text-black/55 mt-1">Co-wash on day 1 · Deep condition day 3 · Detangle and seal day 5 · Satin bonnet every night. Follow this and NMK hair lasts 12+ months.</p>
+              <p className="text-sm text-black/60 mt-1">Co-wash on day 1 · Deep condition day 3 · Detangle and seal day 5 · Satin bonnet every night. Follow this and NMK hair lasts 12+ months.</p>
             </div>
-            <button onClick={() => bookService("Wig Treatment")} className="shrink-0 bg-[#0A0A0A] text-white px-6 py-3.5 rounded-full text-sm font-semibold hover:bg-[#E10600] transition">Book a wig treatment</button>
+            <button onClick={() => bookService("Wig Treatment")} className="shrink-0 bg-[#0A0A0A] text-white px-6 py-3.5 rounded-full text-sm font-semibold hover:bg-[#D90404] transition">Book a wig treatment</button>
           </div>
         </div>
       </section>
 
       {/* REVIEWS */}
       <section id="reviews" className="bg-[#0A0A0A] text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-30" style={{ background: "linear-gradient(115deg, transparent 70%, rgba(212,175,55,0.35) 70%, rgba(212,175,55,0.35) 71%, transparent 71%)" }} />
+        <div className="absolute inset-0 opacity-50" style={{ background: "radial-gradient(ellipse at bottom left, rgba(217,4,4,0.25), transparent 55%), linear-gradient(115deg, transparent 70%, rgba(217,4,4,0.3) 70%, rgba(217,4,4,0.3) 71%, transparent 71%)" }} />
         <div className="relative max-w-5xl mx-auto px-5 py-20 text-center">
-          <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D4AF37]">Verified reviews</p>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">12,400+ five-star <em className="gold-text not-italic">heads</em></h2>
-          <div className="mt-12 bg-white/[0.06] border border-white/10 rounded-[2rem] p-8 md:p-12 backdrop-blur">
-            <div className="flex justify-center gap-1">{Array.from({ length: REVIEWS[reviewIdx].stars }).map((_, i) => <Star key={i} className="h-5 w-5 fill-[#D4AF37] text-[#D4AF37]" />)}</div>
+          <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#FF6B6B]">Verified reviews</p>
+          <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">12,400+ five-star <em className="crimson-text-light not-italic">heads</em></h2>
+          <div className="mt-12 bg-white/[0.06] border border-white/15 rounded-[2rem] p-8 md:p-12 backdrop-blur">
+            <div className="flex justify-center gap-1">{Array.from({ length: REVIEWS[reviewIdx].stars }).map((_, i) => <Star key={i} className="h-5 w-5 fill-[#D90404] text-[#D90404]" />)}</div>
             <blockquote className="font-display text-2xl md:text-[28px] leading-snug font-light mt-6">“{REVIEWS[reviewIdx].text}”</blockquote>
             <div className="mt-8 flex items-center justify-center gap-4">
-              <span aria-hidden="true" className="h-14 w-14 shrink-0 rounded-full border-2 border-[#D4AF37] bg-white/10 grid place-items-center font-display text-xl text-[#F1D27A]">{REVIEWS[reviewIdx].name.charAt(0)}</span>
+              <span aria-hidden="true" className="h-14 w-14 shrink-0 rounded-full border-2 border-[#D90404] bg-[#D90404]/15 grid place-items-center font-display text-xl text-white">{REVIEWS[reviewIdx].name.charAt(0)}</span>
               <div className="text-left">
                 <p className="font-bold">{REVIEWS[reviewIdx].name} <span className="text-white/40 font-normal">· {REVIEWS[reviewIdx].loc}</span></p>
-                <p className="text-sm text-[#F1D27A] flex items-center gap-1.5"><BadgeCheck className="h-4 w-4" /> Verified buyer — {REVIEWS[reviewIdx].hair}</p>
+                <p className="text-sm text-[#FF8A8A] flex items-center gap-1.5"><BadgeCheck className="h-4 w-4" /> Verified buyer — {REVIEWS[reviewIdx].hair}</p>
               </div>
             </div>
           </div>
           <div className="mt-8 flex items-center justify-center gap-3">
-            <button onClick={() => setReviewIdx((reviewIdx - 1 + REVIEWS.length) % REVIEWS.length)} className="h-11 w-11 grid place-items-center rounded-full border border-white/25 hover:border-[#D4AF37] hover:text-[#D4AF37] transition"><ChevronLeft className="h-5 w-5" /></button>
-            {REVIEWS.map((_, i) => <button key={i} onClick={() => setReviewIdx(i)} className={`h-2 rounded-full transition-all ${i === reviewIdx ? "w-9 bg-[#E10600]" : "w-2 bg-white/25"}`} aria-label={`review ${i + 1}`} />)}
-            <button onClick={() => setReviewIdx((reviewIdx + 1) % REVIEWS.length)} className="h-11 w-11 grid place-items-center rounded-full border border-white/25 hover:border-[#D4AF37] hover:text-[#D4AF37] transition"><ChevronRight className="h-5 w-5" /></button>
+            <button onClick={() => setReviewIdx((reviewIdx - 1 + REVIEWS.length) % REVIEWS.length)} className="h-11 w-11 grid place-items-center rounded-full border border-white/25 hover:border-[#D90404] hover:text-[#FF8A8A] transition"><ChevronLeft className="h-5 w-5" /></button>
+            {REVIEWS.map((_, i) => <button key={i} onClick={() => setReviewIdx(i)} className={`h-2 rounded-full transition-all ${i === reviewIdx ? "w-9 bg-[#D90404]" : "w-2 bg-white/25"}`} aria-label={`review ${i + 1}`} />)}
+            <button onClick={() => setReviewIdx((reviewIdx + 1) % REVIEWS.length)} className="h-11 w-11 grid place-items-center rounded-full border border-white/25 hover:border-[#D90404] hover:text-[#FF8A8A] transition"><ChevronRight className="h-5 w-5" /></button>
           </div>
         </div>
       </section>
@@ -898,15 +899,15 @@ export default function App() {
       <section className="bg-white">
         <div className="max-w-3xl mx-auto px-5 py-20">
           <div className="reveal text-center">
-            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#E10600]">Good questions</p>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Before you <em className="gold-text not-italic">buy</em></h2>
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-[#D90404]">Good questions</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mt-3">Before you <em className="crimson-text not-italic">buy</em></h2>
           </div>
           <div className="mt-10 space-y-3">
             {FAQS.map((f, i) => (
               <div key={f.q} className="reveal border border-black/10 rounded-2xl overflow-hidden">
-                <button onClick={() => setOpenFaq(openFaq === i ? -1 : i)} className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-semibold hover:bg-[#FAF8F4] transition">
+                <button onClick={() => setOpenFaq(openFaq === i ? -1 : i)} className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left font-semibold hover:bg-[#F6F6F6] transition">
                   {f.q}
-                  <ChevronDown className={`h-5 w-5 shrink-0 transition-transform ${openFaq === i ? "rotate-180 text-[#E10600]" : ""}`} />
+                  <ChevronDown className={`h-5 w-5 shrink-0 transition-transform ${openFaq === i ? "rotate-180 text-[#D90404]" : ""}`} />
                 </button>
                 {openFaq === i && <p className="px-6 pb-6 text-sm text-black/60 leading-relaxed border-t border-black/5 pt-4">{f.a}</p>}
               </div>
@@ -916,17 +917,17 @@ export default function App() {
       </section>
 
       {/* NEWSLETTER */}
-      <section className="bg-[#FAF8F4] border-t border-black/10 streaks-soft">
+      <section className="bg-[#F6F6F6] border-t border-black/10 streaks-soft">
         <div className="max-w-4xl mx-auto px-5 py-20 text-center">
           <Logo className="h-28 w-28 mx-auto" />
-          <h2 className="font-display text-4xl md:text-5xl font-semibold mt-6">Join the <em className="gold-text not-italic">NMK list</em></h2>
+          <h2 className="font-display text-4xl md:text-5xl font-semibold mt-6">Join the <em className="crimson-text not-italic">NMK list</em></h2>
           <p className="text-black/55 mt-3 max-w-md mx-auto">Get 10% off your first order, early access to limited drops and salon offers. One email a week — no spam, ever.</p>
           {subscribed ? (
-            <div className="mt-8 inline-flex items-center gap-3 bg-[#0A0A0A] text-white px-7 py-4 rounded-full font-semibold"><Check className="h-5 w-5 text-[#D4AF37]" /> You're in! Check your inbox for 10% off.</div>
+            <div className="mt-8 inline-flex items-center gap-3 bg-[#0A0A0A] text-white px-7 py-4 rounded-full font-semibold"><Check className="h-5 w-5 text-[#FF6B6B]" /> You're in! Check your inbox for 10% off.</div>
           ) : (
             <div className="mt-8 flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-              <input value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && subscribe()} type="email" placeholder="your@email.com" className="flex-1 rounded-full border border-black/15 px-6 py-4 text-sm outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 bg-white" />
-              <button onClick={subscribe} className="bg-[#E10600] hover:bg-[#B80000] text-white font-semibold px-8 py-4 rounded-full inline-flex items-center justify-center gap-2 transition">Get 10% Off <Send className="h-4 w-4" /></button>
+              <input value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && subscribe()} type="email" placeholder="your@email.com" className="flex-1 rounded-full border border-black/15 px-6 py-4 text-sm outline-none focus:border-[#D90404] focus:ring-2 focus:ring-[#D90404]/20 bg-white" />
+              <button onClick={subscribe} className="crimson-ombre hover:opacity-95 text-white font-semibold px-8 py-4 rounded-full inline-flex items-center justify-center gap-2 transition shadow-lg shadow-[#D90404]/20">Get 10% Off <Send className="h-4 w-4" /></button>
             </div>
           )}
           <div className="mt-10 pt-8 border-t border-black/10">
@@ -939,13 +940,13 @@ export default function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${s.name}: ${s.handle}`}
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-white border border-black/15 px-4 py-2.5 text-xs font-semibold text-black hover:bg-[#0A0A0A] hover:text-white hover:border-[#D4AF37] shadow-sm transition"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-white border border-black/15 px-4 py-2.5 text-xs font-semibold text-[#141414] hover:bg-[#0A0A0A] hover:text-white hover:border-[#D90404] shadow-sm transition"
                 >
-                  <span className="h-7 w-7 grid place-items-center rounded-full bg-[#0A0A0A] text-[#F1D27A] group-hover:bg-[#E10600] group-hover:text-white transition">
+                  <span className="h-7 w-7 grid place-items-center rounded-full bg-[#0A0A0A] text-white group-hover:bg-[#D90404] transition">
                     <s.icon className="h-3.5 w-3.5" />
                   </span>
                   <span className="text-left leading-tight">
-                    <span className="block text-[10px] tracking-widest uppercase text-black/45 group-hover:text-[#F1D27A]">{s.name}</span>
+                    <span className="block text-[10px] tracking-widest uppercase text-black/45 group-hover:text-[#FF8A8A]">{s.name}</span>
                     <span className="block">{s.handle}</span>
                   </span>
                 </a>
@@ -956,11 +957,12 @@ export default function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#0A0A0A] text-white">
+      <footer className="bg-[#0A0A0A] text-white relative">
+        <div className="h-[3px] w-full bg-gradient-to-r from-[#0A0A0A] via-[#D90404] to-[#0A0A0A]" />
         <div className="max-w-7xl mx-auto px-5 md:px-8 py-16 grid md:grid-cols-4 gap-10">
           <div className="md:col-span-2">
             <Logo className="h-24 w-24" />
-            <p className="text-white/50 text-sm leading-relaxed mt-5 max-w-sm">Premium Brazilian, Remy and Vietnamese hair with full salon services. Ethically sourced, hand-checked, and guaranteed for 30 days.</p>
+            <p className="text-white/55 text-sm leading-relaxed mt-5 max-w-sm">Premium Brazilian, Remy and Vietnamese hair with full salon services. Ethically sourced, hand-checked, and guaranteed for 30 days.</p>
             <div className="mt-6 flex flex-wrap gap-2.5">
               {SOCIALS.map(s => (
                 <a
@@ -969,33 +971,33 @@ export default function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${s.name}: ${s.handle}`}
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-white/5 border border-white/15 px-4 py-2 text-xs text-white/80 hover:border-[#D4AF37] hover:bg-white/10 hover:text-white transition"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-white/5 border border-white/15 px-4 py-2 text-xs text-white/80 hover:border-[#D90404] hover:bg-white/10 hover:text-white transition"
                 >
-                  <span className="h-6 w-6 grid place-items-center rounded-full bg-white/10 text-[#F1D27A] group-hover:bg-[#E10600] group-hover:text-white transition">
+                  <span className="h-6 w-6 grid place-items-center rounded-full bg-white/10 text-white group-hover:bg-[#D90404] transition">
                     <s.icon className="h-3.5 w-3.5" />
                   </span>
                   <span className="font-semibold">{s.name}:</span>
-                  <span className="text-white/60 group-hover:text-[#F1D27A] transition">{s.handle}</span>
+                  <span className="text-white/60 group-hover:text-[#FF8A8A] transition">{s.handle}</span>
                 </a>
               ))}
             </div>
           </div>
           <div>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] font-bold">Shop</p>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-[#FF6B6B] font-bold">Shop</p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/60">
               {(["Wig", "Bob", "Closure"] as const).map(kind => (
                 <li key={kind}>
-                  <a href="#shop" onClick={() => { setQuery(""); setFilter(kind); }} className="hover:text-[#D4AF37] transition">{kind}s</a>
+                  <a href="#shop" onClick={() => { setQuery(""); setFilter(kind); }} className="hover:text-[#FF8A8A] transition">{kind}s</a>
                 </li>
               ))}
-              <li><a href="#pricelist" className="hover:text-[#D4AF37] transition">Full price list</a></li>
-              <li><a href="#care" className="hover:text-[#D4AF37] transition">Care & Maintenance</a></li>
+              <li><a href="#pricelist" className="hover:text-[#FF8A8A] transition">Full price list</a></li>
+              <li><a href="#care" className="hover:text-[#FF8A8A] transition">Care & Maintenance</a></li>
             </ul>
           </div>
           <div>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-[#D4AF37] font-bold">Studio</p>
+            <p className="text-[11px] tracking-[0.3em] uppercase text-[#FF6B6B] font-bold">Studio</p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/60">
-              <li className="flex gap-2"><MapPin className="h-4 w-4 text-[#E10600] shrink-0" /> Gqeberha, Eastern Cape</li>
+              <li className="flex gap-2"><MapPin className="h-4 w-4 text-[#D90404] shrink-0" /> Gqeberha, Eastern Cape</li>
               <li>
                 <a
                   href="https://wa.me/27671550084"
@@ -1008,13 +1010,13 @@ export default function App() {
                   <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/40">WhatsApp</span>
                 </a>
               </li>
-              <li className="flex gap-2"><Clock className="h-4 w-4 text-[#E10600] shrink-0" /> Tue–Sat · 9am–7pm</li>
-              <li><a href="#services" className="hover:text-[#D4AF37] transition">Book an appointment →</a></li>
+              <li className="flex gap-2"><Clock className="h-4 w-4 text-[#D90404] shrink-0" /> Tue–Sat · 9am–7pm</li>
+              <li><a href="#services" className="hover:text-[#FF8A8A] transition">Book an appointment →</a></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-white/10 py-6 text-center text-xs text-white/35 tracking-widest uppercase px-4">
-          © 2026 NMKHair — Gqeberha, South Africa · Brazilian · Remy · Vietnamese · Prices in ZAR (R)
+        <div className="border-t border-white/10 py-6 text-center text-xs text-white/40 tracking-widest uppercase px-4">
+          © 2026 N · M · K Hair — Your Look, Our Priority · Gqeberha, South Africa · Prices in ZAR (R)
         </div>
       </footer>
 
@@ -1025,24 +1027,24 @@ export default function App() {
           <div className="relative bg-white rounded-[2rem] w-full max-w-3xl overflow-hidden shadow-2xl grid md:grid-cols-2 max-h-[90vh]">
             <div className="relative h-64 md:h-auto">
               <img src={quick.f.img} alt="Model with long, glossy hair" className="absolute inset-0 w-full h-full object-cover object-top" />
-              <span className="absolute top-4 left-4 bg-[#E10600] text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.f.badge ?? quick.f.kind}</span>
+              <span className="absolute top-4 left-4 crimson-ombre text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1.5 rounded-full">{quick.f.badge ?? quick.f.kind}</span>
             </div>
             <div className="p-7 overflow-y-auto">
               <button onClick={() => setQuick(null)} className="absolute top-4 right-4 h-10 w-10 grid place-items-center rounded-full bg-white shadow hover:rotate-90 transition"><X className="h-5 w-5" /></button>
-              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-[#E10600]">{quick.f.kind} · 100% human hair</p>
+              <p className="text-[11px] tracking-[0.3em] uppercase font-bold text-[#D90404]">{quick.f.kind} · 100% human hair</p>
               <h3 className="font-display text-3xl font-semibold mt-2 leading-tight">{quick.f.name}</h3>
               <div className="flex items-center gap-2 mt-2">
-                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < quick.f.rating ? "fill-[#D4AF37] text-[#D4AF37]" : "text-black/20"}`} />)}</span>
+                <span className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < quick.f.rating ? "fill-[#D90404] text-[#D90404]" : "text-black/20"}`} />)}</span>
                 <span className="text-sm text-black/50">{quick.f.reviews} verified reviews</span>
               </div>
               <p className="text-sm text-black/55 leading-relaxed mt-3">{quick.f.desc}. Ships in 48 hours with a free satin pouch.</p>
 
-              <p className="text-xs tracking-[0.25em] uppercase font-bold text-black/45 mt-6">Length — <span className="text-[#E10600]">{quick.length}"</span></p>
+              <p className="text-xs tracking-[0.25em] uppercase font-bold text-black/45 mt-6">Length — <span className="text-[#D90404]">{quick.length}"</span></p>
               <div className="mt-2 grid grid-cols-3 gap-1.5">
                 {quick.f.rows.map(r => (
-                  <button key={r.length} onClick={() => setQuick(q => q && { ...q, length: r.length })} className={`rounded-xl border px-2 py-2 text-center transition ${quick.length === r.length ? "border-[#D4AF37] bg-[#FAF8F4]" : "border-black/10 hover:border-black/40"}`}>
+                  <button key={r.length} onClick={() => setQuick(q => q && { ...q, length: r.length })} className={`rounded-xl border px-2 py-2 text-center transition ${quick.length === r.length ? "border-[#D90404] bg-[#FDF2F2]" : "border-black/10 hover:border-black/40"}`}>
                     <span className="block text-sm font-bold leading-none">{r.length}"</span>
-                    <span className={`block text-[11px] mt-1 leading-none ${quick.length === r.length ? "text-[#E10600] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
+                    <span className={`block text-[11px] mt-1 leading-none ${quick.length === r.length ? "text-[#D90404] font-bold" : "text-black/50"}`}>{money(r.price)}</span>
                   </button>
                 ))}
               </div>
@@ -1050,7 +1052,7 @@ export default function App() {
               {quick.f.curlsUpcharge && (
                 <div className="mt-3 flex items-center justify-between rounded-xl border border-black/10 px-3 py-2.5">
                   <span className="text-[13px] font-semibold">HD lace curls</span>
-                  <button onClick={() => setQuick(q => q && { ...q, curls: !q.curls })} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${quick.curls ? "bg-[#E10600] text-white" : "bg-black/5 hover:bg-black/10"}`}>
+                  <button onClick={() => setQuick(q => q && { ...q, curls: !q.curls })} className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${quick.curls ? "bg-[#D90404] text-white" : "bg-black/5 hover:bg-black/10"}`}>
                     {quick.curls ? `Added +${money(quick.f.curlsUpcharge)}` : `Add +${money(quick.f.curlsUpcharge)}`}
                   </button>
                 </div>
@@ -1064,7 +1066,7 @@ export default function App() {
                 </div>
                 <p className="font-display text-3xl font-bold">{money(priceFor(quick.f, quick.length, quick.curls) * quick.qty)}</p>
               </div>
-              <button onClick={() => { addFamily(quick.f, quick.length, quick.curls, quick.qty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full bg-[#0A0A0A] text-white font-semibold py-4 rounded-full hover:bg-[#E10600] transition flex items-center justify-center gap-2">
+              <button onClick={() => { addFamily(quick.f, quick.length, quick.curls, quick.qty); setQuick(null); setCartOpen(true); }} className="mt-6 w-full crimson-ombre text-white font-semibold py-4 rounded-full hover:opacity-95 transition flex items-center justify-center gap-2">
                 <ShoppingBag className="h-5 w-5" /> Add to Bag
               </button>
               <div className="mt-4 grid grid-cols-2 gap-2 text-center text-[11px] font-semibold text-black/55">
@@ -1082,13 +1084,13 @@ export default function App() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setCartOpen(false)} />
           <aside className="absolute right-0 top-0 h-full w-full max-w-md bg-white flex flex-col shadow-2xl">
             <div className="flex items-center justify-between p-6 border-b border-black/10">
-              <h3 className="font-display text-2xl font-semibold">Your Bag <span className="text-[#E10600]">({cartCount})</span></h3>
-              <button onClick={() => setCartOpen(false)} className="h-10 w-10 grid place-items-center rounded-full border border-black/15 hover:border-[#E10600] hover:text-[#E10600] transition"><X className="h-5 w-5" /></button>
+              <h3 className="font-display text-2xl font-semibold">Your Bag <span className="text-[#D90404]">({cartCount})</span></h3>
+              <button onClick={() => setCartOpen(false)} className="h-10 w-10 grid place-items-center rounded-full border border-black/15 hover:border-[#D90404] hover:text-[#D90404] transition"><X className="h-5 w-5" /></button>
             </div>
             {checkoutDone ? (
               <div className="flex-1 grid place-items-center p-8 text-center">
                 <div>
-                  <span className="mx-auto h-16 w-16 grid place-items-center rounded-full bg-[#0A0A0A] text-[#F1D27A]"><Check className="h-8 w-8" /></span>
+                  <span className="mx-auto h-16 w-16 grid place-items-center rounded-full crimson-ombre text-white"><Check className="h-8 w-8" /></span>
                   <p className="font-display text-3xl mt-5">Order placed!</p>
                   <p className="text-black/50 text-sm mt-2">Your hair ships within 48 hours in discreet NMK packaging.</p>
                 </div>
@@ -1099,7 +1101,7 @@ export default function App() {
                   <ShoppingBag className="h-10 w-10 mx-auto text-black/20" />
                   <p className="font-display text-2xl mt-4">Your bag is empty</p>
                   <p className="text-black/45 text-sm mt-1">Brazilian, Remy or Vietnamese — pick your texture.</p>
-                  <button onClick={() => setCartOpen(false)} className="mt-6 bg-[#0A0A0A] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#E10600] transition">Start shopping</button>
+                  <button onClick={() => setCartOpen(false)} className="mt-6 bg-[#0A0A0A] text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-[#D90404] transition">Start shopping</button>
                 </div>
               </div>
             ) : (
@@ -1109,7 +1111,7 @@ export default function App() {
                     <div key={i} className="flex gap-4 border border-black/10 rounded-2xl p-3">
                       <img src={c.img} alt="" className="h-24 w-20 object-cover object-top rounded-xl" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#E10600]">{c.meta}</p>
+                        <p className="text-[10px] tracking-[0.2em] uppercase font-bold text-[#D90404]">{c.meta}</p>
                         <p className="font-display text-lg leading-tight truncate">{c.name}</p>
                         <div className="flex items-center justify-between mt-2">
                           <div className="flex items-center border border-black/15 rounded-full">
@@ -1120,14 +1122,14 @@ export default function App() {
                           <span className="font-display text-lg font-bold">{money(c.price * c.qty)}</span>
                         </div>
                       </div>
-                      <button onClick={() => setCart(prev => prev.filter((_, j) => j !== i))} className="self-start text-black/35 hover:text-[#E10600] transition"><Trash2 className="h-4 w-4" /></button>
+                      <button onClick={() => setCart(prev => prev.filter((_, j) => j !== i))} className="self-start text-black/35 hover:text-[#D90404] transition"><Trash2 className="h-4 w-4" /></button>
                     </div>
                   ))}
                 </div>
-                <div className="p-6 border-t border-black/10 space-y-3 bg-[#FAF8F4]">
+                <div className="p-6 border-t border-black/10 space-y-3 bg-[#F6F6F6]">
                   <div className="flex justify-between font-display text-2xl"><span>Subtotal</span><span className="font-bold">{money(subtotal)}</span></div>
-                  <button onClick={() => { setCheckoutDone(true); setCart([]); setTimeout(() => { setCheckoutDone(false); setCartOpen(false); }, 3200); }} className="w-full bg-[#E10600] hover:bg-[#B80000] text-white py-4 rounded-full font-semibold transition">Checkout — {money(subtotal)}</button>
-                  <p className="text-center text-[11px] text-black/40 tracking-widest uppercase">30-day exchange · Secure checkout</p>
+                  <button onClick={() => { setCheckoutDone(true); setCart([]); setTimeout(() => { setCheckoutDone(false); setCartOpen(false); }, 3200); }} className="w-full crimson-ombre hover:opacity-95 text-white py-4 rounded-full font-semibold transition">Checkout — {money(subtotal)}</button>
+                  <p className="text-center text-[11px] text-black/45 tracking-widest uppercase">30-day exchange · Secure checkout</p>
                 </div>
               </>
             )}
