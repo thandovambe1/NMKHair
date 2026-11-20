@@ -14,6 +14,30 @@ const WhatsAppIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
   </svg>
 );
 
+const TikTokIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+  </svg>
+);
+
+const InstagramIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+  </svg>
+);
+
+const FacebookIcon = ({ className = "h-4 w-4" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z" />
+  </svg>
+);
+
+const SOCIALS = [
+  { name: "TikTok", handle: "@nmkh.air", href: "https://www.tiktok.com/@nmkh.air", icon: TikTokIcon },
+  { name: "Instagram", handle: "nmkh.air_", href: "https://www.instagram.com/nmkh.air_/", icon: InstagramIcon },
+  { name: "Facebook", handle: "Abigail Mbopana", href: "https://www.facebook.com/search/top/?q=Abigail%20Mbopana", icon: FacebookIcon },
+] as const;
+
 const IMAGES = {
   bodyWave: "/images/nmk-hero-body-wave.jpg",
   straight: "/images/nmk-straight-hair.jpg",
@@ -338,6 +362,21 @@ export default function App() {
             {[["#shop", "Shop Hair"], ["#origins", "Hair Types"], ["#services", "Services"], ["#care", "Maintenance"], ["#reviews", "Reviews"]].map(([h, l]) => (
               <a key={h} href={h} onClick={() => setMenuOpen(false)} className="py-2.5 font-medium border-b border-black/5 last:border-0">{l}</a>
             ))}
+            <div className="pt-3 mt-1 border-t border-black/10 flex flex-wrap gap-2">
+              {SOCIALS.map(s => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.name}: ${s.handle}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-black/15 px-3.5 py-2 text-xs font-semibold text-black/80 hover:border-[#D4AF37] hover:bg-[#0A0A0A] hover:text-[#F1D27A] transition"
+                >
+                  <s.icon className="h-3.5 w-3.5 shrink-0" />
+                  <span>{s.handle}</span>
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </header>
@@ -890,6 +929,29 @@ export default function App() {
               <button onClick={subscribe} className="bg-[#E10600] hover:bg-[#B80000] text-white font-semibold px-8 py-4 rounded-full inline-flex items-center justify-center gap-2 transition">Get 10% Off <Send className="h-4 w-4" /></button>
             </div>
           )}
+          <div className="mt-10 pt-8 border-t border-black/10">
+            <p className="text-[11px] tracking-[0.35em] uppercase font-bold text-black/45">Follow NMKHair</p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+              {SOCIALS.map(s => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.name}: ${s.handle}`}
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-white border border-black/15 px-4 py-2.5 text-xs font-semibold text-black hover:bg-[#0A0A0A] hover:text-white hover:border-[#D4AF37] shadow-sm transition"
+                >
+                  <span className="h-7 w-7 grid place-items-center rounded-full bg-[#0A0A0A] text-[#F1D27A] group-hover:bg-[#E10600] group-hover:text-white transition">
+                    <s.icon className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="text-left leading-tight">
+                    <span className="block text-[10px] tracking-widest uppercase text-black/45 group-hover:text-[#F1D27A]">{s.name}</span>
+                    <span className="block">{s.handle}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -899,11 +961,23 @@ export default function App() {
           <div className="md:col-span-2">
             <Logo className="h-24 w-24" />
             <p className="text-white/50 text-sm leading-relaxed mt-5 max-w-sm">Premium Brazilian, Remy and Vietnamese hair with full salon services. Ethically sourced, hand-checked, and guaranteed for 30 days.</p>
-            <div className="flex gap-2 mt-6">
-              <span className="h-8 w-8 rounded-full bg-white border border-white/20" title="White" />
-              <span className="h-8 w-8 rounded-full bg-black border border-white/30" title="Black" />
-              <span className="h-8 w-8 rounded-full bg-[#E10600]" title="Red" />
-              <span className="h-8 w-8 rounded-full bg-gradient-to-br from-[#FCF6BA] to-[#AA771C]" title="Gold" />
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              {SOCIALS.map(s => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.name}: ${s.handle}`}
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-white/5 border border-white/15 px-4 py-2 text-xs text-white/80 hover:border-[#D4AF37] hover:bg-white/10 hover:text-white transition"
+                >
+                  <span className="h-6 w-6 grid place-items-center rounded-full bg-white/10 text-[#F1D27A] group-hover:bg-[#E10600] group-hover:text-white transition">
+                    <s.icon className="h-3.5 w-3.5" />
+                  </span>
+                  <span className="font-semibold">{s.name}:</span>
+                  <span className="text-white/60 group-hover:text-[#F1D27A] transition">{s.handle}</span>
+                </a>
+              ))}
             </div>
           </div>
           <div>
