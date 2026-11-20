@@ -14,10 +14,16 @@ NMKHair is a React + Vite + Tailwind CSS v4 storefront for a Gqeberha hair studi
 | File | Contents |
 | --- | --- |
 | `src/App.tsx` | All sections, catalog data, cart, booking and care menu |
+| `src/components/Logo.tsx` | The single brand-logo component used everywhere |
 | `src/index.css` | Palette tokens, fonts, streaks, motion, scroll offsets |
 | `src/main.tsx` | React entry point |
+| `public/images/nmk-logo.png` | The exact NMKHair logo artwork (used unchanged) |
 | `public/images/` | Campaign imagery |
-| `index.html` | Document title and meta description |
+| `index.html` | Document title, meta description and favicon |
+
+## Brand logo
+
+The site uses one logo everywhere — header, booking card, care section, newsletter, footer and the browser favicon — rendered by `src/components/Logo.tsx` from `public/images/nmk-logo.png`. The artwork is used exactly as supplied: it is never redrawn, recoloured or re-typeset. Because the artwork has a white background, the component presents it on a white rounded tile so it reads cleanly on both light and dark sections.
 
 ### Editing prices
 
